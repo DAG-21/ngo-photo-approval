@@ -1,0 +1,119 @@
+# checklist5 = checklist4 plus the beneficiary/volunteer rules asked for next: a beneficiary must be receiving something from a volunteer,
+#   the giving volunteer must wear a white top, a photo needs a beneficiary OR a volunteer (replaces 'beneficiary must be visible'),
+#   and the beneficiary must not look into the camera while a volunteer may (R004_VOL_GAZE removed).
+# checklist4 = checklist3 with ONE change: the banner question now fires only for clearly visible, heavy creases (the user said 'very creased';
+#   checklist3 said 'any crease, even slight' and answered NO on nearly every banner photo).
+# checklist3 = checklist2 made STRICT on the points the user repeated (faces, camera angle, item blur, banner creases, zoomed-out)
+#   and with the beneficiary-face questions first. Which answers force a disapproval is NOT decided here: see policy.yaml.
+# checklist2 = checklist1 plus the additions asked for after the first results (marked source: team):
+#   R007 camera angle: 8 more sub-checks; R015 beneficiary: 5 checks (a missing beneficiary is now graded, not 'not applicable');
+#   R006 coverage: 3 checks on how much of the frame the activity fills / zoomed out; R009: exposure split into over/under,
+#   plus 'people as well lit as their surroundings'. F_BENEFICIARIES is replaced by R015_BEN_PRESENT.
+# The itemised yes/no checklist. Every question is worded so that YES = the requirement is met and NO = it is not.
+#   source: client = a direct breakdown of a phrase in the client's own rule text (nothing added);
+#           fact   = a plain fact about the scene that tells the later steps which checks apply (not a quality check);
+#           tagger = something the NGO's disapproval taggers marked often (11 of 198 tagged photos) that is not in the 16 rules;
+#           team   = the team's own guidance (front angle, back-view exception), NOT in the client's document.
+# The split of each rule into questions is OUR decomposition, not client wording: the NGO should review it.
+# Rules R014-R016 are the SOP's "final QC" questions; they overlap with other rules and have no questions of their own
+# (R014 -> R006; R015 -> R002, R003, R008; R016 -> R004, R007, R009, R010), as in the project's tagging sheet.
+version: 5
+covers:
+  R014: [R006]
+  R016: [R004, R007, R009, R010]
+
+checks:
+  # ---- scene facts and non-photos -------------------------------------------------------------------------------
+  - {id: F_PHOTO,         rule: FACT, source: tagger, q: "Is this a real photograph of an activity (not a bill, invoice, document, spreadsheet or screenshot)?", na: ""}
+  - {id: F_SINGLE,        rule: FACT, source: tagger, q: "Is it a single photograph (not several photos combined into one collage)?", na: ""}
+  - {id: F_VOLUNTEERS,    rule: FACT, source: fact,   q: "Is at least one volunteer visible?", na: ""}
+  - {id: F_BANNER,        rule: FACT, source: fact,   q: "Is a banner present in the photo?", na: ""}
+
+  # ---- R003 beneficiary faces (top priority: every face strictly clear, sharp, large enough, unobstructed) ----------
+  - {id: R003_FACE, rule: R003, source: client, q: "Is EVERY beneficiary's face clearly visible with the expression readable (none turned away, hidden, covered, in shadow or too small)? (Answer NO if even one beneficiary's face is not clear.)", na: "no beneficiary is visible"}
+  - {id: R003_CLEAR, rule: R003, source: client, q: "Is every beneficiary's face completely free from obstruction (not covered by objects, hands, hair, a hat, a mask or other people)?", na: "no beneficiary is visible"}
+  - {id: R003_CROP, rule: R003, source: client, q: "Is every beneficiary fully inside the frame, with no face or body cut off by the frame edge?", na: "no beneficiary is visible"}
+  - {id: R003_FACE_SHARP, rule: R003, source: team, q: "Is every beneficiary's face sharp and in focus (not blurred by motion or poor focus)?", na: "no beneficiary is visible"}
+  - {id: R003_FACE_SIZE, rule: R003, source: team, q: "Is every beneficiary's face large enough in the frame for the expression to be read clearly?", na: "no beneficiary is visible"}
+
+  # ---- R001 banner ----------------------------------------------------------------------------------------------
+  - {id: R001_VISIBLE,    rule: R001, source: client, q: "Is the banner clearly visible (fully in the frame, readable, not hidden behind people or objects)?", na: "no banner is present"}
+  - {id: R001_POSITION,   rule: R001, source: client, q: "Is the banner properly positioned within the frame (not awkwardly placed or cut off by the frame edge)?", na: "no banner is present"}
+  - {id: R001_STRAIGHT,   rule: R001, source: client, q: "Is the banner straight (not tilted or crooked)?", na: "no banner is present"}
+  - {id: R001_FLAT,       rule: R001, source: client, q: "Is the banner free from clearly visible heavy folds, deep creases or badly crumpled areas that a viewer would notice at first glance? (Answer NO only when such folds or creases are clearly visible. Slight waviness or soft ripples are fine.)", na: "no banner is present"}
+
+  # ---- R002 volunteer dress code --------------------------------------------------------------------------------
+  - {id: R002_WHITE,      rule: R002, source: client, q: "Do all the visible volunteers wear white-on-white, or a white top with jeans?", na: "no volunteer is visible"}
+  - {id: R002_NEAT,       rule: R002, source: client, q: "Is the volunteers' clothing neat, clean and presentable?", na: "no volunteer is visible"}
+  - {id: R002_GIVER_WHITE, rule: R002, source: team, q: "Is every volunteer who is giving something to a beneficiary wearing a white top?", na: "no volunteer is giving something to a beneficiary"}
+
+  # ---- R003 beneficiary visibility ------------------------------------------------------------------------------
+
+  # ---- R004 natural expressions ---------------------------------------------------------------------------------
+  - {id: R004_BEN_GAZE,   rule: R004, source: client, q: "Are the beneficiaries NOT looking straight into the camera?", na: "no beneficiary is visible"}
+  - {id: R004_GENUINE,    rule: R004, source: client, q: "Do the expressions and interactions look genuine?", na: "no people are visible"}
+
+  # ---- R005 natural and candid ----------------------------------------------------------------------------------
+  - {id: R005_CANDID,     rule: R005, source: client, q: "Is it a candid moment (not staged or overly posed)?", na: "no people are visible"}
+  - {id: R005_INTERACT,   rule: R005, source: client, q: "Does it show genuine interaction between volunteers and beneficiaries?", na: "no people are visible"}
+
+  # ---- R006 capture the actual seva -----------------------------------------------------------------------------
+  - {id: R006_IDENTIFY,   rule: R006, source: client, q: "Can you tell which seva activity is being performed (for example food distribution, education support, healthcare assistance, animal care)?", na: ""}
+  - {id: R006_ITEM_SHARP, rule: R006, source: team, q: "If something is being given to a beneficiary (food, a plate, a packet, medicine, a book), is that item sharp and in focus, with its details clearly visible?", na: "nothing is being given to anyone in the photo"}
+  - {id: R006_HANDOVER, rule: R006, source: team, q: "Is the moment of giving (the volunteer's hands and the beneficiary receiving) clearly visible?", na: "nothing is being given to anyone in the photo"}
+  - {id: R006_ACTION,     rule: R006, source: client, q: "Is the activity actually being carried out in the photo (not just people standing, posing or waiting)?", na: ""}
+  - {id: R006_COVERAGE, rule: R006, source: team, q: "Does the activity (the people involved and the item being given) fill at least about one third of the frame? (Answer NO if it is a small part of a wide scene.)", na: ""}
+  - {id: R006_ZOOMED_OUT, rule: R006, source: team, q: "Was the photo taken close enough that the activity is the main part of the picture and its details can be seen (not a wide, far-away shot)?", na: ""}
+  - {id: R006_SIZE,       rule: R006, source: team,   q: "Are the main people large enough in the frame for their faces and actions to be seen clearly?", na: ""}
+  - {id: R006_VOLUNTEER_DOING, rule: R006, source: tagger, q: "Is at least one volunteer visibly carrying out the activity?", na: "the activity needs no volunteer in view (for example an animal-feeding scene)"}
+
+  # ---- R007 camera angle ----------------------------------------------------------------------------------------
+  - {id: R007_ANGLE, rule: R007, source: client, q: "Is the camera angle clearly right for this scene: it shows the activity, the beneficiaries' faces and the volunteer-beneficiary interaction at the same time? (Answer NO if the angle hides any of these.)", na: ""}
+  - {id: R007_FACES_SEEN, rule: R007, source: team, q: "From this camera position, can the beneficiaries' faces be seen clearly (the angle does not hide them)?", na: "no beneficiary is visible"}
+  - {id: R007_LEVEL,      rule: R007, source: client, q: "Is the frame level (not tilted)?", na: ""}
+  - {id: R007_PERSPECTIVE, rule: R007, source: client, q: "Is the perspective natural (no awkward very high, very low or distorted viewpoint)?", na: ""}
+  - {id: R007_UNOBSTRUCTED, rule: R007, source: client, q: "Is the main subject free from obstruction by people or objects in front of it?", na: ""}
+  - {id: R007_HEIGHT, rule: R007, source: client, q: "Is the camera at a natural height (roughly eye level), not looking down on the tops of heads and not looking up from below?", na: ""}
+  - {id: R007_VERTICALS,   rule: R007, source: client, q: "Do upright things in the scene (walls, poles, doors, banners' stands) look upright, not leaning?", na: ""}
+  - {id: R007_DISTORTION,  rule: R007, source: client, q: "Is the photo free from obvious wide-angle distortion (stretched or bent faces, bowed edges)?", na: ""}
+  - {id: R007_FOREGROUND,  rule: R007, source: client, q: "Is the foreground free from heads, shoulders, arms or objects that block the view of the activity?", na: ""}
+  - {id: R007_INTERACTION_VIEW, rule: R007, source: client, q: "Is the camera placed so that the volunteer-and-beneficiary interaction can be seen (not from behind one of them)?", na: "no volunteer or no beneficiary is visible"}
+  - {id: R007_CUTOFF,      rule: R007, source: team,   q: "Is everything important fully inside the frame (no key person, hands or objects cut off at the edges)?", na: ""}
+  - {id: R007_PLACEMENT,   rule: R007, source: team,   q: "Is the main subject sensibly placed in the frame (not squeezed into a corner or edge)?", na: ""}
+  - {id: R007_ORIENTATION, rule: R007, source: team,   q: "Is the photo the right way up (not rotated or sideways)?", na: ""}
+
+  # ---- R008 volunteer positioning -------------------------------------------------------------------------------
+  - {id: R008_BACK,       rule: R008, source: client, q: "Is each volunteer shown from the front or side, with no volunteer's back prominently towards the camera?", na: "no volunteer is visible"}
+  - {id: T_FRONT,         rule: R008, source: team,   q: "Are the main people in the frame seen from the front or side, rather than mainly from behind?", na: "no people are visible"}
+  - {id: T_BACK_EXCEPTION, rule: R008, source: team,  q: "Where volunteers are seen from behind: are they wearing the dress code, is the NGO's logo and name visible on the back of their clothing, AND are the beneficiaries clearly visible?", na: "no volunteer is seen from behind"}
+
+  # ---- R009 lighting --------------------------------------------------------------------------------------------
+  - {id: R009_LIT,        rule: R009, source: client, q: "Are the subjects well-lit and clearly visible?", na: ""}
+  - {id: R009_OVEREXPOSED, rule: R009, source: client, q: "Is the photo free from overexposure (washed-out areas, blown-out bright patches, lost detail in the bright parts)?", na: ""}
+  - {id: R009_UNDEREXPOSED, rule: R009, source: client, q: "Is the photo free from underexposure (too dark overall, or dark patches where detail is lost)?", na: ""}
+  - {id: R009_PEOPLE_LIT,  rule: R009, source: team,   q: "Are the people (faces and bodies) as well lit as the rest of the frame, not noticeably darker or shadowed compared with their surroundings?", na: "no people are visible"}
+  - {id: R009_FACE_LIT, rule: R009, source: team, q: "Is every beneficiary's face well lit (not in shadow, not too dark, not lit from behind)?", na: "no beneficiary is visible"}
+  - {id: R009_DIRECTION,  rule: R009, source: client, q: "Is the photo free from harsh backlighting and heavy shadows?", na: ""}
+
+  # ---- R010 focus and clarity -----------------------------------------------------------------------------------
+  - {id: R010_SHARP,      rule: R010, source: client, q: "Is the photograph sharp and in focus?", na: ""}
+  - {id: R010_GRAIN,      rule: R010, source: client, q: "Is it free from visible grain or noise?", na: ""}
+  - {id: R010_SHAKE,      rule: R010, source: client, q: "Is it free from camera shake and motion blur?", na: ""}
+
+  # ---- R011 clean background ------------------------------------------------------------------------------------
+  - {id: R011_BACKGROUND, rule: R011, source: client, q: "Is the background free from distractions that take attention away from the seva?", na: ""}
+  - {id: R011_CLUTTER,    rule: R011, source: client, q: "Is the scene free from clutter and scattered materials?", na: ""}
+  - {id: R011_UNRELATED,  rule: R011, source: client, q: "Is the frame free from unrelated objects that draw attention?", na: ""}
+
+  # ---- R012 / R013 final QC (single questions) ------------------------------------------------------------------
+  - {id: R012_DIGNITY,    rule: R012, source: client, q: "Does the photograph maintain the dignity of everyone involved?", na: ""}
+  - {id: R013_HUMANITY,   rule: R013, source: client, q: "Does the photograph reflect the spirit of humanity and compassion?", na: ""}
+
+  # ---- R015 volunteer and beneficiary captured appropriately (final QC Q2): the beneficiary side ----------------
+  - {id: R015_BEN_PRESENT, rule: R015, source: team,  q: "Is at least one beneficiary visible in the photo?", na: ""}
+  - {id: R015_PERSON_PRESENT, rule: R015, source: team, q: "Is at least one beneficiary or at least one volunteer visible in the photo?", na: ""}
+  - {id: R015_BEN_RECEIVING, rule: R015, source: team, q: "Is each visible beneficiary receiving something from a volunteer (food, a plate, a packet, medicine, a book or other help), with the volunteer handing or serving it to them?", na: "no beneficiary is visible"}
+  - {id: R015_BEN_FRONT,   rule: R015, source: team,  q: "Is the beneficiary shown from the front or side, not with their back to the camera?", na: "no beneficiary is visible"}
+  - {id: R015_BEN_POSE,    rule: R015, source: team,  q: "Is the beneficiary's pose natural and engaged with the activity (receiving, eating, talking), not stiffly posing or turned away?", na: "no beneficiary is visible"}
+  - {id: R015_BEN_PROMINENT, rule: R015, source: team, q: "Is the beneficiary large enough in the frame, and not hidden among others, to be seen clearly?", na: "no beneficiary is visible"}
+  - {id: R015_BEN_INTERACT, rule: R015, source: team, q: "Is the beneficiary clearly interacting with a volunteer or with the activity?", na: "no beneficiary is visible"}

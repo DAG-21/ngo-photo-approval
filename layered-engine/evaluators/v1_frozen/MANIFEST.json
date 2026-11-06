@@ -1,0 +1,11 @@
+{
+  "name": "evaluator_v1_legacy (frozen)",
+  "frozen_on": "2026-11-02",
+  "note": "The evaluator exactly as run in pilots 2 and 3: profile layered_proposed_v1, rulebook 1.1.0. checklist5_legacy is kept alongside.",
+  "model_id": "gemini-3.8-flash",
+  "prompt_version": "1.0",
+  "prompt_hash_in_pilot3": "11427c79d96c569a",
+  "rulebook_version": "1.1.0",
+  "profile": "layered_proposed_v1",
+  "pilot3_results": "runs/pilot3_layered/results.jsonl (50 rows, untouched)"
+}

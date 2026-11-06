@@ -1,0 +1,10 @@
+[project]
+name = "layered-engine"
+version = "1.0.0"
+description = "Four-layer NGO photo evaluation engine: scene understanding, mandatory gates, quality grading, publication readiness."
+requires-python = ">=3.10"
+dependencies = ["pydantic>=2", "pyyaml", "pillow", "google-genai", "anthropic>=2.6"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

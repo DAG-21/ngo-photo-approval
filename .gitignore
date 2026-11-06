@@ -1,0 +1,68 @@
+# What is NOT committed (the repository is code, configuration, tests, documentation and working notes only).
+
+# --- secrets: API keys and the switches that let photographs leave the machine
+.env
+.env.*
+**/.env
+**/.env.*
+credentials.txt
+*.key
+*.pem
+
+# --- the Python environment and caches
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+
+# --- photographs, anything derived from them, and the labelled data about them
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.gif
+*.heic
+*.mpo
+*.bmp
+*.tif
+*.tiff
+*.csv
+image-classifier/data/
+image-classifier/artifacts/
+ngo-photo-approval-engine/data/
+ngo-photo-approval-engine/outputs/
+ngo-photo-approval-engine/backup_*/
+agent-platform/demo_data/
+agent-platform/storage/
+layered-engine/pilot/
+layered-engine/runs/
+holistic-judge-trial/runs/
+holistic-judge-trial/reports/
+holistic-judge-trial/analysis/
+holistic-judge-trial/archive/
+holistic-judge-trial/blind_sheet/
+holistic-judge-trial/examples/
+holistic-judge-trial/ids/
+holistic-judge-trial/pools/
+
+# --- results, sheets and pages (some embed photographs or carry the organisation's decisions)
+agent-platform/reports/
+layered-engine/reports/
+
+# --- models, databases and local copies
+models/
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.before-*
+*.bak
+*.pkl
+*.joblib
+*.pt
+*.onnx
+*.log

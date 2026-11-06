@@ -1,0 +1,20 @@
+# Decision policy. Every value here is configurable; defaults are conservative.
+# approval_threshold is a FRACTION in [0,1]. 0.80 is displayed as 80%.
+approval_threshold: 0.80
+enforce_mandatory_rules: true
+missing_rule_result_policy: reject     # reject | review
+uncertain_result_policy: reject        # global fallback when a rule has no uncertain_policy; reject | review
+allow_review_status: false             # if false, anything that would be REVIEW becomes REJECT
+
+# Threshold selection (run on VALIDATION predictions only, never on test).
+threshold_selection:
+  max_false_approval_rate: 0.05        # client risk tolerance: P(model approves | human not_approved)
+  min_validation_recall: 0.0           # optional floor on approval recall
+  candidate_grid_step: 0.01
+
+# Calibration
+calibration:
+  method: sigmoid                      # sigmoid | isotonic
+  min_samples_for_calibration: 200     # below this, probability is labelled "uncalibrated"
+  min_samples_per_class: 50
+  max_ece_for_calibrated_claim: 0.08   # validation ECE must be <= this to claim "calibrated"

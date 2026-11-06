@@ -1,0 +1,46 @@
+"""One-off: move the local demo organisation to layered_tuned_v1 and settle the banner rewrites. The demo server must be OFF. Backs the database up first."""
+import shutil
+import sys
+from pathlib import Path
+
+AP = Path(r"C:/Dhiren/Jio Institute/Internship/agent-platform")
+sys.path[:0] = [str(AP / "src"), str(AP.parent / "layered-engine" / "src")]
+from layered_engine.prompt_builder import build_prompt  # noqa: E402
+from layered_engine.rulebook import Rulebook  # noqa: E402
+from sqlalchemy import select  # noqa: E402
+
+from ngo_agent import profile_switch as ps  # noqa: E402
+from ngo_agent import rule_service as rs  # noqa: E402
+from ngo_agent.db import make_engine, make_session_factory  # noqa: E402
+from ngo_agent.models import Organisation, PromptVersion, RulebookVersion, User  # noqa: E402
+from ngo_agent.rule_drafter import rule_catalogue  # noqa: E402
+
+TUNED = "layered_tuned_v1"
+VISIBLE = "If a banner is present, is at least 30% of it visible and readable? Blocking by people and minor creases are fine."
+db = AP / "demo_data" / "fresh" / "fresh.db"
+backup = db.with_name("fresh.db.before-tuned-profile")
+assert not backup.exists(), "a backup with this name already exists"
+shutil.copy2(db, backup)
+print("backup:", backup.name)
+
+rb = Rulebook()
+factory = make_session_factory(make_engine(f"sqlite:///{db.as_posix()}"))
+with factory() as s:
+    org = s.scalar(select(Organisation))
+    admin = s.scalar(select(User).where(User.email == "admin.fresh@demo.local"))
+    before_rv = s.get(RulebookVersion, org.active_rulebook_version_id).version_number
+    rv, pv, dropped = ps.adopt_profile(s, org, TUNED, rb, admin, "owner decision 2026-11-05: banner rules tuned (in frame, 30% visible and readable, crumpling only when unreadable; distinct and straight removed)")
+    print("rulebook version:", before_rv, "->", rv.version_number, "| rewrites withdrawn because their rule is gone:", dropped)
+    live = rs.active_edits(s, org.organisation_id)
+    if "R001_FLAT" in live:
+        rs.withdraw(s, org, live["R001_FLAT"], "replaced by the tuned profile, which now carries the agreed crumpling wording itself", rb, admin, {"by": "a profile change"})
+        print("withdrew the old R001_FLAT administrator edit")
+    pv = rs.manual_edit(s, org, admin, "R001", VISIBLE, "owner's agreed wording for the banner rule (2026-11-05), shown to the AI with the client's rules", "NEUTRAL", rb, rule_catalogue(rb, TUNED))
+    s.commit()
+    pv = s.get(PromptVersion, org.active_prompt_version_id)
+    built = build_prompt(rb, rb.resolve(TUNED), notes=pv.configuration.get("notes"), rule_text=pv.configuration.get("rule_text"))
+    print("active prompt:", pv.version_number, "| matches what the engine builds:", built.hash == pv.configuration["prompt_hash"], "| rules asked:", len(built.criterion_ids))
+    print("rewrites in force:", sorted(pv.configuration.get("rule_text", {})))
+    for ln in built.system_text.splitlines():
+        if ln.startswith("- R001 -") or ln.startswith("- `R001_") or "Banners are not expected" in ln:
+            print("  >", ln[:300])

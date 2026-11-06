@@ -1,0 +1,79 @@
+# NGO Photo Approval Engine — Evaluation & Decision Configuration (Seva SOP Edition)
+project_name: "ngo-photo-approval-engine"
+rubric_version: "2.1-seva-sop"
+
+dataset_splits:
+  total_expected: 4000
+  approved_expected: 3000
+  rejected_expected: 1000
+  train_ratio: 0.70      # ~2,800 images (Reference library & development)
+  val_ratio: 0.15        # ~600 images (Prompt & threshold calibration)
+  test_ratio: 0.15       # ~600 images (Frozen unbiased holdout evaluation)
+  group_by_event: true   # Prevent burst/event leakage across partitions
+  burst_time_window_seconds: 10   # same-camera shots only; 60s merged ~half the real data into one cluster
+  phash_duplicate_threshold: 6
+
+pilot_settings:
+  approved_sample_size: 100
+  rejected_sample_size: 100
+  randomize_ids: true
+  hide_historical_labels: true
+
+few_shot_retrieval:
+  enabled: true
+  embedding_model: "ViT-B-32"
+  pretrained: "laion2b_s34b_b79k"
+  num_approved_examples: 3
+  num_rejected_examples: 3
+  exclude_same_event: true
+  exclude_test_partition: true
+  min_cosine_distance_dedup: 0.03
+
+decision_policy:
+  risk_profile: "ZERO_FALSE_POSITIVES"
+  # Mandatory Hard-Gate Rules from the NGO's Basic Photography SOP & Final QC Test:
+  hard_gate_rules:
+    - "RULE_01"  # Banner Visibility & Presentation (if banner present)
+    - "RULE_02"  # Volunteer Dress Code (white-on-white or white top with jeans)
+    - "RULE_03"  # Beneficiary Visibility (clear face/expression, no obstruction/awkward crop)
+    - "RULE_04"  # Natural Expressions (not looking straight into camera unless required)
+    - "RULE_05"  # Natural & Candid Shots (no staged/overly posed shots)
+    - "RULE_06"  # Capture the Actual Seva (food, education, healthcare, animal care, etc.)
+    - "RULE_07"  # Proper Camera Angle (no tilted frames or obstructing angles)
+    - "RULE_08"  # Volunteer Positioning (no prominent volunteer back; prefer front/side angle)
+    - "RULE_09"  # Proper Lighting (no dark, overexposed, harshly backlit or shadow-heavy shots)
+    - "RULE_10"  # Focus & Image Clarity (sharp, no blurry, grainy or shaky images)
+    - "RULE_12"  # Final QC 1: Is the seva activity clearly visible?
+    - "RULE_13"  # Final QC 2: Are the volunteer and beneficiary captured appropriately?
+    - "RULE_14"  # Final QC 3: Is the photograph natural, well-framed and properly lit?
+    - "RULE_15"  # Final QC 4: Does it maintain the dignity of everyone involved?
+  external_verification_rules:
+    - "RULE_04"  # If subjects look at camera, verify whether a camera-facing shot was specifically required
+  require_human_review_on_uncertain_mandatory: true
+  min_technical_score_for_auto_approve: 8
+  min_composition_score_for_auto_approve: 8
+  min_editorial_score_for_auto_approve: 8
+  min_brand_score_for_auto_approve: 8
+
+enhanced_evaluation_rubric:
+  validated_additional_criteria:
+    - criterion_id: "ADD_01"
+      name: "Volunteer vs. Beneficiary Role Differentiation"
+      category: "BRAND"
+      severity: "MANDATORY"
+      description: "Distinguish volunteers (performing the service/wearing white tops) from beneficiaries before evaluating RULE_02 (Volunteer Dress Code) so beneficiaries are never falsely penalized for not wearing white."
+    - criterion_id: "ADD_02"
+      name: "Conditional Banner Inspection"
+      category: "BRAND"
+      severity: "MANDATORY"
+      description: "If no NGO banner is present in the frame, mark RULE_01 as NOT_APPLICABLE (not FAIL). If a banner is visible, inspect edges and surface for folds, creases, crumpling, tilt, or partial cropping."
+    - criterion_id: "ADD_03"
+      name: "Mid-Blink / Mid-Chew Expression Filter (Food Distribution Seva)"
+      category: "EDITORIAL"
+      severity: "ADVISORY"
+      description: "During food distribution seva, avoid shots where beneficiaries are captured mid-bite/chewing or mid-blink, as this compromises RULE_03, RULE_04, and RULE_15 (Dignity)."
+    - criterion_id: "ADD_04"
+      name: "Multi-Hand Token Handover Cliché Filter"
+      category: "EDITORIAL"
+      severity: "MANDATORY"
+      description: "Reject stiff, staged photographs where multiple volunteers simultaneously hold a single food packet or textbook while looking toward the camera (violates RULE_04 and RULE_05)."

@@ -1,0 +1,9 @@
+.env
+*.db
+*.sqlite
+storage/
+demo_data/
+__pycache__/
+.pytest_cache/
+.venv/
+reports/

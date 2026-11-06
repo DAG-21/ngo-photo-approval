@@ -1,0 +1,17 @@
+[project]
+name = "holistic-judge-trial"
+version = "0.1.0"
+description = "Trial: one holistic Gemini judge (persona + rules + worked examples) for NGO photo approval"
+requires-python = ">=3.11"
+
+# Run with the MAIN project's virtualenv (../image-classifier/.venv); it already has pandas, scikit-learn, pillow,
+# pydantic, PyYAML and google-genai. This folder adds no new dependencies.
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"

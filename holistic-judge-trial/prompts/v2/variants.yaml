@@ -1,0 +1,25 @@
+# Prompt version v2 (= v1 plus an overall plain-language reason in the answer) and the four ablation arms. Change any file in this folder and the prompt hash changes, so every
+# result file records exactly which prompt produced it. Never edit v1 after it has been scored: copy it to v2.
+version: v2
+
+# v2 only: the answer also carries one short plain-language reason for the decision.
+summary_reason: true
+
+variants:
+  A: {restated: false, guidance: false, examples: false}   # persona + the client's rules, verbatim
+  B: {restated: true,  guidance: false, examples: false}   # + the same rules restated and grouped
+  C: {restated: true,  guidance: true,  examples: false}   # + team guidance (kept apart from the client's wording)
+  D: {restated: true,  guidance: true,  examples: true}    # + worked examples with the reviewers' decisions
+
+# Grouping used only for the restated block. Every enabled rule must appear exactly once; the loader stops if the
+# rules change and this list no longer matches, so a new rule can never be silently left out of the restatement.
+restated_groups:
+  People and dignity: [R003, R004, R005, R012, R013]
+  Camera and composition: [R007, R008, R015]
+  The activity shown: [R006, R014]
+  Technical quality: [R009, R010, R016]
+  Presentation and setting: [R001, R002, R011]
+
+examples_intro: >-
+  Below are past photographs together with the decision the NGO's human reviewers actually made. Use them to
+  understand how the rules are applied in practice. They illustrate the rules; they do not add new rules.

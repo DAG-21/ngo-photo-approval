@@ -1,0 +1,32 @@
+# (checklist5: checklist4's gates, minus 'beneficiary must be visible', plus instructions 7, 8 and 9.)
+# The decision policy: which checklist answers FORCE a disapproval. This is the team's policy (your instructions), not the client's
+# document, and it is applied in code, not by the model: the model only answers questions, then policy.py decides.
+# Every gate is traced to the instruction that created it in CORRECTIONS.md (a test checks that the two files agree).
+# To change what disapproves a photo, edit this file; nothing else decides it.
+version: 1
+unknown_is_fail: true        # CANNOT_TELL on a gate counts as a failure (the project's conservative default). NOT_APPLICABLE never does.
+
+gates:
+  # instruction 1: camera angle wrong / beneficiaries' faces not visible because of the angle
+  - {id: R007_ANGLE,        instruction: "1", why: "The camera angle is not right for this scene"}
+  - {id: R007_FACES_SEEN,   instruction: "1", why: "The camera position hides the beneficiaries' faces"}
+  # instruction 2: the item being given is blurry
+  - {id: R006_ITEM_SHARP,   instruction: "2", why: "The item being given to the beneficiary is blurry or unclear"}
+  # instructions 3 and 5: beneficiary faces strictly clear, sharp, unobstructed, large enough, lit
+  - {id: R003_FACE,         instruction: "3", why: "A beneficiary's face is not clearly visible"}
+  - {id: R003_CLEAR,        instruction: "3", why: "A beneficiary's face is obstructed"}
+  - {id: R003_FACE_SHARP,   instruction: "5", why: "A beneficiary's face is not sharp"}
+  - {id: R003_FACE_SIZE,    instruction: "5", why: "A beneficiary's face is too small to read the expression"}
+  - {id: R009_FACE_LIT,     instruction: "5", why: "A beneficiary's face is not well lit"}
+  # instruction 4: banner visible but creased
+  - {id: R001_FLAT,         instruction: "4", why: "The banner is folded or creased"}
+  # instruction 6: zoomed out, the activity is a small part of the picture
+  - {id: R006_COVERAGE,     instruction: "6", why: "The activity fills too little of the frame"}
+  - {id: R006_ZOOMED_OUT,   instruction: "6", why: "The photo is zoomed out; the activity is hard to see"}
+  # instruction 7: a beneficiary must be receiving something from a volunteer, and the giving volunteer must wear a white top
+  - {id: R015_BEN_RECEIVING, instruction: "7", why: "A beneficiary is visible but is not receiving something from a volunteer"}
+  - {id: R002_GIVER_WHITE,   instruction: "7", why: "The volunteer who is giving something is not wearing a white top"}
+  # instruction 8: the photo needs a beneficiary OR a volunteer (replaces the old 'a beneficiary must be visible', E1)
+  - {id: R015_PERSON_PRESENT, instruction: "8", why: "Neither a beneficiary nor a volunteer is visible"}
+  # instruction 9: the beneficiary must not look straight into the camera (a volunteer may)
+  - {id: R004_BEN_GAZE,      instruction: "9", why: "A beneficiary is looking straight into the camera"}

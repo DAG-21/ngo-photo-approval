@@ -1,0 +1,26 @@
+"""My own judgements (Claude looking at each photo): approved photos 202-221 (ids/audit_approved_179.csv, in file order). Client rule text only."""
+
+P5: dict[int, list[tuple[str, str]]] = {
+    202: [("R002", "Volunteers in grey and blue shirts, not white"), ("R004", "Several look into the camera"), ("R005", "Posed handover"),
+          ("R011", "Parked cars and houses behind")],
+    203: [("R003", "Beneficiaries' backs to the camera"), ("R011", "Posters and clutter behind"), ("R006", "Registration table; no giving shown")],
+    204: [("R004", "Beneficiary looks into the camera"), ("R005", "Posed handover")],
+    205: [("R004", "Beneficiary looks into the camera"), ("R001", "Banner text partly hidden by the people")],
+    206: [("R002", "Boy and another volunteer in non-white clothes"), ("R004", "Boy looks into the camera"), ("R011", "Shed and clutter behind")],
+    207: [("R003", "Volunteer's back to the camera; boys' faces small"), ("R006", "A group sitting; no giving shown"), ("R008", "Volunteer's back to the camera")],
+    208: [("R001", "Banner text partly hidden by the volunteer"), ("R004", "Girl looks into the camera")],
+    209: [("R003", "Faces turned and partly cut off"), ("R006", "No volunteer and no giving shown")],
+    210: [("R006", "Only pigeons; no volunteer or feeding action"), ("R011", "Scrubland behind")],
+    211: [("R003", "Beneficiaries' faces turned away"), ("R006", "A registration desk; no giving shown"), ("R011", "Hall clutter behind")],
+    212: [("R006", "Rows of rickshaws; no people or activity")],
+    213: [("R004", "Everyone looks into the camera"), ("R005", "Posed group in front of the school"), ("R006", "No activity shown")],
+    214: [("R006", "Only cattle and a banner; no volunteer or feeding action"), ("R011", "Cluttered shed")],
+    215: [("R004", "Beneficiary looks straight into the camera"), ("R005", "Posed with the bowl"), ("R006", "No volunteer and no giving shown")],
+    216: [("R001", "Banner partly cut off at the top"), ("R004", "Child and volunteer look into the camera"), ("R011", "Cluttered room")],
+    217: [("R004", "Everyone looks into the camera"), ("R005", "Posed handover of the giant key"), ("R002", "Several not in white")],
+    218: [("R004", "Everyone looks into the camera"), ("R005", "Posed with folded hands"), ("R006", "No beneficiary and no giving shown"), ("R011", "Piles of newspapers")],
+    219: [("R004", "Everyone looks into the camera"), ("R005", "Posed group on the stage"), ("R006", "No activity shown")],
+    220: [("R004", "Volunteers look into the camera"), ("R005", "Posed with folded hands"), ("R006", "No beneficiary and no serving in progress"),
+          ("R011", "Boxes and signboards behind")],
+    221: [("R003", "Beneficiary's face turned away"), ("R001", "Banner text partly hidden by the people")],
+}

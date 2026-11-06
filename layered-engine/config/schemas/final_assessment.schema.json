@@ -1,0 +1,683 @@
+{
+  "description": "The strict structure the model must return. Aggregates it reports (overall status, final score) are NOT trusted.",
+  "properties": {
+    "layer_1_scene_understanding": {
+      "properties": {
+        "activity_description": {
+          "type": "string"
+        },
+        "scene_facts": {
+          "description": "Layer-1 facts. All fields are required: an omitted fact is an error, never a silent default.",
+          "properties": {
+            "f_photo": {
+              "enum": [
+                "YES",
+                "NO",
+                "UNKNOWN"
+              ],
+              "type": "string"
+            },
+            "f_single": {
+              "enum": [
+                "YES",
+                "NO",
+                "UNKNOWN"
+              ],
+              "type": "string"
+            },
+            "f_volunteers": {
+              "enum": [
+                "YES",
+                "NO",
+                "UNKNOWN"
+              ],
+              "type": "string"
+            },
+            "f_banner": {
+              "enum": [
+                "YES",
+                "NO",
+                "UNKNOWN"
+              ],
+              "type": "string"
+            },
+            "f_banner_prominent": {
+              "enum": [
+                "YES",
+                "NO",
+                "UNKNOWN"
+              ],
+              "type": "string"
+            },
+            "f_beneficiaries": {
+              "enum": [
+                "YES",
+                "NO",
+                "UNKNOWN"
+              ],
+              "type": "string"
+            },
+            "f_animals": {
+              "enum": [
+                "YES",
+                "NO",
+                "UNKNOWN"
+              ],
+              "type": "string"
+            },
+            "f_item_given": {
+              "enum": [
+                "YES",
+                "NO",
+                "UNKNOWN"
+              ],
+              "type": "string"
+            },
+            "f_handover": {
+              "enum": [
+                "YES",
+                "NO",
+                "UNKNOWN"
+              ],
+              "type": "string"
+            },
+            "f_volunteer_giver": {
+              "enum": [
+                "YES",
+                "NO",
+                "UNKNOWN"
+              ],
+              "type": "string"
+            },
+            "f_logo": {
+              "enum": [
+                "YES",
+                "NO",
+                "UNKNOWN"
+              ],
+              "type": "string"
+            },
+            "f_medical": {
+              "enum": [
+                "YES",
+                "NO",
+                "UNKNOWN"
+              ],
+              "type": "string"
+            },
+            "f_orientation": {
+              "enum": [
+                "FRONT",
+                "SIDE",
+                "BACK",
+                "MIXED",
+                "UNKNOWN"
+              ],
+              "type": "string"
+            },
+            "f_group": {
+              "enum": [
+                "SINGLE",
+                "GROUP",
+                "CROWD",
+                "UNKNOWN"
+              ],
+              "type": "string"
+            },
+            "f_activity_type": {
+              "type": "string",
+              "enum": [
+                "FOOD_DISTRIBUTION",
+                "EDUCATION_SUPPORT",
+                "HEALTHCARE_ASSISTANCE",
+                "ANIMAL_CARE",
+                "COMMUNITY_SERVICE",
+                "DONATION_DISTRIBUTION",
+                "AWARENESS_CAMPAIGN",
+                "EVENT_OR_GROUP",
+                "BENEFICIARY_PORTRAIT",
+                "VOLUNTEER_PORTRAIT",
+                "OTHER"
+              ]
+            }
+          },
+          "required": [
+            "f_photo",
+            "f_single",
+            "f_volunteers",
+            "f_banner",
+            "f_banner_prominent",
+            "f_beneficiaries",
+            "f_animals",
+            "f_item_given",
+            "f_handover",
+            "f_volunteer_giver",
+            "f_logo",
+            "f_medical",
+            "f_orientation",
+            "f_group",
+            "f_activity_type"
+          ],
+          "type": "object"
+        },
+        "subjects": {
+          "items": {
+            "properties": {
+              "ref": {
+                "type": "string"
+              },
+              "category": {
+                "enum": [
+                  "VOLUNTEER",
+                  "BENEFICIARY",
+                  "ANIMAL",
+                  "OTHER"
+                ],
+                "type": "string"
+              },
+              "role": {
+                "enum": [
+                  "PRIMARY",
+                  "SECONDARY",
+                  "INCIDENTAL"
+                ],
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "ref",
+              "category",
+              "role"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "candidate_applicable_rule_groups": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "uncertainties": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "activity_description",
+        "scene_facts"
+      ],
+      "type": "object"
+    },
+    "layer_2_criteria": {
+      "items": {
+        "properties": {
+          "criterion_id": {
+            "type": "string",
+            "enum": [
+              "R015_PERSON_PRESENT",
+              "R007_ANGLE",
+              "R007_FACES_SEEN",
+              "R003_CLEAR",
+              "R003_FACE",
+              "R003_FACE_SHARP",
+              "R003_FACE_SIZE",
+              "R009_FACE_LIT",
+              "R001_FLAT",
+              "R006_COVERAGE",
+              "R006_ZOOMED_OUT",
+              "R006_ITEM_SHARP",
+              "R002_GIVER_WHITE",
+              "R015_BEN_RECEIVING",
+              "R004_BEN_GAZE",
+              "G001_ACTIVITY_VISIBLE",
+              "G001_BENEFICIARIES_VISIBLE",
+              "G001_INTERACTION_VISIBLE",
+              "G001_NOTHING_HIDDEN",
+              "R001_DISTINCT",
+              "R001_POSITION",
+              "R001_STRAIGHT",
+              "R001_VISIBLE",
+              "R002_NEAT",
+              "R002_WHITE",
+              "R003_CROP",
+              "R003_OBSTRUCTION_PPE_ONLY",
+              "R004_GENUINE",
+              "R005_CANDID",
+              "R005_INTERACT",
+              "R006_ACTION",
+              "R006_HANDOVER",
+              "R006_IDENTIFY",
+              "R006_SIZE",
+              "R006_VOLUNTEER_DOING",
+              "R007_CUTOFF",
+              "R007_DISTORTION",
+              "R007_FOREGROUND",
+              "R007_HEIGHT",
+              "R007_INTERACTION_VIEW",
+              "R007_LEVEL",
+              "R007_ORIENTATION",
+              "R007_PERSPECTIVE",
+              "R007_PLACEMENT",
+              "R007_UNOBSTRUCTED",
+              "R007_VERTICALS",
+              "R008_BACK",
+              "R009_DIRECTION",
+              "R009_LIT",
+              "R009_OVEREXPOSED",
+              "R009_PEOPLE_LIT",
+              "R009_UNDEREXPOSED",
+              "R010_GRAIN",
+              "R010_SHAKE",
+              "R010_SHARP",
+              "R011_BACKGROUND",
+              "R011_CLUTTER",
+              "R011_UNRELATED",
+              "R012_DIGNITY",
+              "R013_HUMANITY",
+              "R015_BEN_FRONT",
+              "R015_BEN_INTERACT",
+              "R015_BEN_POSE",
+              "R015_BEN_PRESENT",
+              "R015_BEN_PROMINENT",
+              "T_FRONT",
+              "NEW-008",
+              "NEW-009",
+              "NEW-010",
+              "NEW-011",
+              "NEW-012",
+              "NEW-013",
+              "NEW-014",
+              "NEW-015",
+              "NEW-016",
+              "NEW-017",
+              "NEW-018",
+              "NEW-019",
+              "NEW-020",
+              "NEW-021",
+              "NEW-022",
+              "P004"
+            ]
+          },
+          "status": {
+            "enum": [
+              "YES",
+              "NO",
+              "CANNOT_TELL",
+              "NOT_APPLICABLE"
+            ],
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "criterion_id",
+          "status"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "layer_3_quality_dimensions": {
+      "type": "object",
+      "properties": {
+        "activity_communication": {
+          "properties": {
+            "applicable": {
+              "type": "boolean"
+            },
+            "score": {
+              "maximum": 4,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "explanation": {
+              "type": "string"
+            },
+            "positive_observations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "negative_observations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "evidence": {
+              "type": "string"
+            },
+            "confidence": {
+              "enum": [
+                "HIGH",
+                "MEDIUM",
+                "LOW"
+              ],
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "technical_quality": {
+          "properties": {
+            "applicable": {
+              "type": "boolean"
+            },
+            "score": {
+              "maximum": 4,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "explanation": {
+              "type": "string"
+            },
+            "positive_observations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "negative_observations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "evidence": {
+              "type": "string"
+            },
+            "confidence": {
+              "enum": [
+                "HIGH",
+                "MEDIUM",
+                "LOW"
+              ],
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "composition": {
+          "properties": {
+            "applicable": {
+              "type": "boolean"
+            },
+            "score": {
+              "maximum": 4,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "explanation": {
+              "type": "string"
+            },
+            "positive_observations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "negative_observations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "evidence": {
+              "type": "string"
+            },
+            "confidence": {
+              "enum": [
+                "HIGH",
+                "MEDIUM",
+                "LOW"
+              ],
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "naturalness_storytelling": {
+          "properties": {
+            "applicable": {
+              "type": "boolean"
+            },
+            "score": {
+              "maximum": 4,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "explanation": {
+              "type": "string"
+            },
+            "positive_observations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "negative_observations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "evidence": {
+              "type": "string"
+            },
+            "confidence": {
+              "enum": [
+                "HIGH",
+                "MEDIUM",
+                "LOW"
+              ],
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "brand_presentation": {
+          "properties": {
+            "applicable": {
+              "type": "boolean"
+            },
+            "score": {
+              "maximum": 4,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "explanation": {
+              "type": "string"
+            },
+            "positive_observations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "negative_observations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "evidence": {
+              "type": "string"
+            },
+            "confidence": {
+              "enum": [
+                "HIGH",
+                "MEDIUM",
+                "LOW"
+              ],
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "visual_polish": {
+          "properties": {
+            "applicable": {
+              "type": "boolean"
+            },
+            "score": {
+              "maximum": 4,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "explanation": {
+              "type": "string"
+            },
+            "positive_observations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "negative_observations": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "evidence": {
+              "type": "string"
+            },
+            "confidence": {
+              "enum": [
+                "HIGH",
+                "MEDIUM",
+                "LOW"
+              ],
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "activity_communication",
+        "technical_quality",
+        "composition",
+        "naturalness_storytelling",
+        "brand_presentation",
+        "visual_polish"
+      ]
+    },
+    "layer_4_visual_flags": {
+      "items": {
+        "properties": {
+          "flag_type": {
+            "type": "string",
+            "enum": [
+              "CONFIDENTIAL_INFORMATION",
+              "MANIPULATION_SUSPECTED",
+              "UNSAFE_ACTIVITY",
+              "DEGRADING_REPRESENTATION",
+              "POSSIBLE_MINOR",
+              "THIRD_PARTY_BRANDING",
+              "SENSITIVE_LOCATION_OR_SITUATION",
+              "OTHER"
+            ]
+          },
+          "evidence": {
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "flag_type"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "positive_attributes": {
+      "items": {
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "potential_rejection_factors": {
+      "items": {
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "new_factor_proposals": {
+      "items": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "why_it_matters": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "layer_1_scene_understanding",
+    "layer_2_criteria",
+    "layer_3_quality_dimensions"
+  ],
+  "type": "object"
+}

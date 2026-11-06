@@ -1,0 +1,33 @@
+# Prompt version v3 (= v2 plus a team exception to the front-angle guidance, see team_guidance.md) and the four ablation arms. Change any file in this folder and the prompt hash changes, so every
+# result file records exactly which prompt produced it. Never edit v1 after it has been scored: copy it to v2.
+version: v3
+
+# v2 only: the answer also carries one short plain-language reason for the decision.
+summary_reason: true
+
+# v3 only: the team guidance text comes from team_guidance.md instead of the rules' own additional_guidance. The build
+# stops unless the rules still carry exactly the guidance listed here, so the replacement can never silently drop or
+# hide some other guidance. The client's own rule wording is untouched.
+team_guidance:
+  file: team_guidance.md
+  replaces_rule_guidance:
+    - "The photo must be taken from the front of the people, not from behind them. If the main people in the frame are seen mainly from behind (their backs towards the camera), this rule is not met (FAIL)."
+
+variants:
+  A: {restated: false, guidance: false, examples: false}   # persona + the client's rules, verbatim
+  B: {restated: true,  guidance: false, examples: false}   # + the same rules restated and grouped
+  C: {restated: true,  guidance: true,  examples: false}   # + team guidance (kept apart from the client's wording)
+  D: {restated: true,  guidance: true,  examples: true}    # + worked examples with the reviewers' decisions
+
+# Grouping used only for the restated block. Every enabled rule must appear exactly once; the loader stops if the
+# rules change and this list no longer matches, so a new rule can never be silently left out of the restatement.
+restated_groups:
+  People and dignity: [R003, R004, R005, R012, R013]
+  Camera and composition: [R007, R008, R015]
+  The activity shown: [R006, R014]
+  Technical quality: [R009, R010, R016]
+  Presentation and setting: [R001, R002, R011]
+
+examples_intro: >-
+  Below are past photographs together with the decision the NGO's human reviewers actually made. Use them to
+  understand how the rules are applied in practice. They illustrate the rules; they do not add new rules.

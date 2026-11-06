@@ -1,0 +1,67 @@
+# Provider/model settings. Nothing provider-specific is hard-coded in the source tree.
+provider: google_vertex
+
+models:
+  # Model IDs checked against the official docs on 2026-10-29:
+  #   supervised-tuning page lists "Gemini 3.5 Flash" and "Gemini 3.5 Flash-Lite";
+  #   the "use" page example passes base_model="gemini-3.5-flash".
+  # Both IDs were also confirmed live via the Gemini API model list (key check, 2026-10-30), and both passed a
+  # text-only structured-output test with the real 16-rule prompt.
+  # The user chose Flash-Lite as the model to use (cheaper); Flash is kept as the comparison candidate.
+  primary:
+    id: gemini-3.5-flash-lite
+    verified: true
+  comparison:
+    id: gemini-3.5-flash
+    verified: true
+
+# Set after a tuning job succeeds (written by the job manager registry, never guessed).
+tuned_model:
+  endpoint: null                     # e.g. projects/.../locations/us/endpoints/...
+  model_resource: null
+  version: null
+
+generation:
+  temperature: 0.0
+  max_output_tokens: 2048
+  media_resolution: MEDIA_RESOLUTION_HIGH   # small banners/logos need detail
+  request_timeout_s: 120
+
+image_input:
+  # Do not aggressively resize: small banners/uniform logos matter. Only cap pathological sizes.
+  max_side_px: 3072
+  jpeg_quality: 92
+  max_bytes: 18874368                # 18 MiB, below the documented 20 MB per-image limit
+  # Tuning data AND tuned-model inference use the SAME normalization: long side exactly N px (down/up-scaled),
+  # identical JPEG re-encode, metadata stripped. Removes resolution / file-size / compression cues, which alone
+  # separate approved from not_approved in this dataset (provenance), so the tuned model cannot learn them.
+  # Trade-off: very small banner text may lose detail. null = disable (not recommended).
+  tuning_normalize_long_side_px: 1280
+  tuning_jpeg_quality: 90
+
+retry:
+  max_attempts: 4
+  initial_backoff_s: 2.0
+  max_backoff_s: 30.0
+  rate_limit_rps: 2.0
+
+tuning:
+  task_track: A                      # A = overall approved/not_approved; B = rule-level (needs verified annotations)
+  epoch_count: null                  # null => provider default
+  adapter_size: null                 # supported: 1,2,4,8,16 (Gemini 3.x); null => provider default
+  learning_rate_multiplier: null
+  display_name_prefix: ngo-photo-approval
+  limits:                            # from the official docs (checked 2026-10-29)
+    max_images_per_example: 30
+    max_image_bytes: 20971520
+    max_tokens_per_example: 131072
+    max_training_file_bytes: 1073741824
+    max_multimodal_examples: 300000
+    recommended_min_examples: 100
+    allowed_mime_types: [image/jpeg, image/png, image/webp]
+
+# Price per 1M tokens for cost estimation. Left null on purpose: prices change; fill from the
+# current official pricing page. Cost is reported as "unknown" until set.
+pricing:
+  input_per_million_tokens_usd: null
+  output_per_million_tokens_usd: null

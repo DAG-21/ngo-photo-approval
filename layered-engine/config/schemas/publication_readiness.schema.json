@@ -1,0 +1,35 @@
+{
+  "items": {
+    "properties": {
+      "flag_type": {
+        "type": "string",
+        "enum": [
+          "CONFIDENTIAL_INFORMATION",
+          "MANIPULATION_SUSPECTED",
+          "UNSAFE_ACTIVITY",
+          "DEGRADING_REPRESENTATION",
+          "POSSIBLE_MINOR",
+          "THIRD_PARTY_BRANDING",
+          "SENSITIVE_LOCATION_OR_SITUATION",
+          "OTHER"
+        ]
+      },
+      "evidence": {
+        "type": "string"
+      },
+      "confidence": {
+        "enum": [
+          "HIGH",
+          "MEDIUM",
+          "LOW"
+        ],
+        "type": "string"
+      }
+    },
+    "required": [
+      "flag_type"
+    ],
+    "type": "object"
+  },
+  "type": "array"
+}

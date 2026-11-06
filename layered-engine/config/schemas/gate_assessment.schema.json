@@ -1,0 +1,119 @@
+{
+  "items": {
+    "properties": {
+      "criterion_id": {
+        "type": "string",
+        "enum": [
+          "R015_PERSON_PRESENT",
+          "R007_ANGLE",
+          "R007_FACES_SEEN",
+          "R003_CLEAR",
+          "R003_FACE",
+          "R003_FACE_SHARP",
+          "R003_FACE_SIZE",
+          "R009_FACE_LIT",
+          "R001_FLAT",
+          "R006_COVERAGE",
+          "R006_ZOOMED_OUT",
+          "R006_ITEM_SHARP",
+          "R002_GIVER_WHITE",
+          "R015_BEN_RECEIVING",
+          "R004_BEN_GAZE",
+          "G001_ACTIVITY_VISIBLE",
+          "G001_BENEFICIARIES_VISIBLE",
+          "G001_INTERACTION_VISIBLE",
+          "G001_NOTHING_HIDDEN",
+          "R001_DISTINCT",
+          "R001_POSITION",
+          "R001_STRAIGHT",
+          "R001_VISIBLE",
+          "R002_NEAT",
+          "R002_WHITE",
+          "R003_CROP",
+          "R003_OBSTRUCTION_PPE_ONLY",
+          "R004_GENUINE",
+          "R005_CANDID",
+          "R005_INTERACT",
+          "R006_ACTION",
+          "R006_HANDOVER",
+          "R006_IDENTIFY",
+          "R006_SIZE",
+          "R006_VOLUNTEER_DOING",
+          "R007_CUTOFF",
+          "R007_DISTORTION",
+          "R007_FOREGROUND",
+          "R007_HEIGHT",
+          "R007_INTERACTION_VIEW",
+          "R007_LEVEL",
+          "R007_ORIENTATION",
+          "R007_PERSPECTIVE",
+          "R007_PLACEMENT",
+          "R007_UNOBSTRUCTED",
+          "R007_VERTICALS",
+          "R008_BACK",
+          "R009_DIRECTION",
+          "R009_LIT",
+          "R009_OVEREXPOSED",
+          "R009_PEOPLE_LIT",
+          "R009_UNDEREXPOSED",
+          "R010_GRAIN",
+          "R010_SHAKE",
+          "R010_SHARP",
+          "R011_BACKGROUND",
+          "R011_CLUTTER",
+          "R011_UNRELATED",
+          "R012_DIGNITY",
+          "R013_HUMANITY",
+          "R015_BEN_FRONT",
+          "R015_BEN_INTERACT",
+          "R015_BEN_POSE",
+          "R015_BEN_PRESENT",
+          "R015_BEN_PROMINENT",
+          "T_FRONT",
+          "NEW-008",
+          "NEW-009",
+          "NEW-010",
+          "NEW-011",
+          "NEW-012",
+          "NEW-013",
+          "NEW-014",
+          "NEW-015",
+          "NEW-016",
+          "NEW-017",
+          "NEW-018",
+          "NEW-019",
+          "NEW-020",
+          "NEW-021",
+          "NEW-022",
+          "P004"
+        ]
+      },
+      "status": {
+        "enum": [
+          "YES",
+          "NO",
+          "CANNOT_TELL",
+          "NOT_APPLICABLE"
+        ],
+        "type": "string"
+      },
+      "evidence": {
+        "type": "string"
+      },
+      "confidence": {
+        "enum": [
+          "HIGH",
+          "MEDIUM",
+          "LOW"
+        ],
+        "type": "string"
+      }
+    },
+    "required": [
+      "criterion_id",
+      "status"
+    ],
+    "type": "object"
+  },
+  "type": "array"
+}

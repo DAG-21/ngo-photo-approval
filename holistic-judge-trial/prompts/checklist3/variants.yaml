@@ -1,0 +1,12 @@
+# Checklist mode: the model answers itemised yes/no questions; it never gives a score or decision. A rule's partial
+# result (for example 3 of 4 banner checks passed = 0.75) and the overall prediction are computed afterwards in code.
+# Never edit this version after it has been scored: copy it to checklist4.
+version: checklist3
+mode: checklist
+summary_reason: false
+
+variants:
+  K: {restated: false, guidance: false, examples: false}   # the client's rules verbatim + the itemised questions, no examples
+
+examples_intro: >-
+  Not used in checklist mode.

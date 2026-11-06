@@ -1,0 +1,301 @@
+{
+  "taxonomy_version": "2.0-seva-sop",
+  "categories": {
+    "TECHNICAL": [
+      {
+        "canonical_tag_id": "BLURRY_OR_SHAKY_IMAGE",
+        "display_name": "Blurry, Grainy or Shaky Image (RULE_10)",
+        "parent_category": "TECHNICAL",
+        "definition": "Photograph lacks sharpness due to motion blur, missed optical focus, camera shake, or heavy ISO grain.",
+        "examples": [
+          "Blurred hands and faces during food distribution",
+          "Grainy low-light indoor shot"
+        ],
+        "severity_guidance": "HIGH",
+        "visually_assessable": true,
+        "human_validation_recommended": false,
+        "merged_source_tags": [
+          "MOTION_BLUR",
+          "BLURRY_SUBJECT",
+          "CAMERA_SHAKE",
+          "GRAINY_IMAGE",
+          "POOR_FOCUS",
+          "OUT_OF_FOCUS"
+        ],
+        "tag_type": "EXPLICIT_POLICY_CONCERN"
+      },
+      {
+        "canonical_tag_id": "IMPROPER_LIGHTING_OR_EXPOSURE",
+        "display_name": "Dark, Overexposed, Harshly Backlit or Shadow-Heavy (RULE_09)",
+        "parent_category": "TECHNICAL",
+        "definition": "Subjects are poorly lit due to underexposure, blown-out highlights, strong backlighting, or heavy facial shadows.",
+        "examples": [
+          "Harsh backlighting darkening faces",
+          "Overexposed white volunteer shirts losing detail"
+        ],
+        "severity_guidance": "HIGH",
+        "visually_assessable": true,
+        "human_validation_recommended": false,
+        "merged_source_tags": [
+          "UNDEREXPOSED",
+          "OVEREXPOSED",
+          "TOO_DARK",
+          "HARSH_BACKLIGHT",
+          "SHADOW_HEAVY"
+        ],
+        "tag_type": "EXPLICIT_POLICY_CONCERN"
+      }
+    ],
+    "COMPOSITION": [
+      {
+        "canonical_tag_id": "VOLUNTEER_BACK_PROMINENT",
+        "display_name": "Volunteer's Back Prominently Visible (RULE_08)",
+        "parent_category": "COMPOSITION",
+        "definition": "Volunteer is captured primarily from behind, blocking the interaction instead of using a front or side angle.",
+        "examples": [
+          "Volunteer's back occupies foreground while handing food to beneficiary"
+        ],
+        "severity_guidance": "HIGH",
+        "visually_assessable": true,
+        "human_validation_recommended": false,
+        "merged_source_tags": [
+          "VOLUNTEER_FROM_BEHIND",
+          "BACK_OF_VOLUNTEER",
+          "BACK_DOMINANT"
+        ],
+        "tag_type": "EXPLICIT_POLICY_CONCERN"
+      },
+      {
+        "canonical_tag_id": "BENEFICIARY_FACE_OBSTRUCTED_OR_CROPPED",
+        "display_name": "Beneficiary Face Obstructed or Awkwardly Cropped (RULE_03)",
+        "parent_category": "COMPOSITION",
+        "definition": "Beneficiary's face or expression is hidden behind objects/arms or sliced by the frame border.",
+        "examples": [
+          "Beneficiary face blocked by volunteer's arm",
+          "Half of beneficiary head cropped out"
+        ],
+        "severity_guidance": "HIGH",
+        "visually_assessable": true,
+        "human_validation_recommended": false,
+        "merged_source_tags": [
+          "SUBJECT_OBSTRUCTED",
+          "OBSTRUCTED_FACE",
+          "BAD_CROP",
+          "AWKWARD_CROP"
+        ],
+        "tag_type": "EXPLICIT_POLICY_CONCERN"
+      },
+      {
+        "canonical_tag_id": "AWKWARD_OR_TILTED_CAMERA_ANGLE",
+        "display_name": "Awkward Perspective or Tilted Frame (RULE_07)",
+        "parent_category": "COMPOSITION",
+        "definition": "Tilted horizon (Dutch angle), extreme high/low perspective, or angle that fails to capture volunteer-beneficiary interaction.",
+        "examples": [
+          "Severely tilted horizon line during outdoor distribution",
+          "High downward angle obstructing faces"
+        ],
+        "severity_guidance": "MEDIUM",
+        "visually_assessable": true,
+        "human_validation_recommended": false,
+        "merged_source_tags": [
+          "TILTED_FRAME",
+          "AWKWARD_ANGLE",
+          "POOR_FRAMING",
+          "BAD_COMPOSITION"
+        ],
+        "tag_type": "EXPLICIT_POLICY_CONCERN"
+      },
+      {
+        "canonical_tag_id": "DISTRACTING_BACKGROUND_CLUTTER",
+        "display_name": "Distracting Background or Scattered Materials (RULE_11)",
+        "parent_category": "COMPOSITION",
+        "definition": "Background clutter, scattered packaging, litter, or unrelated objects taking attention away from the seva.",
+        "examples": [
+          "Empty cardboard boxes and plastic wrappers scattered behind distribution table"
+        ],
+        "severity_guidance": "MEDIUM",
+        "visually_assessable": true,
+        "human_validation_recommended": false,
+        "merged_source_tags": [
+          "DISTRACTING_BACKGROUND",
+          "BACKGROUND_CLUTTER",
+          "SCATTERED_MATERIALS",
+          "MESSY_BACKGROUND"
+        ],
+        "tag_type": "EXPLICIT_POLICY_CONCERN"
+      }
+    ],
+    "EDITORIAL": [
+      {
+        "canonical_tag_id": "LOOKING_STRAIGHT_AT_CAMERA",
+        "display_name": "Subjects Looking Straight Into Camera (RULE_04)",
+        "parent_category": "EDITORIAL",
+        "definition": "Beneficiaries or volunteers staring directly into the camera lens instead of engaging naturally in the activity.",
+        "examples": [
+          "Volunteer and beneficiary pausing mid-handover to stare at camera"
+        ],
+        "severity_guidance": "HIGH",
+        "visually_assessable": true,
+        "human_validation_recommended": true,
+        "merged_source_tags": [
+          "CAMERA_GAZE",
+          "LOOKING_AT_CAMERA",
+          "DIRECT_EYE_CONTACT_WITH_LENS"
+        ],
+        "tag_type": "EXPLICIT_POLICY_CONCERN"
+      },
+      {
+        "canonical_tag_id": "STAGED_OR_OVERLY_POSED",
+        "display_name": "Staged or Overly Posed Photograph (RULE_05)",
+        "parent_category": "EDITORIAL",
+        "definition": "Artificial, stiffly posed handover or group line-up lacking genuine candid compassion and interaction.",
+        "examples": [
+          "Four volunteers holding a single packet together in a static pose"
+        ],
+        "severity_guidance": "HIGH",
+        "visually_assessable": true,
+        "human_validation_recommended": true,
+        "merged_source_tags": [
+          "OVERLY_POSED",
+          "STAGED_SHOT",
+          "ARTIFICIAL_POSE"
+        ],
+        "tag_type": "EXPLICIT_POLICY_CONCERN"
+      },
+      {
+        "canonical_tag_id": "SEVA_ACTIVITY_NOT_CLEAR",
+        "display_name": "Actual Seva Activity Not Clearly Visible (RULE_06 & RULE_12)",
+        "parent_category": "EDITORIAL",
+        "definition": "Cannot discern the seva being performed (e.g., food distribution, education support, healthcare, animal care).",
+        "examples": [
+          "Volunteers standing idle without visible seva activity or beneficiaries"
+        ],
+        "severity_guidance": "HIGH",
+        "visually_assessable": true,
+        "human_validation_recommended": false,
+        "merged_source_tags": [
+          "UNCLEAR_ACTIVITY",
+          "WEAK_STORYTELLING",
+          "LOW_EDITORIAL_VALUE",
+          "NO_SEVA_VISIBLE"
+        ],
+        "tag_type": "EXPLICIT_POLICY_CONCERN"
+      },
+      {
+        "canonical_tag_id": "LACKS_COMPASSION_OR_WARMTH",
+        "display_name": "Lacks Spirit of Humanity and Compassion (RULE_16)",
+        "parent_category": "EDITORIAL",
+        "definition": "Mechanical, detached, or cold interaction that fails to convey kindness, empathy, or human warmth.",
+        "examples": [
+          "Volunteer handing item without looking at or engaging with the beneficiary"
+        ],
+        "severity_guidance": "MEDIUM",
+        "visually_assessable": true,
+        "human_validation_recommended": true,
+        "merged_source_tags": [
+          "DETACHED_INTERACTION",
+          "NO_EMOTIONAL_CONNECTION",
+          "EYES_CLOSED",
+          "AWKWARD_FACIAL_EXPRESSION"
+        ],
+        "tag_type": "EDITORIAL_CONSIDERATION"
+      }
+    ],
+    "BRAND": [
+      {
+        "canonical_tag_id": "BANNER_FOLDED_CROOKED_OR_OBSCURED",
+        "display_name": "Banner Folded, Crumpled, Tilted or Obscured (RULE_01)",
+        "parent_category": "BRAND",
+        "definition": "NGO banner is present in the frame but has visible creases, folds, crumpling, sagging, or obstructed text.",
+        "examples": [
+          "Wrinkled banner hanging crookedly behind food stall"
+        ],
+        "severity_guidance": "HIGH",
+        "visually_assessable": true,
+        "human_validation_recommended": false,
+        "merged_source_tags": [
+          "FOLDED_BANNER",
+          "CRUMPLED_BANNER",
+          "CROOKED_BANNER",
+          "BANNER_OBSCURED"
+        ],
+        "tag_type": "EXPLICIT_POLICY_CONCERN"
+      },
+      {
+        "canonical_tag_id": "VOLUNTEER_DRESS_CODE_VIOLATION",
+        "display_name": "Volunteer Dress Code Violation (RULE_02)",
+        "parent_category": "BRAND",
+        "definition": "Volunteer is not wearing white-on-white or a white top with jeans, or clothing appears untidy/stained.",
+        "examples": [
+          "Volunteer wearing bright red graphic t-shirt during distribution"
+        ],
+        "severity_guidance": "HIGH",
+        "visually_assessable": true,
+        "human_validation_recommended": true,
+        "merged_source_tags": [
+          "NON_WHITE_TOP",
+          "DRESS_CODE_FAIL",
+          "UNTIDY_ATTIRE"
+        ],
+        "tag_type": "EXPLICIT_POLICY_CONCERN"
+      },
+      {
+        "canonical_tag_id": "DIGNITY_COMPROMISED",
+        "display_name": "Compromises Beneficiary Dignity (RULE_15)",
+        "parent_category": "BRAND",
+        "definition": "Portrays beneficiaries in a demeaning, pitiable, or distressing manner that violates their dignity.",
+        "examples": [
+          "Unflattering close-up of distressed patient or beneficiary in vulnerable posture"
+        ],
+        "severity_guidance": "HIGH",
+        "visually_assessable": true,
+        "human_validation_recommended": true,
+        "merged_source_tags": [
+          "DIGNITY_CONCERN",
+          "UNDIGNIFIED_PORTRAYAL",
+          "PITY_FRAMING"
+        ],
+        "tag_type": "EXPLICIT_POLICY_CONCERN"
+      }
+    ],
+    "SAFETY": [
+      {
+        "canonical_tag_id": "SENSITIVE_MEDICAL_OR_PRIVACY_EXPOSURE",
+        "display_name": "Visible Medical Records, PII or Safeguarding Concern",
+        "parent_category": "SAFETY",
+        "definition": "Visible patient medical charts, prescription details, personal ID documents, or unverified minor consent during healthcare/education seva.",
+        "examples": [
+          "Readable patient diagnosis sheet on healthcare camp table"
+        ],
+        "severity_guidance": "HIGH",
+        "visually_assessable": true,
+        "human_validation_recommended": true,
+        "merged_source_tags": [
+          "VISIBLE_SENSITIVE_INFORMATION",
+          "PII_EXPOSED",
+          "POTENTIAL_IDENTIFIABLE_MINOR"
+        ],
+        "tag_type": "OBSERVATIONAL_CHARACTERISTIC"
+      }
+    ],
+    "CONTEXT": [
+      {
+        "canonical_tag_id": "POSSIBLE_BURST_DUPLICATE",
+        "display_name": "Near-Duplicate Frame From Same Seva Burst",
+        "parent_category": "CONTEXT",
+        "definition": "Part of a camera burst from the same seva moment where another frame has better expressions or angles.",
+        "examples": [
+          "Sequential frame 2 of 5 from same food distribution interaction"
+        ],
+        "severity_guidance": "LOW",
+        "visually_assessable": true,
+        "human_validation_recommended": false,
+        "merged_source_tags": [
+          "POSSIBLE_DUPLICATE",
+          "BURST_DUPLICATE"
+        ],
+        "tag_type": "EDITORIAL_CONSIDERATION"
+      }
+    ]
+  }
+}

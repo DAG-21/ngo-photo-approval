@@ -1,0 +1,17 @@
+[project]
+name = "ngo-agent"
+version = "0.1.0"
+description = "NGO AI photo approval agent: Phase 2A feedback infrastructure and human review"
+requires-python = ">=3.11"
+dependencies = ["sqlalchemy>=2.0", "alembic>=1.13", "fastapi>=0.110", "pydantic>=2.5", "pyjwt>=2.8", "python-multipart>=0.0.9", "pillow>=10.0", "uvicorn>=0.29", "httpx>=0.27", "numpy>=1.26"]
+
+[project.optional-dependencies]
+postgres = ["psycopg[binary]>=3.2"]
+embeddings = ["torch>=2.2", "transformers>=4.40"]   # the local CLIP / DINOv2 embedders for the example store; the weights must already be in the local cache
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "../layered-engine/src"]
+testpaths = ["tests"]

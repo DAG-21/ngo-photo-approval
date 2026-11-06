@@ -1,0 +1,55 @@
+# Policy profiles. checklist5_legacy reproduces the established interpretation (65 questions, 15 gates, strict scope). layered_proposed_v1
+# is the layered policy. EVERY difference is recorded under overrides / gate_overrides (or on the gate itself) as a policy change; the validation
+# report lists the ones that touch a mandatory requirement. Status says whether the NGO has decided it (TEAM_APPROVED) or it is still a proposal.
+#
+# NGO decisions of 2026-11-02 (rulebook 1.1.0), applied below:
+#   1. Face scope stays STRICT (every visible beneficiary) until the computer-vision layer exists; the narrower scope was withdrawn.
+#   2. A banner is not expected in every photograph, but when present it must be clearly visible AND distinguishable (G009 creases, G017, G018).
+#   3. Animals receiving care count as a relevant subject (G014).
+#   4. A volunteer may look into the camera; a beneficiary may not. No exception for now: all direct gazes by beneficiaries are disapproved (G015).
+#   5. Back views are disallowed (G016); the T2 logo exception is withdrawn.
+version: 1
+profiles:
+  checklist5_legacy:
+    description: "Existing interpretation of checklist5 as run in the trials. Gates alone decide; the quality and publication layers are reported but do not decide."
+    unknown_is_fail: true
+    enabled_approval_statuses: [CLIENT_APPROVED, TEAM_APPROVED]
+    beneficiary_scope: ALL_VISIBLE_BENEFICIARIES
+    upload_policy: {require_photo: false, require_single: false}
+    quality: {affects_decision: false}
+    publication: {affects_decision: false}
+    guidance:
+      - "Normal positioning (T1): primary people should generally be captured from the front or side, not predominantly from behind."
+      - "A volunteer looking straight into the camera is not a violation. A beneficiary looking straight into the camera is."
+    overrides: {}
+    gate_overrides: {}
+  layered_proposed_v1:
+    description: "Layered policy: the NGO's decisions of 2026-11-02 plus the remaining proposals (G001 components, G010/G011 soft, G012 applicability, EXC_MEDICAL_PPE)."
+    unknown_is_fail: true
+    enabled_approval_statuses: [CLIENT_APPROVED, TEAM_APPROVED, PROPOSED, PENDING_CONFIRMATION]
+    beneficiary_scope: ALL_VISIBLE_BENEFICIARIES
+    upload_policy: {require_photo: false, require_single: false}
+    quality: {affects_decision: true}
+    publication: {affects_decision: true}
+    guidance:
+      - "Photographs must be taken from the FRONT or SIDE of the people. A volunteer or a beneficiary shown mainly from behind (back towards the camera) is a violation. There is NO exception for a logo on the back."
+      - "A volunteer looking straight into the camera is NOT a violation. A beneficiary looking straight into the camera IS a violation, with no exception for now."
+      - "Banners are not expected in every photograph. When a banner IS present it must be clearly visible and clearly distinguishable from its surroundings."
+      - "An animal receiving care counts as a relevant subject of the photograph."
+    gate_overrides:
+      G001:
+        components: [G001_ACTIVITY_VISIBLE, G001_BENEFICIARIES_VISIBLE, G001_INTERACTION_VISIBLE, G001_NOTHING_HIDDEN]
+        policy_change: {kind: SPLIT_INTO_COMPONENTS, affects_mandatory: false, status: PROPOSED, reason: "G1 asks four things at once; the parent gate passes only when every applicable component passes."}
+    overrides:
+      R006_COVERAGE:
+        decision_effect: SOFT_SCORE
+        policy_change: {kind: GATE_TO_SOFT, affects_mandatory: true, status: PROPOSED, reason: "G10 moved to Layer 3 soft grading; the legacy profile keeps the hard gate."}
+      R006_ZOOMED_OUT:
+        decision_effect: SOFT_SCORE
+        policy_change: {kind: GATE_TO_SOFT, affects_mandatory: true, status: PROPOSED, reason: "G11 moved to Layer 3 soft grading; the legacy profile keeps the hard gate."}
+      R015_BEN_RECEIVING:
+        applicability: beneficiary_receiving_expected_proposed
+        policy_change: {kind: APPLICABILITY_NARROWED, affects_mandatory: true, status: PROPOSED, reason: "G12: a handover is required only in distribution activities, not in education, healthcare, animal care or community service."}
+      R015_PERSON_PRESENT:
+        description_operational: "Is at least one relevant subject visible: a beneficiary, a volunteer, or an animal receiving care?"
+        policy_change: {kind: SCOPE_WIDENED, affects_mandatory: true, status: TEAM_APPROVED, reason: "G14: an animal receiving care counts as a subject (NGO decision 2026-11-02, item 3)."}

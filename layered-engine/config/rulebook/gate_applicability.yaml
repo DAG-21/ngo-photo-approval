@@ -1,0 +1,36 @@
+# Named applicability conditions. A criterion points at one of these by name. The conditions are evaluated in Python against the Layer-1
+# scene facts and the supplied metadata; Gemini's own view of what applies is advisory only.
+# Three-valued: true / false / unknown (None). An UNKNOWN condition is treated as "applicable", so an unclear scene can never switch a
+# gate off. Leaves: {const}, {fact: key, is: V}, {fact: key, in: [..]}, {metadata: key, is: V}, {ref: name}; combinators: all / any / not.
+version: 1
+conditions:
+  always: {const: true}
+  beneficiaries_visible: {fact: f_beneficiaries, is: "YES"}
+  volunteers_visible: {fact: f_volunteers, is: "YES"}
+  people_visible:
+    any: [{fact: f_beneficiaries, is: "YES"}, {fact: f_volunteers, is: "YES"}]
+  volunteers_and_beneficiaries:
+    all: [{fact: f_beneficiaries, is: "YES"}, {fact: f_volunteers, is: "YES"}]
+  banner_present: {fact: f_banner, is: "YES"}
+  banner_prominent:
+    all: [{fact: f_banner, is: "YES"}, {fact: f_banner_prominent, is: "YES"}]
+  item_given: {fact: f_item_given, is: "YES"}
+  handover_visible: {fact: f_handover, is: "YES"}
+  volunteer_giving: {fact: f_volunteer_giver, is: "YES"}
+  animals_receiving_care: {fact: f_animals, is: "YES"}
+  medical_scene: {fact: f_medical, is: "YES"}
+  distribution_activity: {fact: f_activity_type, in: [FOOD_DISTRIBUTION, DONATION_DISTRIBUTION]}
+  # legacy: every visible beneficiary must be receiving something (the team's original gate).
+  # proposed: only distribution-type activities expect a physical handover (education, healthcare, animal care... do not).
+  beneficiary_receiving_expected_proposed:
+    all: [{ref: beneficiaries_visible}, {ref: distribution_activity}]
+  volunteer_from_behind:
+    all: [{fact: f_volunteers, is: "YES"}, {fact: f_orientation, in: [BACK, MIXED]}]
+  # v2 (PROPOSED_PENDING_NGO_APPROVAL): a handover is expected in distribution activities AND wherever an item is visibly being handed over
+  # (a book or medicine handover is classed under education or healthcare, but is still a handover). Still not education talks, animal care...
+  beneficiary_receiving_expected_v2:
+    all:
+      - {ref: beneficiaries_visible}
+      - any:
+          - {ref: distribution_activity}
+          - all: [{ref: item_given}, {ref: handover_visible}]

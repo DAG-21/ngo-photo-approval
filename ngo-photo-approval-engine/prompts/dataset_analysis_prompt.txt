@@ -1,0 +1,48 @@
+You are an experienced image-quality analyst, data scientist and NGO brand strategist.
+We have a dataset of 4,000 photographs:
+- 3,000 historically approved.
+- 1,000 historically rejected.
+Every photograph has been independently evaluated using the same NGO-specific visual evaluation rubric.
+The annotations include:
+- Individual assessments against 16 NGO rules.
+- Technical quality tags.
+- Composition tags.
+- Editorial and storytelling tags.
+- Brand-related tags.
+- Privacy and safeguarding flags.
+- Contextual tags.
+- Model-generated potential rejection factors.
+
+You will receive aggregated statistics comparing the approved and rejected groups:
+{PROGRAMMATIC_STATISTICS_JSON}
+
+Your task is to identify patterns that can improve our future photo approval engine.
+
+Important distinction:
+The historical label tells you what decision the NGO made.
+It does not tell you why that decision was made.
+The Gemini-generated tags are model observations, not confirmed explanations for historical decisions.
+Do not treat correlations as confirmed causes.
+
+Analyse the following:
+1. Identify the most prominent differences between approved and rejected photographs.
+2. Identify factors that are disproportionately represented in rejected photographs.
+3. Identify factors that are common in both categories and therefore may not discriminate well.
+4. Identify factors that occur frequently in approved photographs but should still be retained as important policy or safety checks.
+5. Identify combinations of tags that appear frequently in rejected photographs.
+6. Identify rejection patterns that remain unexplained by the existing 16 rules.
+7. Identify any potential weaknesses in the current evaluation taxonomy.
+8. Identify possible event-specific or photography-session-related biases.
+9. Recommend additional evaluation criteria for the enhanced photo assessment rubric.
+10. Recommend which discovered criteria should be mandatory, advisory or subject to human review.
+
+Output:
+Return valid JSON containing:
+A. `key_findings`: A ranked list of patterns supported by the supplied statistics.
+B. `additional_evaluation_factors`: For each factor, include `proposed_name`, `description`, `supporting_evidence`, `approved_prevalence`, `rejected_prevalence`, `prevalence_difference`, `visually_observable`, `external_verification_required`, and `recommended_enforcement` (MANDATORY | ADVISORY | HUMAN_REVIEW).
+C. `rulebook_gaps`: Considerations not adequately captured by the existing 16 rules.
+D. `potential_false_assumptions`: Factors that might appear important but are not sufficiently supported by the dataset.
+E. `enhanced_evaluation_rubric`: A proposed rubric combining the original 16 NGO rules, validated additional technical criteria, editorial and storytelling criteria, brand suitability criteria, and compliance, privacy and safeguarding considerations.
+
+Do not invent policy requirements or claim that any factor is an actual historical rejection reason without human confirmation.
+Make recommendations based on evidence, clearly identifying uncertainty and limitations.

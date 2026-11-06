@@ -1,0 +1,214 @@
+{
+  "properties": {
+    "activity_description": {
+      "type": "string"
+    },
+    "scene_facts": {
+      "description": "Layer-1 facts. All fields are required: an omitted fact is an error, never a silent default.",
+      "properties": {
+        "f_photo": {
+          "enum": [
+            "YES",
+            "NO",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "f_single": {
+          "enum": [
+            "YES",
+            "NO",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "f_volunteers": {
+          "enum": [
+            "YES",
+            "NO",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "f_banner": {
+          "enum": [
+            "YES",
+            "NO",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "f_banner_prominent": {
+          "enum": [
+            "YES",
+            "NO",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "f_beneficiaries": {
+          "enum": [
+            "YES",
+            "NO",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "f_animals": {
+          "enum": [
+            "YES",
+            "NO",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "f_item_given": {
+          "enum": [
+            "YES",
+            "NO",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "f_handover": {
+          "enum": [
+            "YES",
+            "NO",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "f_volunteer_giver": {
+          "enum": [
+            "YES",
+            "NO",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "f_logo": {
+          "enum": [
+            "YES",
+            "NO",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "f_medical": {
+          "enum": [
+            "YES",
+            "NO",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "f_orientation": {
+          "enum": [
+            "FRONT",
+            "SIDE",
+            "BACK",
+            "MIXED",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "f_group": {
+          "enum": [
+            "SINGLE",
+            "GROUP",
+            "CROWD",
+            "UNKNOWN"
+          ],
+          "type": "string"
+        },
+        "f_activity_type": {
+          "type": "string",
+          "enum": [
+            "FOOD_DISTRIBUTION",
+            "EDUCATION_SUPPORT",
+            "HEALTHCARE_ASSISTANCE",
+            "ANIMAL_CARE",
+            "COMMUNITY_SERVICE",
+            "DONATION_DISTRIBUTION",
+            "AWARENESS_CAMPAIGN",
+            "EVENT_OR_GROUP",
+            "BENEFICIARY_PORTRAIT",
+            "VOLUNTEER_PORTRAIT",
+            "OTHER"
+          ]
+        }
+      },
+      "required": [
+        "f_photo",
+        "f_single",
+        "f_volunteers",
+        "f_banner",
+        "f_banner_prominent",
+        "f_beneficiaries",
+        "f_animals",
+        "f_item_given",
+        "f_handover",
+        "f_volunteer_giver",
+        "f_logo",
+        "f_medical",
+        "f_orientation",
+        "f_group",
+        "f_activity_type"
+      ],
+      "type": "object"
+    },
+    "subjects": {
+      "items": {
+        "properties": {
+          "ref": {
+            "type": "string"
+          },
+          "category": {
+            "enum": [
+              "VOLUNTEER",
+              "BENEFICIARY",
+              "ANIMAL",
+              "OTHER"
+            ],
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "PRIMARY",
+              "SECONDARY",
+              "INCIDENTAL"
+            ],
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ref",
+          "category",
+          "role"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "candidate_applicable_rule_groups": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "uncertainties": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "activity_description",
+    "scene_facts"
+  ],
+  "type": "object"
+}

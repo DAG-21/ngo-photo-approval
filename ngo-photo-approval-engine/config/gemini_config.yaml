@@ -1,0 +1,31 @@
+# Gemini Vision API Configuration
+api_key_env_var: "GEMINI_API_KEY"
+model_name: "gemini-2.5-flash"
+fallback_model_name: "gemini-2.5-pro"
+
+generation_config:
+  temperature: 0.1
+  top_p: 0.95
+  top_k: 40
+  max_output_tokens: 16384   # includes thinking tokens; 4096 truncated the 16-rule JSON mid-string
+  thinking_budget: 1024      # cap on Gemini 2.5 internal reasoning tokens
+  response_mime_type: "application/json"
+
+concurrency_and_retry:
+  max_concurrent_requests: 5
+  requests_per_minute_limit: 60
+  max_retries: 4
+  initial_backoff_seconds: 2.0
+  backoff_multiplier: 2.0
+  max_backoff_seconds: 30.0
+  request_timeout_seconds: 90
+
+tracking_and_audit:
+  save_raw_responses: true
+  raw_response_dir: "outputs/raw_gemini_responses"
+  log_token_usage: true
+  prompt_versions:
+    image_annotation: "1.1.0"   # 1.1.0: added controlled-value lists (tag severity, evidence_type) and plain-string list rule
+    taxonomy_normalization: "1.0.0"
+    dataset_analysis: "1.0.0"
+    photo_approval: "2.0.0"

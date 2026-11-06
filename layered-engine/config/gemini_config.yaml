@@ -1,0 +1,47 @@
+provider: google
+# gemini-3.8-flash was confirmed available to this API key on 2026-11-02 (a model-list call, no photos sent).
+# The earlier trials used gemini-3.5-flash-lite; change model_id here to compare. Nothing else depends on the name.
+# 2026-11-05: switched to gemini-2.5-flash-lite (owner's decision, to cut cost) with the short answer format and thinking off, exactly as in the 20-photo test
+# (about Rs 0.16 a photograph; 1 false approval in those 20). To go back: model_id gemini-3.8-flash, response_format full, and remove the thinking line.
+model_id: gemini-2.5-flash-lite
+
+generation:
+  temperature: 0.1
+  response_mime_type: application/json
+  max_output_tokens: 16384         # the answer is ~5,500 tokens and the model also "thinks" (~2,700 tokens counted against this limit): 8192 truncated 1 of 10 pilot answers
+  media_resolution: MEDIA_RESOLUTION_HIGH     # small banners, faces and items need detail; the input photo is NOT resized
+  request_timeout_s: 180
+  thinking: {budget: 0}            # 2.5 models: thinking off, as tested. (Gemini 3.5+ take a level instead.)
+  # thinking: {level: MINIMAL}   # optional. Gemini 3.5+ take a level (MINIMAL, LOW, MEDIUM, HIGH), 2.5 models a budget ({budget: 0} = off). Absent = the model's default.
+  #                              # Thinking is billed as output (about 1,500 tokens a photograph on gemini-3.8-flash), so less is cheaper; measure accuracy first.
+
+evaluation:
+  profile: layered_proposed_v1     # or checklist5_legacy
+  unknown_is_fail: true
+  human_review_enabled: true
+  response_format: compact         # full (as always) or compact: the short answer format (src/layered_engine/compact.py), about a tenth of the output tokens
+
+processing:
+  batch_enabled: true
+  max_concurrent_requests: 5
+  retry_attempts: 3
+  initial_backoff_s: 2.0
+  max_backoff_s: 30.0
+  max_calls_default: 100           # hard stop per run unless --max-calls says otherwise
+
+auth:
+  # Gemini API key only (not Vertex). The key is read from GEMINI_API_KEY and never logged.
+  api_key_env: GEMINI_API_KEY
+  # Photos of beneficiaries leave the machine, so a second explicit switch is required (same convention as the main project).
+  authorization_env: NGO_ALLOW_CLOUD_INFERENCE
+
+cost:
+  # USD per million tokens, standard paid tier, from Google's price list (aistudio.google.com/docs/pricing, read 2026-11-04). Thinking is billed as output.
+  # gemini-3.8-flash doubles on 2027-01-01 (to 1.50 / 7.50). The cached-input rates are third-party figures, not confirmed on Google's page.
+  per_model:
+    gemini-3.8-flash: {input: 0.75, output: 3.75, cached_input: 0.075}
+    gemini-3.5-flash-lite: {input: 0.30, output: 2.50, cached_input: 0.03}
+    gemini-2.5-flash-lite: {input: 0.10, output: 0.40}
+  # used only for a model missing from the table above (the old Flash-Lite placeholder)
+  input_per_million_usd: 0.30
+  output_per_million_usd: 2.50

@@ -1,0 +1,247 @@
+{
+  "type": "object",
+  "properties": {
+    "activity_communication": {
+      "properties": {
+        "applicable": {
+          "type": "boolean"
+        },
+        "score": {
+          "maximum": 4,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "positive_observations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "negative_observations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "technical_quality": {
+      "properties": {
+        "applicable": {
+          "type": "boolean"
+        },
+        "score": {
+          "maximum": 4,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "positive_observations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "negative_observations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "composition": {
+      "properties": {
+        "applicable": {
+          "type": "boolean"
+        },
+        "score": {
+          "maximum": 4,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "positive_observations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "negative_observations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "naturalness_storytelling": {
+      "properties": {
+        "applicable": {
+          "type": "boolean"
+        },
+        "score": {
+          "maximum": 4,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "positive_observations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "negative_observations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "brand_presentation": {
+      "properties": {
+        "applicable": {
+          "type": "boolean"
+        },
+        "score": {
+          "maximum": 4,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "positive_observations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "negative_observations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "visual_polish": {
+      "properties": {
+        "applicable": {
+          "type": "boolean"
+        },
+        "score": {
+          "maximum": 4,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "positive_observations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "negative_observations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "required": [
+    "activity_communication",
+    "technical_quality",
+    "composition",
+    "naturalness_storytelling",
+    "brand_presentation",
+    "visual_polish"
+  ]
+}

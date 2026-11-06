@@ -1,0 +1,39 @@
+# Secrets
+.env
+*.pem
+*.key
+*service-account*.json
+*credentials*.json
+
+# Client data: never commit images, annotations of images, or derived client records
+data/raw/
+data/manifests/
+data/splits/
+data/tuning/
+data/results/
+data/annotations/rule_annotations.csv
+data/derived/
+data/cache/
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.mp4
+
+# Model artifacts / reports / run state
+artifacts/probability_model/*
+artifacts/calibration/*
+artifacts/reports/*
+!artifacts/**/.gitkeep
+runs/
+
+# Python
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Excel tagging sheets contain thumbnails of client photos and the tags about them
+data/annotations/*.xlsx
+data/annotations/disapproval_*.csv

@@ -1,0 +1,36 @@
+provider: google
+# gemini-3.8-flash was confirmed available to this API key on 2026-11-02 (a model-list call, no photos sent).
+# The earlier trials used gemini-3.5-flash-lite; change model_id here to compare. Nothing else depends on the name.
+model_id: gemini-3.8-flash
+
+generation:
+  temperature: 0.1
+  response_mime_type: application/json
+  max_output_tokens: 16384         # the answer is ~5,500 tokens and the model also "thinks" (~2,700 tokens counted against this limit): 8192 truncated 1 of 10 pilot answers
+  media_resolution: MEDIA_RESOLUTION_HIGH     # small banners, faces and items need detail; the input photo is NOT resized
+  request_timeout_s: 180
+
+evaluation:
+  profile: layered_proposed_v1     # or checklist5_legacy
+  unknown_is_fail: true
+  human_review_enabled: true
+
+processing:
+  batch_enabled: true
+  max_concurrent_requests: 5
+  retry_attempts: 3
+  initial_backoff_s: 2.0
+  max_backoff_s: 30.0
+  max_calls_default: 100           # hard stop per run unless --max-calls says otherwise
+
+auth:
+  # Gemini API key only (not Vertex). The key is read from GEMINI_API_KEY and never logged.
+  api_key_env: GEMINI_API_KEY
+  # Photos of beneficiaries leave the machine, so a second explicit switch is required (same convention as the main project).
+  authorization_env: NGO_ALLOW_CLOUD_INFERENCE
+
+cost:
+  # Unofficial figures from an earlier search-result summary (USD per million tokens). Replace with the official price list.
+  # The price of gemini-3.8-flash is NOT known; these were quoted for Flash-Lite and are only a placeholder.
+  input_per_million_usd: 0.30
+  output_per_million_usd: 2.50

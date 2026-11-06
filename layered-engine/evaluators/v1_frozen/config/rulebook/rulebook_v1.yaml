@@ -1,0 +1,3049 @@
+# Master rulebook. Every criterion has a source, a parent rule, a layer, a decision effect and an approval status.
+# Bootstrapped by scripts/build_rulebook.py; edit by hand afterwards and record changes in RULEBOOK_CHANGELOG.md.
+rulebook_version: 1.1.0
+client_rules_file: rule_sources.yaml
+legacy_question_count: 65
+legacy_gate_count: 15
+unknown_is_fail: true
+criteria:
+- criterion_id: F_PHOTO
+  source: TEAM
+  origin: TAGGERS
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is this a real photograph of an activity (not a bill, invoice, document, spreadsheet or screenshot)?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: null
+  legacy_id: F_PHOTO
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: F_SINGLE
+  source: TEAM
+  origin: TAGGERS
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is it a single photograph (not several photos combined into one collage)?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: null
+  legacy_id: F_SINGLE
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: F_VOLUNTEERS
+  source: TEAM
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is at least one volunteer visible?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: null
+  legacy_id: F_VOLUNTEERS
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: F_BANNER
+  source: TEAM
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is a banner present in the photo?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: null
+  legacy_id: F_BANNER
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R003_FACE
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R003
+  gate_id: G004
+  description_original: Ensure the beneficiary’s face and expressions are clearly visible, wherever appropriate. Avoid obstructed faces and awkward
+    cropping.
+  description_operational: Is EVERY beneficiary's face clearly visible with the expression readable (none turned away, hidden, covered, in shadow
+    or too small)? (Answer NO if even one beneficiary's face is not clear.)
+  na_condition_text: no beneficiary is visible
+  layer: 2
+  decision_effect: GATE
+  priority: 20
+  applicability: beneficiaries_visible
+  evidence_required: true
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R003_FACE
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R003_CLEAR
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R003
+  gate_id: G005
+  description_original: Ensure the beneficiary’s face and expressions are clearly visible, wherever appropriate. Avoid obstructed faces and awkward
+    cropping.
+  description_operational: Is every beneficiary's face completely free from obstruction (not covered by objects, hands, hair, a hat, a mask or
+    other people)?
+  na_condition_text: no beneficiary is visible
+  layer: 2
+  decision_effect: GATE
+  priority: 20
+  applicability: beneficiaries_visible
+  evidence_required: true
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R003_CLEAR
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R003_CROP
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R003
+  gate_id: null
+  description_original: Ensure the beneficiary’s face and expressions are clearly visible, wherever appropriate. Avoid obstructed faces and awkward
+    cropping.
+  description_operational: Is every beneficiary fully inside the frame, with no face or body cut off by the frame edge?
+  na_condition_text: no beneficiary is visible
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: beneficiaries_visible
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: activity_communication
+  legacy_id: R003_CROP
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R003_FACE_SHARP
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R003
+  gate_id: G006
+  description_original: null
+  description_operational: Is every beneficiary's face sharp and in focus (not blurred by motion or poor focus)?
+  na_condition_text: no beneficiary is visible
+  layer: 2
+  decision_effect: GATE
+  priority: 21
+  applicability: beneficiaries_visible
+  evidence_required: true
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R003_FACE_SHARP
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R003_FACE_SIZE
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R003
+  gate_id: G007
+  description_original: null
+  description_operational: Is every beneficiary's face large enough in the frame for the expression to be read clearly?
+  na_condition_text: no beneficiary is visible
+  layer: 2
+  decision_effect: GATE
+  priority: 21
+  applicability: beneficiaries_visible
+  evidence_required: true
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R003_FACE_SIZE
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R001_VISIBLE
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R001
+  gate_id: null
+  description_original: If a banner is present, ensure it is clearly visible, properly positioned, straight and free from folds, crumpling or
+    creases.
+  description_operational: Is the banner clearly visible (fully in the frame, readable, not hidden behind people or objects)?
+  na_condition_text: no banner is present
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: banner_present
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: brand_presentation
+  legacy_id: R001_VISIBLE
+  model_na_allowed: false
+  exceptions: &id001 []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R001_POSITION
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R001
+  gate_id: null
+  description_original: If a banner is present, ensure it is clearly visible, properly positioned, straight and free from folds, crumpling or
+    creases.
+  description_operational: Is the banner properly positioned within the frame (not awkwardly placed or cut off by the frame edge)?
+  na_condition_text: no banner is present
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: banner_present
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: brand_presentation
+  legacy_id: R001_POSITION
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R001_STRAIGHT
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R001
+  gate_id: null
+  description_original: If a banner is present, ensure it is clearly visible, properly positioned, straight and free from folds, crumpling or
+    creases.
+  description_operational: Is the banner straight (not tilted or crooked)?
+  na_condition_text: no banner is present
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: banner_present
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: brand_presentation
+  legacy_id: R001_STRAIGHT
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R001_FLAT
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R001
+  gate_id: G009
+  description_original: If a banner is present, ensure it is clearly visible, properly positioned, straight and free from folds, crumpling or
+    creases.
+  description_operational: Is the banner free from clearly visible heavy folds, deep creases or badly crumpled areas that a viewer would notice
+    at first glance? (Answer NO only when such folds or creases are clearly visible. Slight waviness or soft ripples are fine.)
+  na_condition_text: no banner is present
+  layer: 2
+  decision_effect: GATE
+  priority: 30
+  applicability: banner_present
+  evidence_required: true
+  approval_status: TEAM_APPROVED
+  dimension: brand_presentation
+  legacy_id: R001_FLAT
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R002_WHITE
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R002
+  gate_id: null
+  description_original: Volunteers should wear white-on-white or a white top with jeans. Ensure clothing is neat, clean and presentable.
+  description_operational: Do all the visible volunteers wear white-on-white, or a white top with jeans?
+  na_condition_text: no volunteer is visible
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: volunteers_visible
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: brand_presentation
+  legacy_id: R002_WHITE
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R002_NEAT
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R002
+  gate_id: null
+  description_original: Volunteers should wear white-on-white or a white top with jeans. Ensure clothing is neat, clean and presentable.
+  description_operational: Is the volunteers' clothing neat, clean and presentable?
+  na_condition_text: no volunteer is visible
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: volunteers_visible
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: brand_presentation
+  legacy_id: R002_NEAT
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R002_GIVER_WHITE
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R002
+  gate_id: G013
+  description_original: null
+  description_operational: Is every volunteer who is giving something to a beneficiary wearing a white top?
+  na_condition_text: no volunteer is giving something to a beneficiary
+  layer: 2
+  decision_effect: GATE
+  priority: 60
+  applicability: volunteer_giving
+  evidence_required: true
+  approval_status: TEAM_APPROVED
+  dimension: brand_presentation
+  legacy_id: R002_GIVER_WHITE
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R004_BEN_GAZE
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R004
+  gate_id: G015
+  description_original: Capture genuine expressions and interactions. Beneficiaries and volunteers should not look straight into the camera unless
+    a specific photograph requires it.
+  description_operational: Are the beneficiaries NOT looking straight into the camera?
+  na_condition_text: no beneficiary is visible
+  layer: 2
+  decision_effect: GATE
+  priority: 70
+  applicability: beneficiaries_visible
+  evidence_required: true
+  approval_status: TEAM_APPROVED
+  dimension: naturalness_storytelling
+  legacy_id: R004_BEN_GAZE
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R004_GENUINE
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R004
+  gate_id: null
+  description_original: Capture genuine expressions and interactions. Beneficiaries and volunteers should not look straight into the camera unless
+    a specific photograph requires it.
+  description_operational: Do the expressions and interactions look genuine?
+  na_condition_text: no people are visible
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: people_visible
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: naturalness_storytelling
+  legacy_id: R004_GENUINE
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R005_CANDID
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R005
+  gate_id: null
+  description_original: Prioritise candid moments that capture compassion, kindness, shots that show genuine interaction with beneficiaries rather
+    than staged or overly posed photographs.
+  description_operational: Is it a candid moment (not staged or overly posed)?
+  na_condition_text: no people are visible
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: people_visible
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: naturalness_storytelling
+  legacy_id: R005_CANDID
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R005_INTERACT
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R005
+  gate_id: null
+  description_original: Prioritise candid moments that capture compassion, kindness, shots that show genuine interaction with beneficiaries rather
+    than staged or overly posed photographs.
+  description_operational: Does it show genuine interaction between volunteers and beneficiaries?
+  na_condition_text: no people are visible
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: people_visible
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: naturalness_storytelling
+  legacy_id: R005_INTERACT
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R006_IDENTIFY
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R006
+  gate_id: null
+  description_original: Clearly showcase the activity being performed, whether food distribution, education support, healthcare assistance, animal
+    care or another seva initiative.
+  description_operational: Can you tell which seva activity is being performed (for example food distribution, education support, healthcare assistance,
+    animal care)?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: activity_communication
+  legacy_id: R006_IDENTIFY
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R006_ITEM_SHARP
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R006
+  gate_id: G003
+  description_original: null
+  description_operational: If something is being given to a beneficiary (food, a plate, a packet, medicine, a book), is that item sharp and in
+    focus, with its details clearly visible?
+  na_condition_text: nothing is being given to anyone in the photo
+  layer: 2
+  decision_effect: GATE
+  priority: 50
+  applicability: item_given
+  evidence_required: true
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R006_ITEM_SHARP
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R006_HANDOVER
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R006
+  gate_id: null
+  description_original: null
+  description_operational: Is the moment of giving (the volunteer's hands and the beneficiary receiving) clearly visible?
+  na_condition_text: nothing is being given to anyone in the photo
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: item_given
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R006_HANDOVER
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R006_ACTION
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R006
+  gate_id: null
+  description_original: Clearly showcase the activity being performed, whether food distribution, education support, healthcare assistance, animal
+    care or another seva initiative.
+  description_operational: Is the activity actually being carried out in the photo (not just people standing, posing or waiting)?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: activity_communication
+  legacy_id: R006_ACTION
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R006_COVERAGE
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R006
+  gate_id: G010
+  description_original: null
+  description_operational: Does the activity (the people involved and the item being given) fill at least about one third of the frame? (Answer
+    NO if it is a small part of a wide scene.)
+  na_condition_text: null
+  layer: 2
+  decision_effect: GATE
+  priority: 40
+  applicability: always
+  evidence_required: true
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R006_COVERAGE
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R006_ZOOMED_OUT
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R006
+  gate_id: G011
+  description_original: null
+  description_operational: Was the photo taken close enough that the activity is the main part of the picture and its details can be seen (not
+    a wide, far-away shot)?
+  na_condition_text: null
+  layer: 2
+  decision_effect: GATE
+  priority: 40
+  applicability: always
+  evidence_required: true
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R006_ZOOMED_OUT
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R006_SIZE
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R006
+  gate_id: null
+  description_original: null
+  description_operational: Are the main people large enough in the frame for their faces and actions to be seen clearly?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R006_SIZE
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R006_VOLUNTEER_DOING
+  source: TEAM
+  origin: TAGGERS
+  parent_rule_id: R006
+  gate_id: null
+  description_original: null
+  description_operational: Is at least one volunteer visibly carrying out the activity?
+  na_condition_text: the activity needs no volunteer in view (for example an animal-feeding scene)
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R006_VOLUNTEER_DOING
+  model_na_allowed: true
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R007_ANGLE
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R007
+  gate_id: G001
+  description_original: Choose an appropriate angle that captures the activity, beneficiary and volunteer interaction clearly. Avoid awkward perspectives,
+    tilted frames and angles that obstruct the subject.
+  description_operational: 'Is the camera angle clearly right for this scene: it shows the activity, the beneficiaries'' faces and the volunteer-beneficiary
+    interaction at the same time? (Answer NO if the angle hides any of these.)'
+  na_condition_text: null
+  layer: 2
+  decision_effect: GATE
+  priority: 10
+  applicability: always
+  evidence_required: true
+  approval_status: TEAM_APPROVED
+  dimension: composition
+  legacy_id: R007_ANGLE
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R007_FACES_SEEN
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R007
+  gate_id: G002
+  description_original: null
+  description_operational: From this camera position, can the beneficiaries' faces be seen clearly (the angle does not hide them)?
+  na_condition_text: no beneficiary is visible
+  layer: 2
+  decision_effect: GATE
+  priority: 10
+  applicability: beneficiaries_visible
+  evidence_required: true
+  approval_status: TEAM_APPROVED
+  dimension: composition
+  legacy_id: R007_FACES_SEEN
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R007_LEVEL
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R007
+  gate_id: null
+  description_original: Choose an appropriate angle that captures the activity, beneficiary and volunteer interaction clearly. Avoid awkward perspectives,
+    tilted frames and angles that obstruct the subject.
+  description_operational: Is the frame level (not tilted)?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: composition
+  legacy_id: R007_LEVEL
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R007_PERSPECTIVE
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R007
+  gate_id: null
+  description_original: Choose an appropriate angle that captures the activity, beneficiary and volunteer interaction clearly. Avoid awkward perspectives,
+    tilted frames and angles that obstruct the subject.
+  description_operational: Is the perspective natural (no awkward very high, very low or distorted viewpoint)?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: composition
+  legacy_id: R007_PERSPECTIVE
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R007_UNOBSTRUCTED
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R007
+  gate_id: null
+  description_original: Choose an appropriate angle that captures the activity, beneficiary and volunteer interaction clearly. Avoid awkward perspectives,
+    tilted frames and angles that obstruct the subject.
+  description_operational: Is the main subject free from obstruction by people or objects in front of it?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: composition
+  legacy_id: R007_UNOBSTRUCTED
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R007_HEIGHT
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R007
+  gate_id: null
+  description_original: Choose an appropriate angle that captures the activity, beneficiary and volunteer interaction clearly. Avoid awkward perspectives,
+    tilted frames and angles that obstruct the subject.
+  description_operational: Is the camera at a natural height (roughly eye level), not looking down on the tops of heads and not looking up from
+    below?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: composition
+  legacy_id: R007_HEIGHT
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R007_VERTICALS
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R007
+  gate_id: null
+  description_original: Choose an appropriate angle that captures the activity, beneficiary and volunteer interaction clearly. Avoid awkward perspectives,
+    tilted frames and angles that obstruct the subject.
+  description_operational: Do upright things in the scene (walls, poles, doors, banners' stands) look upright, not leaning?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: composition
+  legacy_id: R007_VERTICALS
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R007_DISTORTION
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R007
+  gate_id: null
+  description_original: Choose an appropriate angle that captures the activity, beneficiary and volunteer interaction clearly. Avoid awkward perspectives,
+    tilted frames and angles that obstruct the subject.
+  description_operational: Is the photo free from obvious wide-angle distortion (stretched or bent faces, bowed edges)?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: composition
+  legacy_id: R007_DISTORTION
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R007_FOREGROUND
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R007
+  gate_id: null
+  description_original: Choose an appropriate angle that captures the activity, beneficiary and volunteer interaction clearly. Avoid awkward perspectives,
+    tilted frames and angles that obstruct the subject.
+  description_operational: Is the foreground free from heads, shoulders, arms or objects that block the view of the activity?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: composition
+  legacy_id: R007_FOREGROUND
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R007_INTERACTION_VIEW
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R007
+  gate_id: null
+  description_original: Choose an appropriate angle that captures the activity, beneficiary and volunteer interaction clearly. Avoid awkward perspectives,
+    tilted frames and angles that obstruct the subject.
+  description_operational: Is the camera placed so that the volunteer-and-beneficiary interaction can be seen (not from behind one of them)?
+  na_condition_text: no volunteer or no beneficiary is visible
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: volunteers_and_beneficiaries
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: composition
+  legacy_id: R007_INTERACTION_VIEW
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R007_CUTOFF
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R007
+  gate_id: null
+  description_original: null
+  description_operational: Is everything important fully inside the frame (no key person, hands or objects cut off at the edges)?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: composition
+  legacy_id: R007_CUTOFF
+  model_na_allowed: true
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R007_PLACEMENT
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R007
+  gate_id: null
+  description_original: null
+  description_operational: Is the main subject sensibly placed in the frame (not squeezed into a corner or edge)?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: composition
+  legacy_id: R007_PLACEMENT
+  model_na_allowed: true
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R007_ORIENTATION
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R007
+  gate_id: null
+  description_original: null
+  description_operational: Is the photo the right way up (not rotated or sideways)?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: composition
+  legacy_id: R007_ORIENTATION
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R008_BACK
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R008
+  gate_id: null
+  description_original: Avoid photographs in which the volunteer’s back is prominently visible. Prefer front or side angles that highlight the
+    volunteer’s involvement in the activity.
+  description_operational: Is each volunteer shown from the front or side, with no volunteer's back prominently towards the camera?
+  na_condition_text: no volunteer is visible
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: volunteers_visible
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: composition
+  legacy_id: R008_BACK
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: T_FRONT
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R008
+  gate_id: null
+  description_original: null
+  description_operational: Are the main people in the frame seen from the front or side, rather than mainly from behind?
+  na_condition_text: no people are visible
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: people_visible
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: composition
+  legacy_id: T_FRONT
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: T_BACK_EXCEPTION
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R008
+  gate_id: null
+  description_original: null
+  description_operational: 'Where volunteers are seen from behind: are they wearing the dress code, is the NGO''s logo and name visible on the
+    back of their clothing, AND are the beneficiaries clearly visible?'
+  na_condition_text: no volunteer is seen from behind
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: volunteer_from_behind
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: composition
+  legacy_id: T_BACK_EXCEPTION
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  active_in:
+  - checklist5_legacy
+- criterion_id: R009_LIT
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R009
+  gate_id: null
+  description_original: Ensure subjects are well-lit and clearly visible. Avoid dark, overexposed, harshly backlit or shadow-heavy photographs.
+  description_operational: Are the subjects well-lit and clearly visible?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: technical_quality
+  legacy_id: R009_LIT
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R009_OVEREXPOSED
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R009
+  gate_id: null
+  description_original: Ensure subjects are well-lit and clearly visible. Avoid dark, overexposed, harshly backlit or shadow-heavy photographs.
+  description_operational: Is the photo free from overexposure (washed-out areas, blown-out bright patches, lost detail in the bright parts)?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: technical_quality
+  legacy_id: R009_OVEREXPOSED
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R009_UNDEREXPOSED
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R009
+  gate_id: null
+  description_original: Ensure subjects are well-lit and clearly visible. Avoid dark, overexposed, harshly backlit or shadow-heavy photographs.
+  description_operational: Is the photo free from underexposure (too dark overall, or dark patches where detail is lost)?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: technical_quality
+  legacy_id: R009_UNDEREXPOSED
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R009_PEOPLE_LIT
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R009
+  gate_id: null
+  description_original: null
+  description_operational: Are the people (faces and bodies) as well lit as the rest of the frame, not noticeably darker or shadowed compared
+    with their surroundings?
+  na_condition_text: no people are visible
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: people_visible
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: technical_quality
+  legacy_id: R009_PEOPLE_LIT
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R009_FACE_LIT
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R009
+  gate_id: G008
+  description_original: null
+  description_operational: Is every beneficiary's face well lit (not in shadow, not too dark, not lit from behind)?
+  na_condition_text: no beneficiary is visible
+  layer: 2
+  decision_effect: GATE
+  priority: 21
+  applicability: beneficiaries_visible
+  evidence_required: true
+  approval_status: TEAM_APPROVED
+  dimension: technical_quality
+  legacy_id: R009_FACE_LIT
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R009_DIRECTION
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R009
+  gate_id: null
+  description_original: Ensure subjects are well-lit and clearly visible. Avoid dark, overexposed, harshly backlit or shadow-heavy photographs.
+  description_operational: Is the photo free from harsh backlighting and heavy shadows?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: technical_quality
+  legacy_id: R009_DIRECTION
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R010_SHARP
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R010
+  gate_id: null
+  description_original: Ensure photographs are sharp and in focus. Avoid blurry, grainy or shaky images.
+  description_operational: Is the photograph sharp and in focus?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: technical_quality
+  legacy_id: R010_SHARP
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R010_GRAIN
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R010
+  gate_id: null
+  description_original: Ensure photographs are sharp and in focus. Avoid blurry, grainy or shaky images.
+  description_operational: Is it free from visible grain or noise?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: technical_quality
+  legacy_id: R010_GRAIN
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R010_SHAKE
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R010
+  gate_id: null
+  description_original: Ensure photographs are sharp and in focus. Avoid blurry, grainy or shaky images.
+  description_operational: Is it free from camera shake and motion blur?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: technical_quality
+  legacy_id: R010_SHAKE
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R011_BACKGROUND
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R011
+  gate_id: null
+  description_original: Avoid distracting backgrounds, clutter, scattered materials and unrelated objects that take attention away from the seva.
+  description_operational: Is the background free from distractions that take attention away from the seva?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: visual_polish
+  legacy_id: R011_BACKGROUND
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R011_CLUTTER
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R011
+  gate_id: null
+  description_original: Avoid distracting backgrounds, clutter, scattered materials and unrelated objects that take attention away from the seva.
+  description_operational: Is the scene free from clutter and scattered materials?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: visual_polish
+  legacy_id: R011_CLUTTER
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R011_UNRELATED
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R011
+  gate_id: null
+  description_original: Avoid distracting backgrounds, clutter, scattered materials and unrelated objects that take attention away from the seva.
+  description_operational: Is the frame free from unrelated objects that draw attention?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: visual_polish
+  legacy_id: R011_UNRELATED
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R012_DIGNITY
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R012
+  gate_id: null
+  description_original: Does it maintain the dignity of everyone involved?
+  description_operational: Does the photograph maintain the dignity of everyone involved?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: naturalness_storytelling
+  legacy_id: R012_DIGNITY
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R013_HUMANITY
+  source: CLIENT
+  origin: CLIENT
+  parent_rule_id: R013
+  gate_id: null
+  description_original: Does it reflect the spirit of humanity and compassion?
+  description_operational: Does the photograph reflect the spirit of humanity and compassion?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: CLIENT_APPROVED
+  dimension: naturalness_storytelling
+  legacy_id: R013_HUMANITY
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R015_BEN_PRESENT
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R015
+  gate_id: null
+  description_original: null
+  description_operational: Is at least one beneficiary visible in the photo?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R015_BEN_PRESENT
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R015_PERSON_PRESENT
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R015
+  gate_id: G014
+  description_original: null
+  description_operational: Is at least one beneficiary or at least one volunteer visible in the photo?
+  na_condition_text: null
+  layer: 2
+  decision_effect: GATE
+  priority: 5
+  applicability: always
+  evidence_required: true
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R015_PERSON_PRESENT
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R015_BEN_RECEIVING
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R015
+  gate_id: G012
+  description_original: null
+  description_operational: Is each visible beneficiary receiving something from a volunteer (food, a plate, a packet, medicine, a book or other
+    help), with the volunteer handing or serving it to them?
+  na_condition_text: no beneficiary is visible
+  layer: 2
+  decision_effect: GATE
+  priority: 60
+  applicability: beneficiaries_visible
+  evidence_required: true
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R015_BEN_RECEIVING
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R015_BEN_FRONT
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R015
+  gate_id: null
+  description_original: null
+  description_operational: Is the beneficiary shown from the front or side, not with their back to the camera?
+  na_condition_text: no beneficiary is visible
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: beneficiaries_visible
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R015_BEN_FRONT
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R015_BEN_POSE
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R015
+  gate_id: null
+  description_original: null
+  description_operational: Is the beneficiary's pose natural and engaged with the activity (receiving, eating, talking), not stiffly posing or
+    turned away?
+  na_condition_text: no beneficiary is visible
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: beneficiaries_visible
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R015_BEN_POSE
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R015_BEN_PROMINENT
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R015
+  gate_id: null
+  description_original: null
+  description_operational: Is the beneficiary large enough in the frame, and not hidden among others, to be seen clearly?
+  na_condition_text: no beneficiary is visible
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: beneficiaries_visible
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R015_BEN_PROMINENT
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: R015_BEN_INTERACT
+  source: TEAM
+  origin: TEAM
+  parent_rule_id: R015
+  gate_id: null
+  description_original: null
+  description_operational: Is the beneficiary clearly interacting with a volunteer or with the activity?
+  na_condition_text: no beneficiary is visible
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: beneficiaries_visible
+  evidence_required: false
+  approval_status: TEAM_APPROVED
+  dimension: activity_communication
+  legacy_id: R015_BEN_INTERACT
+  model_na_allowed: false
+  exceptions: []
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+- criterion_id: G001_ACTIVITY_VISIBLE
+  source: TEAM
+  origin: LAYERED_DESIGN
+  parent_rule_id: R007
+  gate_id: null
+  description_original: null
+  description_operational: From the camera position, is the activity itself visible?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: composition
+  legacy_id: null
+  note: G001 component (proposed profile)
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: G001_BENEFICIARIES_VISIBLE
+  source: TEAM
+  origin: LAYERED_DESIGN
+  parent_rule_id: R007
+  gate_id: null
+  description_original: null
+  description_operational: From the camera position, are the relevant primary beneficiaries visible?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: beneficiaries_visible
+  approval_status: PROPOSED
+  dimension: composition
+  legacy_id: null
+  note: G001 component (proposed profile)
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: G001_INTERACTION_VISIBLE
+  source: TEAM
+  origin: LAYERED_DESIGN
+  parent_rule_id: R007
+  gate_id: null
+  description_original: null
+  description_operational: From the camera position, is the volunteer-beneficiary interaction visible where it is part of the activity?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: volunteers_and_beneficiaries
+  approval_status: PROPOSED
+  dimension: composition
+  legacy_id: null
+  note: G001 component (proposed profile)
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: G001_NOTHING_HIDDEN
+  source: TEAM
+  origin: LAYERED_DESIGN
+  parent_rule_id: R007
+  gate_id: null
+  description_original: null
+  description_operational: Is every important scene element free from being hidden by the camera angle?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: composition
+  legacy_id: null
+  note: G001 component (proposed profile)
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: T_BACK_EXC_DRESS
+  source: TEAM
+  origin: LAYERED_DESIGN
+  parent_rule_id: R008
+  gate_id: null
+  description_original: null
+  description_operational: 'Where a volunteer is seen from behind: is that volunteer wearing the required dress code?'
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: volunteer_from_behind
+  approval_status: PROPOSED
+  dimension: composition
+  legacy_id: null
+  note: T2 condition 1
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+  active_in: []
+- criterion_id: T_BACK_EXC_LOGO
+  source: TEAM
+  origin: LAYERED_DESIGN
+  parent_rule_id: R008
+  gate_id: null
+  description_original: null
+  description_operational: 'Where a volunteer is seen from behind: are the NGO logo AND name visible on the back of the clothing?'
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: volunteer_from_behind
+  approval_status: PROPOSED
+  dimension: composition
+  legacy_id: null
+  note: T2 condition 2
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+  active_in: []
+- criterion_id: T_BACK_EXC_BENEFICIARIES
+  source: TEAM
+  origin: LAYERED_DESIGN
+  parent_rule_id: R008
+  gate_id: null
+  description_original: null
+  description_operational: 'Where a volunteer is seen from behind: are the relevant beneficiaries clearly visible?'
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: volunteer_from_behind
+  approval_status: PROPOSED
+  dimension: composition
+  legacy_id: null
+  note: T2 condition 3
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+  active_in: []
+- criterion_id: R003_OBSTRUCTION_PPE_ONLY
+  source: TEAM
+  origin: LAYERED_DESIGN
+  parent_rule_id: R003
+  gate_id: null
+  description_original: null
+  description_operational: If any beneficiary's face is obstructed, is the ONLY obstruction necessary medical protective equipment (mask, face
+    shield)?
+  na_condition_text: null
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: medical_scene
+  approval_status: PROPOSED
+  dimension: activity_communication
+  legacy_id: null
+  note: medical PPE exception
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: F_BENEFICIARIES
+  source: PROPOSED
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Are human beneficiaries visible? (decide from role in the activity only, never from appearance)
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: F_BANNER_PROMINENT
+  source: PROPOSED
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: If a banner is present, is it a prominent or required branding element of the photograph?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: F_ANIMALS
+  source: PROPOSED
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Are animals receiving care or assistance?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: F_ACTIVITY_TYPE
+  source: PROPOSED
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: What type of seva is depicted? (one value from the activity taxonomy)
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: F_ITEM_GIVEN
+  source: PROPOSED
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is a tangible item (food, packet, book, medicine...) being handed over or distributed?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: F_HANDOVER
+  source: PROPOSED
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is a handover or serving interaction visible?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: F_VOLUNTEER_GIVER
+  source: PROPOSED
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is a volunteer actively giving or providing assistance?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: F_ORIENTATION
+  source: PROPOSED
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Are the primary subjects seen from the FRONT, SIDE or BACK (or MIXED)?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: F_LOGO
+  source: PROPOSED
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is the NGO logo or name visible?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: F_MEDICAL
+  source: PROPOSED
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Does the scene depict healthcare or medical activity?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: F_GROUP
+  source: PROPOSED
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is this a single-subject, group or crowd photograph?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: F_PRIMARY_SUBJECTS
+  source: PROPOSED
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Which people, animals or activities are visually central?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: F_SECONDARY_SUBJECTS
+  source: PROPOSED
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Which subjects support the primary activity?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: F_INCIDENTAL_SUBJECTS
+  source: PROPOSED
+  origin: SCENE_FACT
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Which subjects appear incidentally in the background?
+  na_condition_text: null
+  layer: 1
+  decision_effect: FACT
+  priority: 0
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  model_na_allowed: false
+- criterion_id: NEW-001
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: 'Every identifiable subject has the appropriate permission for the intended public use where NGO policy requires it.
+    (needs the consent record: cannot be seen in a photograph)'
+  na_condition_text: null
+  layer: 4
+  decision_effect: EXTERNAL
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: false
+  note: 'metadata: consent_status'
+  model_na_allowed: false
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-002
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is a possible minor identifiable? (record as a flag needing verification; never assert age)
+  na_condition_text: null
+  layer: 4
+  decision_effect: FLAG
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: true
+  note: 'visual flag POSSIBLE_MINOR; metadata: child_safeguarding_status'
+  model_na_allowed: false
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-003
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Does the photograph unintentionally expose confidential information (medical reports, personal ID, phone numbers, addresses,
+    sensitive records)?
+  na_condition_text: null
+  layer: 4
+  decision_effect: FLAG
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: true
+  note: visual flag CONFIDENTIAL_INFORMATION
+  model_na_allowed: false
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-004
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Does the photograph humiliate, degrade, exploit or unnecessarily expose a vulnerable individual?
+  na_condition_text: null
+  layer: 4
+  decision_effect: FLAG
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: true
+  note: visual flag; overlaps R012 (not double counted)
+  model_na_allowed: false
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-005
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is there visible evidence of material manipulation that misrepresents people, activities or outcomes? (routine colour/exposure
+    correction and permitted cropping are fine)
+  na_condition_text: null
+  layer: 4
+  decision_effect: FLAG
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: true
+  note: visual flag MANIPULATION_SUSPECTED
+  model_na_allowed: false
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-006
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: The NGO holds the rights or permissions required to publish the photograph. (needs rights metadata)
+  na_condition_text: null
+  layer: 4
+  decision_effect: EXTERNAL
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: false
+  note: 'metadata: rights_status'
+  model_na_allowed: false
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-007
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Does the photograph create a material foreseeable risk of harm to beneficiaries, volunteers or communities?
+  na_condition_text: null
+  layer: 4
+  decision_effect: FLAG
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: true
+  note: visual flag UNSAFE_ACTIVITY
+  model_na_allowed: false
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-008
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Are critical visual elements free from being accidentally cut off?
+  na_condition_text: null
+  layer: 3
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: composition
+  legacy_id: null
+  asked: true
+  note: overlaps R007_CUTOFF (not double counted)
+  model_na_allowed: true
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-009
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is the primary subject visually distinguishable from the background?
+  na_condition_text: null
+  layer: 3
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: composition
+  legacy_id: null
+  asked: true
+  note: null
+  model_na_allowed: true
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-010
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is important content free from being obscured by glare or reflection?
+  na_condition_text: null
+  layer: 3
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: technical_quality
+  legacy_id: null
+  asked: true
+  note: null
+  model_na_allowed: true
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-011
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Are the colours reasonably natural?
+  na_condition_text: null
+  layer: 3
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: visual_polish
+  legacy_id: null
+  asked: true
+  note: null
+  model_na_allowed: true
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-012
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is the photograph free from severe compression artefacts or pixelation?
+  na_condition_text: null
+  layer: 3
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: technical_quality
+  legacy_id: null
+  asked: true
+  note: null
+  model_na_allowed: true
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-013
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Would important details remain visible at the intended publishing size?
+  na_condition_text: null
+  layer: 3
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: technical_quality
+  legacy_id: null
+  asked: true
+  note: null
+  model_na_allowed: true
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-014
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is the photograph free from unintended watermark, editing marks or camera overlays?
+  na_condition_text: null
+  layer: 3
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: visual_polish
+  legacy_id: null
+  asked: true
+  note: null
+  model_na_allowed: true
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-015
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is the photograph free from an accidental finger, lens or equipment obstruction?
+  na_condition_text: null
+  layer: 3
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: technical_quality
+  legacy_id: null
+  asked: true
+  note: null
+  model_na_allowed: true
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-016
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Where appropriate, does the photograph communicate the purpose or outcome of the activity? (documentary photographs
+    need not)
+  na_condition_text: null
+  layer: 3
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: naturalness_storytelling
+  legacy_id: null
+  asked: true
+  note: null
+  model_na_allowed: true
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-017
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Does it show meaningful participation rather than merely assembled people?
+  na_condition_text: null
+  layer: 3
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: naturalness_storytelling
+  legacy_id: null
+  asked: true
+  note: null
+  model_na_allowed: true
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-018
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Does it represent beneficiaries as participants with agency rather than passive recipients?
+  na_condition_text: null
+  layer: 3
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: naturalness_storytelling
+  legacy_id: null
+  asked: true
+  note: null
+  model_na_allowed: true
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-019
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is the representation respectful and inclusive?
+  na_condition_text: null
+  layer: 3
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: naturalness_storytelling
+  legacy_id: null
+  asked: true
+  note: null
+  model_na_allowed: true
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-020
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Does the photograph have a clear visual focal point?
+  na_condition_text: null
+  layer: 3
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: composition
+  legacy_id: null
+  asked: true
+  note: null
+  model_na_allowed: true
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-021
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is the photograph free from unnecessary dominance of unrelated branding?
+  na_condition_text: null
+  layer: 3
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: brand_presentation
+  legacy_id: null
+  asked: true
+  note: null
+  model_na_allowed: true
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-022
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Can the story be understood without an elaborate caption?
+  na_condition_text: null
+  layer: 3
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: naturalness_storytelling
+  legacy_id: null
+  asked: true
+  note: null
+  model_na_allowed: true
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-023
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: 'Adds a distinct perspective to the batch of photographs. (needs the batch: not implemented)'
+  na_condition_text: null
+  layer: 3
+  decision_effect: BATCH
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: false
+  note: 'future: batch selection'
+  model_na_allowed: false
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: NEW-024
+  source: PROPOSED
+  origin: LAYERED_DESIGN
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Matches its intended communication purpose. (needs the campaign brief)
+  na_condition_text: null
+  layer: 3
+  decision_effect: EXTERNAL
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: false
+  note: 'metadata: campaign_objective'
+  model_na_allowed: false
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+- criterion_id: P001
+  source: PROPOSED
+  origin: PUBLICATION_READINESS
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Matches the intended campaign or communication objective
+  na_condition_text: null
+  layer: 4
+  decision_effect: EXTERNAL
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: false
+  kind: SOFT
+  metadata_key: campaign_objective
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  model_na_allowed: false
+- criterion_id: P002
+  source: PROPOSED
+  origin: PUBLICATION_READINESS
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Not unnecessarily repetitive compared with already selected photographs
+  na_condition_text: null
+  layer: 4
+  decision_effect: BATCH
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: false
+  kind: BATCH
+  metadata_key: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  model_na_allowed: false
+- criterion_id: P003
+  source: PROPOSED
+  origin: PUBLICATION_READINESS
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Is one of the stronger photographs from the event or sequence
+  na_condition_text: null
+  layer: 4
+  decision_effect: BATCH
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: false
+  kind: BATCH
+  metadata_key: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  model_na_allowed: false
+- criterion_id: P004
+  source: PROPOSED
+  origin: PUBLICATION_READINESS
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Has a clear subject suitable for a social media post
+  na_condition_text: null
+  layer: 4
+  decision_effect: SOFT_SCORE
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: true
+  kind: SOFT
+  metadata_key: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  model_na_allowed: false
+- criterion_id: P005
+  source: PROPOSED
+  origin: PUBLICATION_READINESS
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Meets the intended platform resolution and dimensions
+  na_condition_text: null
+  layer: 4
+  decision_effect: TECHNICAL
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: false
+  kind: TECHNICAL
+  metadata_key: platform
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  model_na_allowed: false
+- criterion_id: P006
+  source: PROPOSED
+  origin: PUBLICATION_READINESS
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Platform cropping does not remove essential content
+  na_condition_text: null
+  layer: 4
+  decision_effect: TECHNICAL
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: false
+  kind: PUBLICATION
+  metadata_key: platform
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  model_na_allowed: false
+- criterion_id: P007
+  source: PROPOSED
+  origin: PUBLICATION_READINESS
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Accompanying caption accurately describes the photograph
+  na_condition_text: null
+  layer: 4
+  decision_effect: EXTERNAL
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: false
+  kind: MANDATORY_BEFORE_PUBLISHING
+  metadata_key: caption_status
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  model_na_allowed: false
+- criterion_id: P008
+  source: PROPOSED
+  origin: PUBLICATION_READINESS
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Event details, dates, locations and claims are verified
+  na_condition_text: null
+  layer: 4
+  decision_effect: EXTERNAL
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: false
+  kind: MANDATORY_BEFORE_PUBLISHING_IF_ASSERTED
+  metadata_key: event_details_status
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  model_na_allowed: false
+- criterion_id: P009
+  source: PROPOSED
+  origin: PUBLICATION_READINESS
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Logos and third-party brand elements are used appropriately
+  na_condition_text: null
+  layer: 4
+  decision_effect: FLAG
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: true
+  kind: CONDITIONAL
+  metadata_key: null
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  model_na_allowed: false
+- criterion_id: P010
+  source: PROPOSED
+  origin: PUBLICATION_READINESS
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Appropriate for the intended audience and channel
+  na_condition_text: null
+  layer: 4
+  decision_effect: EXTERNAL
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: false
+  kind: SOFT
+  metadata_key: channel
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  model_na_allowed: false
+- criterion_id: P011
+  source: PROPOSED
+  origin: PUBLICATION_READINESS
+  parent_rule_id: null
+  gate_id: null
+  description_original: null
+  description_operational: Necessary credits and usage rights are documented
+  na_condition_text: null
+  layer: 4
+  decision_effect: EXTERNAL
+  priority: 100
+  applicability: always
+  approval_status: PROPOSED
+  dimension: null
+  legacy_id: null
+  asked: false
+  kind: MANDATORY_BEFORE_PUBLISHING
+  metadata_key: credits_rights_status
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  model_na_allowed: false
+- criterion_id: R014_SUMMARY
+  source: CLIENT
+  origin: CLIENT_SUMMARY
+  parent_rule_id: R014
+  gate_id: null
+  description_original: Is the seva activity clearly visible?
+  description_operational: Summary of other criteria. Never scored separately.
+  na_condition_text: null
+  layer: 3
+  decision_effect: SUMMARY
+  priority: 999
+  applicability: always
+  approval_status: CLIENT_APPROVED
+  dimension: null
+  legacy_id: null
+  asked: false
+  summarises:
+  - R006
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  model_na_allowed: false
+- criterion_id: R015_SUMMARY
+  source: CLIENT
+  origin: CLIENT_SUMMARY
+  parent_rule_id: R015
+  gate_id: null
+  description_original: Are the volunteer and beneficiary captured appropriately?
+  description_operational: Summary of other criteria. Never scored separately.
+  na_condition_text: null
+  layer: 3
+  decision_effect: SUMMARY
+  priority: 999
+  applicability: always
+  approval_status: CLIENT_APPROVED
+  dimension: null
+  legacy_id: null
+  asked: false
+  summarises:
+  - R002
+  - R003
+  - R008
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  model_na_allowed: false
+- criterion_id: R016_SUMMARY
+  source: CLIENT
+  origin: CLIENT_SUMMARY
+  parent_rule_id: R016
+  gate_id: null
+  description_original: Is the photograph natural, well-framed and properly lit?
+  description_operational: Summary of other criteria. Never scored separately.
+  na_condition_text: null
+  layer: 3
+  decision_effect: SUMMARY
+  priority: 999
+  applicability: always
+  approval_status: CLIENT_APPROVED
+  dimension: null
+  legacy_id: null
+  asked: false
+  summarises:
+  - R004
+  - R007
+  - R009
+  - R010
+  exceptions: []
+  evidence_required: false
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  model_na_allowed: false
+- parent_rule_id: R001
+  gate_id: null
+  na_condition_text: no banner is present
+  layer: 2
+  decision_effect: DIAGNOSTIC
+  priority: 100
+  applicability: banner_present
+  evidence_required: true
+  dimension: brand_presentation
+  model_na_allowed: false
+  exceptions: *id001
+  uncertainty_policy: HUMAN_REVIEW
+  version: 1
+  failure_condition: answer == NO
+  asked: true
+  criterion_id: R001_DISTINCT
+  source: TEAM
+  origin: NGO_DECISION_2026_11_02
+  description_original: null
+  legacy_id: null
+  description_operational: 'Is the banner clearly distinguishable from its surroundings: does it stand out from the background, with its text
+    or logo readable and not blending in?'
+  approval_status: TEAM_APPROVED
+  active_in:
+  - layered_proposed_v1
+gates:
+- gate_id: G001
+  criterion_id: R007_ANGLE
+  source: TEAM
+  parent_rule_id: R007
+  instruction: '1'
+  approval_status: TEAM_APPROVED
+  components: []
+- gate_id: G002
+  criterion_id: R007_FACES_SEEN
+  source: TEAM
+  parent_rule_id: R007
+  instruction: '1'
+  approval_status: TEAM_APPROVED
+  components: []
+- gate_id: G003
+  criterion_id: R006_ITEM_SHARP
+  source: TEAM
+  parent_rule_id: R006
+  instruction: '2'
+  approval_status: TEAM_APPROVED
+  components: []
+- gate_id: G004
+  criterion_id: R003_FACE
+  source: TEAM
+  parent_rule_id: R003
+  instruction: '3'
+  approval_status: TEAM_APPROVED
+  components: []
+- gate_id: G005
+  criterion_id: R003_CLEAR
+  source: TEAM
+  parent_rule_id: R003
+  instruction: '3'
+  approval_status: TEAM_APPROVED
+  components: []
+- gate_id: G006
+  criterion_id: R003_FACE_SHARP
+  source: TEAM
+  parent_rule_id: R003
+  instruction: '5'
+  approval_status: TEAM_APPROVED
+  components: []
+- gate_id: G007
+  criterion_id: R003_FACE_SIZE
+  source: TEAM
+  parent_rule_id: R003
+  instruction: '5'
+  approval_status: TEAM_APPROVED
+  components: []
+- gate_id: G008
+  criterion_id: R009_FACE_LIT
+  source: TEAM
+  parent_rule_id: R009
+  instruction: '5'
+  approval_status: TEAM_APPROVED
+  components: []
+- gate_id: G009
+  criterion_id: R001_FLAT
+  source: TEAM
+  parent_rule_id: R001
+  instruction: '4'
+  approval_status: TEAM_APPROVED
+  components: []
+- gate_id: G010
+  criterion_id: R006_COVERAGE
+  source: TEAM
+  parent_rule_id: R006
+  instruction: '6'
+  approval_status: TEAM_APPROVED
+  components: []
+- gate_id: G011
+  criterion_id: R006_ZOOMED_OUT
+  source: TEAM
+  parent_rule_id: R006
+  instruction: '6'
+  approval_status: TEAM_APPROVED
+  components: []
+- gate_id: G012
+  criterion_id: R015_BEN_RECEIVING
+  source: TEAM
+  parent_rule_id: R015
+  instruction: '7'
+  approval_status: TEAM_APPROVED
+  components: []
+- gate_id: G013
+  criterion_id: R002_GIVER_WHITE
+  source: TEAM
+  parent_rule_id: R002
+  instruction: '7'
+  approval_status: TEAM_APPROVED
+  components: []
+- gate_id: G014
+  criterion_id: R015_PERSON_PRESENT
+  source: TEAM
+  parent_rule_id: R015
+  instruction: '8'
+  approval_status: TEAM_APPROVED
+  components: []
+- gate_id: G015
+  criterion_id: R004_BEN_GAZE
+  source: TEAM
+  parent_rule_id: R004
+  instruction: '9'
+  approval_status: TEAM_APPROVED
+  components: []
+- gate_id: G016
+  criterion_id: R008_BACK
+  source: TEAM
+  parent_rule_id: R008
+  instruction: NGO-2026-11-02-5
+  approval_status: TEAM_APPROVED
+  components:
+  - R008_BACK
+  - T_FRONT
+  - R015_BEN_FRONT
+  forced_hard: true
+  active_in:
+  - layered_proposed_v1
+  policy_change:
+    kind: GATE_ADDED
+    affects_mandatory: true
+    status: TEAM_APPROVED
+    reason: 'Back views are disallowed: the photograph must be taken from the front (or side) of the people; no volunteer or beneficiary may be
+      shown mainly from behind. The logo exception (T2) is withdrawn.'
+- gate_id: G017
+  criterion_id: R001_VISIBLE
+  source: TEAM
+  parent_rule_id: R001
+  instruction: NGO-2026-11-02-2
+  approval_status: TEAM_APPROVED
+  components: []
+  forced_hard: true
+  active_in:
+  - layered_proposed_v1
+  policy_change:
+    kind: GATE_ADDED
+    affects_mandatory: true
+    status: TEAM_APPROVED
+    reason: When a banner is present it must be clearly visible. Banners are not expected in every photograph.
+- gate_id: G018
+  criterion_id: R001_DISTINCT
+  source: TEAM
+  parent_rule_id: R001
+  instruction: NGO-2026-11-02-2
+  approval_status: TEAM_APPROVED
+  components: []
+  forced_hard: true
+  active_in:
+  - layered_proposed_v1
+  policy_change:
+    kind: GATE_ADDED
+    affects_mandatory: true
+    status: TEAM_APPROVED
+    reason: When a banner is present it must be clearly distinguishable from its surroundings.

@@ -1,0 +1,67 @@
+# Settings for the holistic-judge trial. This folder only READS the main project (../image-classifier); it never
+# changes it. Everything it writes (examples, pools, runs) stays inside this folder.
+
+# Main project root, relative to this folder. Used read-only for: the split CSVs, the manifest, the
+# resolution-normalized photos, the rules, the CLIP embeddings (example selection) and the cloud authorization flags.
+main_project: ../image-classifier
+
+model:
+  id: gemini-3.5-flash-lite          # the model chosen for this project; gemini-3.5-flash only as a later comparison
+
+generation:
+  temperature: 0.0
+  max_output_tokens: 4096          # the 40-question checklist answer needs ~1,200+; 1,024 cut it off mid-answer in the first pilot
+  media_resolution: MEDIA_RESOLUTION_HIGH
+  request_timeout_s: 120
+
+images:
+  # Photos are the SAME resolution-normalized copies (long side 1280 px, identical JPEG encoding) used everywhere else,
+  # so resolution / file size cannot leak the label (see the main project's docs/DATASET_AUDIT.md).
+  normalized_dir: data/derived/tuning_images_norm1280     # relative to the main project root
+
+pools:
+  # dev      = photos from the TRAIN split used to build and compare prompt versions (balanced classes).
+  # confirm  = a second, disjoint train sample for checking a frozen prompt (so we do not overfit to dev).
+  # validation = every unique photo of the VALIDATION split, for one final look at a frozen prompt.
+  # The TEST split is never used by this trial.
+  dev_size_per_class: 150
+  confirm_size_per_class: 150
+  seed: 42
+  # Photos whose CLIP cosine similarity to any worked example is at or above this are left out of every pool, so an
+  # example cannot "teach" the answer for a near-identical scene (0.88 removes about 4% of photos; null disables).
+  example_similarity_max: 0.88
+
+examples:
+  k_approved: 4
+  k_not_approved: 4
+  seed: 42
+  # Optional CSV (image_id,reason) with the real reason a reviewer disapproved an example. Reasons are never invented:
+  # without this file, examples carry the label only.
+  reasons_file: reasons.csv            # in examples/; written by scripts/make_reasons_file.py from the imported human tags
+  # Disapproved examples chosen by hand from the photos the NGO team tagged (one per reason the judge was too lenient on:
+  # R006 activity not clear, R005 posed, R009 poor lighting, R003 faces hidden; two Arham Aahar, two other programs).
+  fixed_not_approved: [img_7d5935606e28, img_a65090525852, img_008c76e63401, img_313d151218b7]
+
+cache:
+  # auto = cache the fixed prompt + examples when it is large enough, otherwise send it inline
+  # on   = always try to cache (stop with an error if that fails)
+  # off  = never cache
+  mode: auto
+  ttl_seconds: 3600
+  min_prefix_tokens: 2048            # ASSUMPTION: check the current minimum for the model before relying on it
+
+run:
+  workers: 4
+  max_calls_default: 400             # hard stop per run unless --max-calls says otherwise
+
+cost:
+  # Estimates only. Prices are left empty on purpose: fill them from the current official price list.
+  tokens_per_image: 1450             # measured in the 6-photo pilot: ~1,478 new input tokens per call (photo + short user text), cached prefix 10,367
+  expected_output_tokens: 250
+  # From a search-result summary (screenshot), NOT the official price list: it gave input $0.25-0.30 and output
+  # $1.50-2.50 per million tokens, so the upper ends are used as a conservative estimate. Cached-input and cache-storage
+  # prices were not given and stay empty (cached tokens are then costed at the full input price, which overstates).
+  input_per_million_usd: 0.30
+  cached_input_per_million_usd: null
+  output_per_million_usd: 2.50
+  cache_storage_per_million_tokens_per_hour_usd: null

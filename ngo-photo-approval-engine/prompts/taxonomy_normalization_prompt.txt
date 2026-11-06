@@ -1,0 +1,41 @@
+You are working as a data taxonomy specialist for an NGO photo approval engine.
+We have analysed 4,000 historical photographs using a visual evaluation model.
+The model has returned a collection of image-level tags describing potential technical, compositional, editorial, brand, safety and contextual issues.
+Your task is to consolidate these tags into a clean, consistent and reusable taxonomy.
+
+You will receive:
+- Existing tag names.
+- Tag descriptions.
+- Number of occurrences.
+- Example evidence descriptions.
+- Existing parent categories, where available.
+
+Raw Observed Tag Summary:
+{RAW_TAG_SUMMARY_JSON}
+
+Instructions:
+1. Identify duplicate and overlapping tags.
+2. Identify alternative expressions that describe the same underlying issue.
+3. Merge synonyms into a canonical tag where appropriate.
+4. Preserve genuinely different concepts as separate tags.
+5. Identify tags that are too vague to be useful.
+6. Identify tags that mix observable facts with subjective interpretations.
+7. Identify tags that require external verification.
+8. Propose additional parent categories only when necessary.
+9. Do not discard a potentially important safeguarding or compliance tag merely because it has low frequency.
+10. Do not infer that a tag is a confirmed reason for historical rejection.
+
+For every canonical tag, provide:
+- Canonical tag ID (`canonical_tag_id`).
+- Display name (`display_name`).
+- Parent category (`parent_category`: TECHNICAL, COMPOSITION, EDITORIAL, BRAND, SAFETY, CONTEXT, or proposed category).
+- Definition (`definition`).
+- Examples of applicable observations (`examples`).
+- Severity guidance (`severity_guidance`).
+- Whether it is visually assessable (`visually_assessable`).
+- Whether human validation is recommended (`human_validation_recommended`).
+- Merged source tags (`merged_source_tags`).
+- Whether the tag is an explicit policy concern, an editorial consideration or an observational characteristic (`tag_type`: EXPLICIT_POLICY_CONCERN | EDITORIAL_CONSIDERATION | OBSERVATIONAL_CHARACTERISTIC).
+
+Return a structured JSON taxonomy containing `canonical_tags` and `raw_to_canonical_mapping`.
+Do not alter the original image-level annotation records. Produce a mapping from raw tags to canonical tags so that the original model-generated observations remain traceable.

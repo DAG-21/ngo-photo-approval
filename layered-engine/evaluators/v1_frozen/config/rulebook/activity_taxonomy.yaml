@@ -1,0 +1,15 @@
+# Activity taxonomy. Add a line here to add an activity: no code change. Values are validated against this list at run time and the
+# Gemini response schema is built from it. `distribution: true` marks activities where a physical handover is expected (gate G012, proposed).
+version: 1
+activities:
+  - {id: FOOD_DISTRIBUTION,      description: "Serving or handing out meals, snacks or groceries", distribution: true}
+  - {id: EDUCATION_SUPPORT,      description: "Books, stationery, classes or other learning support", distribution: false}
+  - {id: HEALTHCARE_ASSISTANCE,  description: "Medical camps, check-ups, medicines, eye or dental care", distribution: false}
+  - {id: ANIMAL_CARE,            description: "Feeding or caring for animals or birds", distribution: false}
+  - {id: COMMUNITY_SERVICE,      description: "Cleaning, repairs, shelter, clothes or other community help", distribution: false}
+  - {id: DONATION_DISTRIBUTION,  description: "Handing over donated goods, kits, rickshaws or vehicles", distribution: true}
+  - {id: AWARENESS_CAMPAIGN,     description: "Awareness drives, talks or campaigns", distribution: false}
+  - {id: EVENT_OR_GROUP,         description: "A ceremony, meeting or group photograph", distribution: false}
+  - {id: BENEFICIARY_PORTRAIT,   description: "A portrait or testimonial photograph of a beneficiary", distribution: false}
+  - {id: VOLUNTEER_PORTRAIT,     description: "A portrait of one or more volunteers", distribution: false}
+  - {id: OTHER,                  description: "Anything that does not fit the above", distribution: false}

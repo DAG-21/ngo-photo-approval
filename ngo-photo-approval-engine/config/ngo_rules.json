@@ -1,0 +1,178 @@
+[
+  {
+    "rule_id": "RULE_01",
+    "section": "BASIC PHOTOGRAPHY QC CHECKS",
+    "rule_name": "Banner Visibility & Presentation",
+    "description": "If a banner is present, ensure it is clearly visible, properly positioned, straight and free from folds, crumpling or creases.",
+    "severity": "MANDATORY",
+    "decision_effect": "HARD_GATE",
+    "visually_assessable": true,
+    "additional_information_required": false,
+    "conditional_applicability": "Applies when an NGO banner is present in the frame; return NOT_APPLICABLE if no banner is present."
+  },
+  {
+    "rule_id": "RULE_02",
+    "section": "BASIC PHOTOGRAPHY QC CHECKS",
+    "rule_name": "Volunteer Dress Code",
+    "description": "Volunteers should wear white-on-white or a white top with jeans. Ensure clothing is neat, clean and presentable.",
+    "severity": "MANDATORY",
+    "decision_effect": "HARD_GATE",
+    "visually_assessable": true,
+    "additional_information_required": false,
+    "conditional_applicability": "Applies to all identifiable NGO volunteers performing seva."
+  },
+  {
+    "rule_id": "RULE_03",
+    "section": "BASIC PHOTOGRAPHY QC CHECKS",
+    "rule_name": "Beneficiary Visibility",
+    "description": "Ensure the beneficiary’s face and expressions are clearly visible, wherever appropriate. Avoid obstructed faces and awkward cropping.",
+    "severity": "MANDATORY",
+    "decision_effect": "HARD_GATE",
+    "visually_assessable": true,
+    "additional_information_required": false,
+    "conditional_applicability": "Applies when human beneficiaries are present; return NOT_APPLICABLE for pure animal care or non-beneficiary scenes."
+  },
+  {
+    "rule_id": "RULE_04",
+    "section": "BASIC PHOTOGRAPHY QC CHECKS",
+    "rule_name": "Natural Expressions",
+    "description": "Capture genuine expressions and interactions. Beneficiaries and volunteers should not look straight into the camera unless a specific photograph requires it.",
+    "severity": "MANDATORY",
+    "decision_effect": "HARD_GATE",
+    "visually_assessable": true,
+    "additional_information_required": true,
+    "conditional_applicability": "Direct camera gaze fails or triggers HUMAN_REVIEW unless external metadata specifies that a camera-facing group/banner shot was requested."
+  },
+  {
+    "rule_id": "RULE_05",
+    "section": "BASIC PHOTOGRAPHY QC CHECKS",
+    "rule_name": "Natural & Candid Shots",
+    "description": "Prioritise candid moments that capture compassion, kindness, shots that show genuine interaction with beneficiaries rather than staged or overly posed photographs.",
+    "severity": "MANDATORY",
+    "decision_effect": "HARD_GATE",
+    "visually_assessable": true,
+    "additional_information_required": false,
+    "conditional_applicability": "Applies to all photographs; stiff, staged handovers or artificial poses fail."
+  },
+  {
+    "rule_id": "RULE_06",
+    "section": "BASIC PHOTOGRAPHY QC CHECKS",
+    "rule_name": "Capture the Actual Seva",
+    "description": "Clearly showcase the activity being performed, whether food distribution, education support, healthcare assistance, animal care or another seva initiative.",
+    "severity": "MANDATORY",
+    "decision_effect": "HARD_GATE",
+    "visually_assessable": true,
+    "additional_information_required": false,
+    "conditional_applicability": "Applies to all photographs; the specific seva action must be visually identifiable."
+  },
+  {
+    "rule_id": "RULE_07",
+    "section": "BASIC PHOTOGRAPHY QC CHECKS",
+    "rule_name": "Proper Camera Angle",
+    "description": "Choose an appropriate angle that captures the activity, beneficiary and volunteer interaction clearly. Avoid awkward perspectives, tilted frames and angles that obstruct the subject.",
+    "severity": "MANDATORY",
+    "decision_effect": "HARD_GATE",
+    "visually_assessable": true,
+    "additional_information_required": false,
+    "conditional_applicability": "Applies to all photographs."
+  },
+  {
+    "rule_id": "RULE_08",
+    "section": "BASIC PHOTOGRAPHY QC CHECKS",
+    "rule_name": "Volunteer Positioning",
+    "description": "Avoid photographs in which the volunteer’s back is prominently visible. Prefer front or side angles that highlight the volunteer’s involvement in the activity.",
+    "severity": "MANDATORY",
+    "decision_effect": "HARD_GATE",
+    "visually_assessable": true,
+    "additional_information_required": false,
+    "conditional_applicability": "Applies whenever volunteers are present in the frame."
+  },
+  {
+    "rule_id": "RULE_09",
+    "section": "BASIC PHOTOGRAPHY QC CHECKS",
+    "rule_name": "Proper Lighting",
+    "description": "Ensure subjects are well-lit and clearly visible. Avoid dark, overexposed, harshly backlit or shadow-heavy photographs.",
+    "severity": "MANDATORY",
+    "decision_effect": "HARD_GATE",
+    "visually_assessable": true,
+    "additional_information_required": false,
+    "conditional_applicability": "Applies to all photographs."
+  },
+  {
+    "rule_id": "RULE_10",
+    "section": "BASIC PHOTOGRAPHY QC CHECKS",
+    "rule_name": "Focus & Image Clarity",
+    "description": "Ensure photographs are sharp and in focus. Avoid blurry, grainy or shaky images.",
+    "severity": "MANDATORY",
+    "decision_effect": "HARD_GATE",
+    "visually_assessable": true,
+    "additional_information_required": false,
+    "conditional_applicability": "Applies to all photographs."
+  },
+  {
+    "rule_id": "RULE_11",
+    "section": "BASIC PHOTOGRAPHY QC CHECKS",
+    "rule_name": "Clean Background",
+    "description": "Avoid distracting backgrounds, clutter, scattered materials and unrelated objects that take attention away from the seva.",
+    "severity": "ADVISORY",
+    "decision_effect": "EDITORIAL_WEIGHT",
+    "visually_assessable": true,
+    "additional_information_required": false,
+    "conditional_applicability": "Applies to all photographs."
+  },
+  {
+    "rule_id": "RULE_12",
+    "section": "THE FINAL QC TEST",
+    "rule_name": "Final QC 1 — Seva Activity Clearly Visible",
+    "description": "1. Is the seva activity clearly visible?",
+    "severity": "MANDATORY",
+    "decision_effect": "HARD_GATE",
+    "visually_assessable": true,
+    "additional_information_required": false,
+    "conditional_applicability": "Final gate check confirming the seva initiative is unmistakable."
+  },
+  {
+    "rule_id": "RULE_13",
+    "section": "THE FINAL QC TEST",
+    "rule_name": "Final QC 2 — Volunteer and Beneficiary Captured Appropriately",
+    "description": "2. Are the volunteer and beneficiary captured appropriately?",
+    "severity": "MANDATORY",
+    "decision_effect": "HARD_GATE",
+    "visually_assessable": true,
+    "additional_information_required": false,
+    "conditional_applicability": "Final gate check confirming proper dress code, front/side volunteer angle, and unobstructed beneficiary visibility."
+  },
+  {
+    "rule_id": "RULE_14",
+    "section": "THE FINAL QC TEST",
+    "rule_name": "Final QC 3 — Natural, Well-Framed and Properly Lit",
+    "description": "3. Is the photograph natural, well-framed and properly lit?",
+    "severity": "MANDATORY",
+    "decision_effect": "HARD_GATE",
+    "visually_assessable": true,
+    "additional_information_required": false,
+    "conditional_applicability": "Final holistic check on candidness, framing, lighting, and sharpness."
+  },
+  {
+    "rule_id": "RULE_15",
+    "section": "THE FINAL QC TEST",
+    "rule_name": "Final QC 4 — Maintains Dignity of Everyone Involved",
+    "description": "4. Does it maintain the dignity of everyone involved?",
+    "severity": "MANDATORY",
+    "decision_effect": "HARD_GATE",
+    "visually_assessable": true,
+    "additional_information_required": false,
+    "conditional_applicability": "Zero-tolerance ethical hard gate: rejects any exploitative, pitiable, or undignified depiction."
+  },
+  {
+    "rule_id": "RULE_16",
+    "section": "THE FINAL QC TEST",
+    "rule_name": "Final QC 5 — Reflects the Spirit of Humanity and Compassion",
+    "description": "5. Does it reflect the spirit of humanity and compassion?",
+    "severity": "ADVISORY",
+    "decision_effect": "EDITORIAL_WEIGHT",
+    "visually_assessable": true,
+    "additional_information_required": false,
+    "conditional_applicability": "Evaluates warmth, genuine human/animal connection, and emotional resonance of the seva."
+  }
+]

@@ -1,0 +1,30 @@
+# Layer 4: publication readiness. Almost everything here needs information that is NOT in the photograph, so it comes from metadata.
+# Gemini may only raise visual flags; it can never verify consent, rights, captions or event facts.
+# Missing metadata is PENDING (never VERIFIED, never a violation).
+version: 1
+status_values: [VERIFIED, PENDING, BLOCKED, NOT_REQUIRED, NOT_ASSESSED]
+checks:
+  - {id: NEW-001, label: Consent and publication permission,           metadata_key: consent_status,            required: always,                 approval_status: PROPOSED}
+  - {id: NEW-006, label: Copyright and image usage rights,             metadata_key: rights_status,             required: always,                 approval_status: PROPOSED}
+  - {id: NEW-002, label: Child safeguarding verification,              metadata_key: child_safeguarding_status, required: when_flag_POSSIBLE_MINOR, approval_status: PROPOSED}
+  - {id: P007,    label: Caption accurately describes the photograph,  metadata_key: caption_status,            required: always,                 approval_status: PROPOSED}
+  - {id: P008,    label: Event details and claims verified,            metadata_key: event_details_status,      required: when_metadata_event_claims_asserted, approval_status: PROPOSED}
+  - {id: P011,    label: Credits and usage rights documented,          metadata_key: credits_rights_status,     required: always,                 approval_status: PROPOSED}
+# Visual flags raised by Gemini. BLOCKED sends the photo to a human; LOW-confidence flags only add a review note.
+visual_flags:
+  CONFIDENTIAL_INFORMATION:        {criterion: NEW-003, effect: BLOCKED}
+  MANIPULATION_SUSPECTED:          {criterion: NEW-005, effect: BLOCKED}
+  UNSAFE_ACTIVITY:                 {criterion: NEW-007, effect: BLOCKED}
+  DEGRADING_REPRESENTATION:        {criterion: NEW-004, effect: BLOCKED}
+  POSSIBLE_MINOR:                  {criterion: NEW-002, effect: REQUIRES_VERIFICATION}
+  THIRD_PARTY_BRANDING:            {criterion: P009,    effect: REVIEW_NOTE}
+  SENSITIVE_LOCATION_OR_SITUATION: {criterion: NEW-003, effect: REVIEW_NOTE}
+  OTHER:                           {criterion: null,    effect: REVIEW_NOTE}
+min_confidence_to_block: MEDIUM
+# P005: placeholder platform sizes (ASSUMPTIONS, not NGO requirements). Supply metadata.platform to use one; otherwise NOT_ASSESSED.
+platforms:
+  instagram_feed: {min_width: 1080, min_height: 1080}
+  facebook_post:  {min_width: 1200, min_height: 630}
+  website_hero:   {min_width: 1600, min_height: 900}
+# Not assessed in this phase: they need subject localisation (P006), the whole batch (P002, P003, NEW-023) or a campaign brief (P001, P010, NEW-024).
+not_assessed: [P001, P002, P003, P006, P010, NEW-023, NEW-024]

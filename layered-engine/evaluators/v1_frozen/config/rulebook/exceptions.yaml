@@ -1,0 +1,42 @@
+# Exceptions and precedence. An exception can only change a criterion that is listed in applies_to, and only when its status is NO.
+# It never touches any other criterion. Exceptions are evaluated in the listed order. 'active_in' names the profiles that use it.
+version: 1
+exceptions:
+  - id: EXC_BACK_VIEW
+    team_ref: T2
+    description: >-
+      A volunteer may be photographed from behind only when ALL three hold: the dress code is followed, the NGO logo AND name are visible on
+      the back of the clothing, and the relevant beneficiaries are clearly visible. Overrides only the volunteer back-view requirement.
+    applies_to: [R008_BACK, T_FRONT]
+    requires_criteria_all_yes: [T_BACK_EXC_DRESS, T_BACK_EXC_LOGO, T_BACK_EXC_BENEFICIARIES]
+    requires_facts: {}
+    requires_metadata: {}
+    effect: SET_YES
+    # WITHDRAWN 2026-11-02 (NGO decision): back views are disallowed with no exception. Kept for the record; active in no profile.
+    active_in: []
+    approval_status: DEPRECATED
+  - id: EXC_DIRECT_GAZE
+    team_ref: G015
+    description: >-
+      Direct-camera gaze is allowed for approved portraits, testimonials or other intentionally direct-camera photographs. The exception
+      exists only when it is SUPPLIED in the metadata (direct_gaze_approved: true); the model cannot grant it.
+    applies_to: [R004_BEN_GAZE]
+    requires_criteria_all_yes: []
+    requires_facts: {}
+    requires_metadata: {direct_gaze_approved: true}
+    effect: SET_NOT_APPLICABLE
+    # DORMANT 2026-11-02 (NGO decision): for now EVERY direct gaze by a beneficiary is disapproved. A future hook for the rare approved cases.
+    active_in: []
+    approval_status: PENDING_CONFIRMATION
+  - id: EXC_MEDICAL_PPE
+    team_ref: G005
+    description: >-
+      In a medical scene, obstruction that consists only of necessary protective equipment (mask, face shield) is not automatically a
+      violation. It is not waved through either: the result is sent to a human (CANNOT_TELL).
+    applies_to: [R003_FACE, R003_CLEAR]
+    requires_criteria_all_yes: [R003_OBSTRUCTION_PPE_ONLY]
+    requires_facts: {f_medical: "YES"}
+    requires_metadata: {}
+    effect: SET_CANNOT_TELL
+    active_in: [layered_proposed_v1]
+    approval_status: PROPOSED

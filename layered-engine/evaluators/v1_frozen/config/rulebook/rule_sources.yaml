@@ -1,0 +1,125 @@
+# The three rule sources and the 16 client rules, verbatim. Do not edit client wording.
+version: 1
+sources:
+  CLIENT: Original requirements supplied by the NGO (wording kept verbatim below).
+  TEAM: Rules and mandatory gates added internally (including questions suggested by the disapproval taggers).
+  PROPOSED: Recommendations introduced during this restructuring. NOT policy until the NGO approves them.
+approval_statuses:
+- CLIENT_APPROVED
+- TEAM_APPROVED
+- PROPOSED
+- PENDING_CONFIRMATION
+- DEPRECATED
+note: The client's document marks NO rule as mandatory. Gates are team policy applied on top of it.
+client_rules:
+- rule_id: R001
+  source_ref: Banner Visibility & Presentation
+  description_original: If a banner is present, ensure it is clearly visible, properly positioned, straight and free from folds, crumpling or
+    creases.
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of: null
+- rule_id: R002
+  source_ref: Volunteer Dress Code
+  description_original: Volunteers should wear white-on-white or a white top with jeans. Ensure clothing is neat, clean and presentable.
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of: null
+- rule_id: R003
+  source_ref: Beneficiary Visibility
+  description_original: Ensure the beneficiary’s face and expressions are clearly visible, wherever appropriate. Avoid obstructed faces and awkward
+    cropping.
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of: null
+- rule_id: R004
+  source_ref: Natural Expressions
+  description_original: Capture genuine expressions and interactions. Beneficiaries and volunteers should not look straight into the camera unless
+    a specific photograph requires it.
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of: null
+- rule_id: R005
+  source_ref: Natural & Candid Shots
+  description_original: Prioritise candid moments that capture compassion, kindness, shots that show genuine interaction with beneficiaries rather
+    than staged or overly posed photographs.
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of: null
+- rule_id: R006
+  source_ref: Capture the Actual Seva
+  description_original: Clearly showcase the activity being performed, whether food distribution, education support, healthcare assistance, animal
+    care or another seva initiative.
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of: null
+- rule_id: R007
+  source_ref: Proper Camera Angle
+  description_original: Choose an appropriate angle that captures the activity, beneficiary and volunteer interaction clearly. Avoid awkward perspectives,
+    tilted frames and angles that obstruct the subject.
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of: null
+- rule_id: R008
+  source_ref: Volunteer Positioning
+  description_original: Avoid photographs in which the volunteer’s back is prominently visible. Prefer front or side angles that highlight the
+    volunteer’s involvement in the activity.
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of: null
+- rule_id: R009
+  source_ref: Proper Lighting
+  description_original: Ensure subjects are well-lit and clearly visible. Avoid dark, overexposed, harshly backlit or shadow-heavy photographs.
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of: null
+- rule_id: R010
+  source_ref: Focus & Image Clarity
+  description_original: Ensure photographs are sharp and in focus. Avoid blurry, grainy or shaky images.
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of: null
+- rule_id: R011
+  source_ref: Clean Background
+  description_original: Avoid distracting backgrounds, clutter, scattered materials and unrelated objects that take attention away from the seva.
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of: null
+- rule_id: R012
+  source_ref: Final QC Test Q4
+  description_original: Does it maintain the dignity of everyone involved?
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of: null
+- rule_id: R013
+  source_ref: Final QC Test Q5
+  description_original: Does it reflect the spirit of humanity and compassion?
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of: null
+- rule_id: R014
+  source_ref: Final QC Test Q1
+  description_original: Is the seva activity clearly visible?
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of:
+  - R006
+- rule_id: R015
+  source_ref: Final QC Test Q2
+  description_original: Are the volunteer and beneficiary captured appropriately?
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of:
+  - R002
+  - R003
+  - R008
+- rule_id: R016
+  source_ref: Final QC Test Q3
+  description_original: Is the photograph natural, well-framed and properly lit?
+  source: CLIENT
+  approval_status: CLIENT_APPROVED
+  summary_of:
+  - R004
+  - R007
+  - R009
+  - R010

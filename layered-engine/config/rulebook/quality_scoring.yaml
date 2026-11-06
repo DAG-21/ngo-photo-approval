@@ -1,0 +1,33 @@
+# Layer 3: soft scoring. Gemini scores each dimension 0-4; Python converts to a score out of 100 with the formula
+#   contribution = (score / 4) * weight ; overall = sum over APPLICABLE dimensions, weights renormalised so the total stays out of 100.
+version: 1
+status: UNCALIBRATED          # thresholds below are proposals; they have not been tested against human-labelled data
+scale: {0: Unusable, 1: Poor, 2: Acceptable, 3: Good, 4: Excellent}
+dimensions:
+  activity_communication:   {weight: 25, label: "Activity and subject communication"}
+  technical_quality:        {weight: 20, label: "Technical quality"}
+  composition:              {weight: 20, label: "Composition and framing"}
+  naturalness_storytelling: {weight: 15, label: "Naturalness and storytelling"}
+  brand_presentation:       {weight: 10, label: "Brand presentation"}
+  visual_polish:            {weight: 10, label: "Visual polish"}
+thresholds:
+  strong_candidate: 85      # 85-100 strong approval candidate
+  acceptable: 70            # 70-84 acceptable approval candidate
+  review: 70                # below this: human editorial review (55-69)
+  reselection: 55           # below this: recommend reshoot / reselection or quality rejection
+# A strong dimension must not hide a severe weakness in another one.
+severe_weakness:
+  unusable_score_at_or_below: 0     # any applicable dimension at 0   -> RESELECT
+  poor_score_at_or_below: 1         # any applicable dimension at <=1 -> at best HUMAN_REVIEW
+# Former hard gates that the proposed profile treats as soft. A NO caps the named dimension once (one defect is never counted twice).
+soft_caps:
+  - {criterion_id: R006_COVERAGE,   dimension: activity_communication, max_score: 2, reason: "activity fills too little of the frame"}
+  - {criterion_id: R006_ZOOMED_OUT, dimension: activity_communication, max_score: 2, reason: "photo is zoomed out"}
+  # v2 only: the banner gates are soft there, so a hidden, cropped or blending banner lowers brand presentation once instead of failing the photo
+  - {criterion_id: R001_VISIBLE, dimension: brand_presentation, max_score: 2, reason: "banner is hidden or cropped", profiles: [layered_proposed_v2]}
+  - {criterion_id: R001_DISTINCT, dimension: brand_presentation, max_score: 2, reason: "banner does not stand out", profiles: [layered_proposed_v2]}
+  # layered_final_v1 (owner, 2026-11-05): two soft gates. A NO caps the dimension once; the model's own grade of the dimension gives the degree (0 = unusable -> RESELECT, 1 = poor).
+  - {criterion_id: R006_SIZE,       dimension: activity_communication, max_score: 2, reason: "main people or the activity are small, far or blocked", profiles: [layered_final_v1]}
+  - {criterion_id: R010_TECHNICAL,  dimension: technical_quality,      max_score: 2, reason: "focus, blur, exposure or lighting problem", profiles: [layered_final_v1]}
+# A dimension is flagged when the model scores it >= high_score although at least min_no_answers of its diagnostics were answered NO.
+consistency_warning: {high_score: 3, min_no_answers: 2}

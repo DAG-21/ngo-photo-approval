@@ -1,0 +1,1133 @@
+{
+  "NOTE": "SYNTHETIC: not a real photograph and not a Gemini response",
+  "metadata": {
+    "consent_status": "VERIFIED",
+    "rights_status": "VERIFIED",
+    "caption_status": "VERIFIED",
+    "credits_rights_status": "VERIFIED",
+    "child_safeguarding_status": null
+  },
+  "model_assessment": {
+    "schema_version": "1.0",
+    "image_id": "img_test",
+    "layer_1_scene_understanding": {
+      "activity_description": "volunteers serving food",
+      "scene_facts": {
+        "f_photo": "YES",
+        "f_single": "YES",
+        "f_volunteers": "YES",
+        "f_banner": "YES",
+        "f_banner_prominent": "YES",
+        "f_beneficiaries": "YES",
+        "f_animals": "NO",
+        "f_item_given": "YES",
+        "f_handover": "YES",
+        "f_volunteer_giver": "YES",
+        "f_logo": "YES",
+        "f_medical": "NO",
+        "f_orientation": "FRONT",
+        "f_group": "GROUP",
+        "f_activity_type": "FOOD_DISTRIBUTION"
+      },
+      "subjects": [],
+      "candidate_applicable_rule_groups": [],
+      "uncertainties": []
+    },
+    "layer_2_criteria": [
+      {
+        "criterion_id": "R015_PERSON_PRESENT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R007_ANGLE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R007_FACES_SEEN",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R003_CLEAR",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R003_FACE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R003_FACE_SHARP",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R003_FACE_SIZE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R009_FACE_LIT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R001_FLAT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R006_COVERAGE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R006_ZOOMED_OUT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R006_ITEM_SHARP",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R002_GIVER_WHITE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R015_BEN_RECEIVING",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R004_BEN_GAZE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "G001_ACTIVITY_VISIBLE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "G001_BENEFICIARIES_VISIBLE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "G001_INTERACTION_VISIBLE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "G001_NOTHING_HIDDEN",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R001_DISTINCT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R001_POSITION",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R001_STRAIGHT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R001_VISIBLE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R002_NEAT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R002_WHITE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R003_CROP",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R003_OBSTRUCTION_PPE_ONLY",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R004_GENUINE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R005_CANDID",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R005_INTERACT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R006_ACTION",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R006_HANDOVER",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R006_IDENTIFY",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R006_SIZE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R006_VOLUNTEER_DOING",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R007_CUTOFF",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R007_DISTORTION",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R007_FOREGROUND",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R007_HEIGHT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R007_INTERACTION_VIEW",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R007_LEVEL",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R007_ORIENTATION",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R007_PERSPECTIVE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R007_PLACEMENT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R007_UNOBSTRUCTED",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R007_VERTICALS",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R008_BACK",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R009_DIRECTION",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R009_LIT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R009_OVEREXPOSED",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R009_PEOPLE_LIT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R009_UNDEREXPOSED",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R010_GRAIN",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R010_SHAKE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R010_SHARP",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R011_BACKGROUND",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R011_CLUTTER",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R011_UNRELATED",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R012_DIGNITY",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R013_HUMANITY",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R015_BEN_FRONT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R015_BEN_INTERACT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R015_BEN_POSE",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R015_BEN_PRESENT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "R015_BEN_PROMINENT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "T_FRONT",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "NEW-008",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "NEW-009",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "NEW-010",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "NEW-011",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "NEW-012",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "NEW-013",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "NEW-014",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "NEW-015",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "NEW-016",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "NEW-017",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "NEW-018",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "NEW-019",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "NEW-020",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "NEW-021",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "NEW-022",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      },
+      {
+        "criterion_id": "P004",
+        "status": "YES",
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "source": "gemini"
+      }
+    ],
+    "layer_3_quality_dimensions": {
+      "activity_communication": {
+        "applicable": true,
+        "score": 4,
+        "explanation": "x",
+        "positive_observations": [],
+        "negative_observations": [],
+        "evidence": "",
+        "confidence": "MEDIUM"
+      },
+      "technical_quality": {
+        "applicable": true,
+        "score": 4,
+        "explanation": "x",
+        "positive_observations": [],
+        "negative_observations": [],
+        "evidence": "",
+        "confidence": "MEDIUM"
+      },
+      "composition": {
+        "applicable": true,
+        "score": 4,
+        "explanation": "x",
+        "positive_observations": [],
+        "negative_observations": [],
+        "evidence": "",
+        "confidence": "MEDIUM"
+      },
+      "naturalness_storytelling": {
+        "applicable": true,
+        "score": 4,
+        "explanation": "x",
+        "positive_observations": [],
+        "negative_observations": [],
+        "evidence": "",
+        "confidence": "MEDIUM"
+      },
+      "brand_presentation": {
+        "applicable": true,
+        "score": 4,
+        "explanation": "x",
+        "positive_observations": [],
+        "negative_observations": [],
+        "evidence": "",
+        "confidence": "MEDIUM"
+      },
+      "visual_polish": {
+        "applicable": true,
+        "score": 4,
+        "explanation": "x",
+        "positive_observations": [],
+        "negative_observations": [],
+        "evidence": "",
+        "confidence": "MEDIUM"
+      }
+    },
+    "layer_4_visual_flags": [
+      {
+        "flag_type": "POSSIBLE_MINOR",
+        "evidence": "a small child is identifiable in the foreground",
+        "confidence": "HIGH"
+      }
+    ],
+    "positive_attributes": [],
+    "potential_rejection_factors": [],
+    "new_factor_proposals": [],
+    "model_recommendation": null,
+    "model_overall_score": null
+  },
+  "decision": {
+    "recommendation": "APPROVED_PENDING_PUBLICATION_CHECKS",
+    "photo_approval_status": "APPROVED",
+    "publication_readiness_status": "PENDING_VERIFICATION",
+    "decision_reasons": [
+      "All mandatory gates pass; publication checks are still outstanding: NEW-002 Child safeguarding verification"
+    ],
+    "human_review_questions": [],
+    "gates": [
+      {
+        "gate_id": "G001",
+        "criterion_id": "R007_ANGLE",
+        "source": "TEAM",
+        "parent_rule_id": "R007",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [
+          {
+            "criterion_id": "G001_ACTIVITY_VISIBLE",
+            "applicable": true,
+            "model_status": "YES",
+            "status": "YES",
+            "evidence": "seen in the photograph",
+            "confidence": "MEDIUM",
+            "notes": []
+          },
+          {
+            "criterion_id": "G001_BENEFICIARIES_VISIBLE",
+            "applicable": true,
+            "model_status": "YES",
+            "status": "YES",
+            "evidence": "seen in the photograph",
+            "confidence": "MEDIUM",
+            "notes": []
+          },
+          {
+            "criterion_id": "G001_INTERACTION_VISIBLE",
+            "applicable": true,
+            "model_status": "YES",
+            "status": "YES",
+            "evidence": "seen in the photograph",
+            "confidence": "MEDIUM",
+            "notes": []
+          },
+          {
+            "criterion_id": "G001_NOTHING_HIDDEN",
+            "applicable": true,
+            "model_status": "YES",
+            "status": "YES",
+            "evidence": "seen in the photograph",
+            "confidence": "MEDIUM",
+            "notes": []
+          }
+        ],
+        "notes": []
+      },
+      {
+        "gate_id": "G002",
+        "criterion_id": "R007_FACES_SEEN",
+        "source": "TEAM",
+        "parent_rule_id": "R007",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      },
+      {
+        "gate_id": "G003",
+        "criterion_id": "R006_ITEM_SHARP",
+        "source": "TEAM",
+        "parent_rule_id": "R006",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      },
+      {
+        "gate_id": "G004",
+        "criterion_id": "R003_FACE",
+        "source": "TEAM",
+        "parent_rule_id": "R003",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      },
+      {
+        "gate_id": "G005",
+        "criterion_id": "R003_CLEAR",
+        "source": "TEAM",
+        "parent_rule_id": "R003",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      },
+      {
+        "gate_id": "G006",
+        "criterion_id": "R003_FACE_SHARP",
+        "source": "TEAM",
+        "parent_rule_id": "R003",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      },
+      {
+        "gate_id": "G007",
+        "criterion_id": "R003_FACE_SIZE",
+        "source": "TEAM",
+        "parent_rule_id": "R003",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      },
+      {
+        "gate_id": "G008",
+        "criterion_id": "R009_FACE_LIT",
+        "source": "TEAM",
+        "parent_rule_id": "R009",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      },
+      {
+        "gate_id": "G009",
+        "criterion_id": "R001_FLAT",
+        "source": "TEAM",
+        "parent_rule_id": "R001",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      },
+      {
+        "gate_id": "G010",
+        "criterion_id": "R006_COVERAGE",
+        "source": "TEAM",
+        "parent_rule_id": "R006",
+        "hard": false,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      },
+      {
+        "gate_id": "G011",
+        "criterion_id": "R006_ZOOMED_OUT",
+        "source": "TEAM",
+        "parent_rule_id": "R006",
+        "hard": false,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      },
+      {
+        "gate_id": "G012",
+        "criterion_id": "R015_BEN_RECEIVING",
+        "source": "TEAM",
+        "parent_rule_id": "R015",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      },
+      {
+        "gate_id": "G013",
+        "criterion_id": "R002_GIVER_WHITE",
+        "source": "TEAM",
+        "parent_rule_id": "R002",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      },
+      {
+        "gate_id": "G014",
+        "criterion_id": "R015_PERSON_PRESENT",
+        "source": "TEAM",
+        "parent_rule_id": "R015",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      },
+      {
+        "gate_id": "G015",
+        "criterion_id": "R004_BEN_GAZE",
+        "source": "TEAM",
+        "parent_rule_id": "R004",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      },
+      {
+        "gate_id": "G016",
+        "criterion_id": "R008_BACK",
+        "source": "TEAM",
+        "parent_rule_id": "R008",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [
+          {
+            "criterion_id": "R008_BACK",
+            "applicable": true,
+            "model_status": "YES",
+            "status": "YES",
+            "evidence": "seen in the photograph",
+            "confidence": "MEDIUM",
+            "notes": []
+          },
+          {
+            "criterion_id": "T_FRONT",
+            "applicable": true,
+            "model_status": "YES",
+            "status": "YES",
+            "evidence": "seen in the photograph",
+            "confidence": "MEDIUM",
+            "notes": []
+          },
+          {
+            "criterion_id": "R015_BEN_FRONT",
+            "applicable": true,
+            "model_status": "YES",
+            "status": "YES",
+            "evidence": "seen in the photograph",
+            "confidence": "MEDIUM",
+            "notes": []
+          }
+        ],
+        "notes": []
+      },
+      {
+        "gate_id": "G017",
+        "criterion_id": "R001_VISIBLE",
+        "source": "TEAM",
+        "parent_rule_id": "R001",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      },
+      {
+        "gate_id": "G018",
+        "criterion_id": "R001_DISTINCT",
+        "source": "TEAM",
+        "parent_rule_id": "R001",
+        "hard": true,
+        "status": "YES",
+        "applicable": true,
+        "evidence": "seen in the photograph",
+        "confidence": "MEDIUM",
+        "failure_reason": null,
+        "components": [],
+        "notes": []
+      }
+    ],
+    "failed_gates": [],
+    "uncertain_gates": [],
+    "not_applicable_gates": [],
+    "quality": {
+      "computed": true,
+      "overall_score": 100.0,
+      "band": "STRONG_CANDIDATE",
+      "dimension_scores": {
+        "activity_communication": 4.0,
+        "technical_quality": 4.0,
+        "composition": 4.0,
+        "naturalness_storytelling": 4.0,
+        "brand_presentation": 4.0,
+        "visual_polish": 4.0
+      },
+      "caps_applied": [],
+      "applicable_weight": 100.0,
+      "incomplete": false,
+      "severe_weakness": null,
+      "warnings": [],
+      "calibrated": false
+    },
+    "publication": {
+      "status": "PENDING_VERIFICATION",
+      "checks": [
+        {
+          "check_id": "NEW-001",
+          "label": "Consent and publication permission",
+          "status": "VERIFIED",
+          "detail": ""
+        },
+        {
+          "check_id": "NEW-006",
+          "label": "Copyright and image usage rights",
+          "status": "VERIFIED",
+          "detail": ""
+        },
+        {
+          "check_id": "NEW-002",
+          "label": "Child safeguarding verification",
+          "status": "PENDING",
+          "detail": "no verified information supplied"
+        },
+        {
+          "check_id": "P007",
+          "label": "Caption accurately describes the photograph",
+          "status": "VERIFIED",
+          "detail": ""
+        },
+        {
+          "check_id": "P008",
+          "label": "Event details and claims verified",
+          "status": "NOT_REQUIRED",
+          "detail": ""
+        },
+        {
+          "check_id": "P011",
+          "label": "Credits and usage rights documented",
+          "status": "VERIFIED",
+          "detail": ""
+        },
+        {
+          "check_id": "P005",
+          "label": "Meets platform dimensions",
+          "status": "NOT_ASSESSED",
+          "detail": "no platform or image size supplied"
+        },
+        {
+          "check_id": "P001",
+          "label": "not assessed in this phase",
+          "status": "NOT_ASSESSED",
+          "detail": ""
+        },
+        {
+          "check_id": "P002",
+          "label": "not assessed in this phase",
+          "status": "NOT_ASSESSED",
+          "detail": ""
+        },
+        {
+          "check_id": "P003",
+          "label": "not assessed in this phase",
+          "status": "NOT_ASSESSED",
+          "detail": ""
+        },
+        {
+          "check_id": "P006",
+          "label": "not assessed in this phase",
+          "status": "NOT_ASSESSED",
+          "detail": ""
+        },
+        {
+          "check_id": "P010",
+          "label": "not assessed in this phase",
+          "status": "NOT_ASSESSED",
+          "detail": ""
+        },
+        {
+          "check_id": "NEW-023",
+          "label": "not assessed in this phase",
+          "status": "NOT_ASSESSED",
+          "detail": ""
+        },
+        {
+          "check_id": "NEW-024",
+          "label": "not assessed in this phase",
+          "status": "NOT_ASSESSED",
+          "detail": ""
+        }
+      ],
+      "blockers": [],
+      "pending": [
+        "NEW-002 Child safeguarding verification"
+      ],
+      "review_notes": [
+        "NEW-002 POSSIBLE_MINOR: a small child is identifiable in the foreground: needs verification (this is a flag, not a statement about age)"
+      ]
+    },
+    "warnings": [],
+    "policy_validation_required": true,
+    "versions": {
+      "profile": "layered_proposed_v1",
+      "rulebook_version": "1.1.0"
+    }
+  }
+}

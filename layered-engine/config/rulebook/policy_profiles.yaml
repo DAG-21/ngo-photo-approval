@@ -1,0 +1,556 @@
+# Policy profiles. checklist5_legacy reproduces the established interpretation (65 questions, 15 gates, strict scope). layered_proposed_v1
+# is the layered policy. EVERY difference is recorded under overrides / gate_overrides (or on the gate itself) as a policy change; the validation
+# report lists the ones that touch a mandatory requirement. Status says whether the NGO has decided it (TEAM_APPROVED) or it is still a proposal.
+#
+# NGO decisions of 2026-11-02 (rulebook 1.1.0), applied below:
+#   1. Face scope stays STRICT (every visible beneficiary) until the computer-vision layer exists; the narrower scope was withdrawn.
+#   2. A banner is not expected in every photograph, but when present it must be clearly visible AND distinguishable (G009 creases, G017, G018).
+#   3. Animals receiving care count as a relevant subject (G014).
+#   4. A volunteer may look into the camera; a beneficiary may not. No exception for now: all direct gazes by beneficiaries are disapproved (G015).
+#   5. Back views are disallowed (G016); the T2 logo exception is withdrawn.
+version: 1
+profiles:
+  checklist5_legacy:
+    description: "Existing interpretation of checklist5 as run in the trials. Gates alone decide; the quality and publication layers are reported but do not decide."
+    unknown_is_fail: true
+    enabled_approval_statuses: [CLIENT_APPROVED, TEAM_APPROVED]
+    beneficiary_scope: ALL_VISIBLE_BENEFICIARIES
+    upload_policy: {require_photo: false, require_single: false}
+    quality: {affects_decision: false}
+    publication: {affects_decision: false}
+    guidance:
+      - "Normal positioning (T1): primary people should generally be captured from the front or side, not predominantly from behind."
+      - "A volunteer looking straight into the camera is not a violation. A beneficiary looking straight into the camera is."
+    overrides: {}
+    gate_overrides: {}
+  layered_proposed_v1:
+    description: "Layered policy: the NGO's decisions of 2026-11-02 plus the remaining proposals (G001 components, G010/G011 soft, G012 applicability, EXC_MEDICAL_PPE)."
+    unknown_is_fail: true
+    enabled_approval_statuses: [CLIENT_APPROVED, TEAM_APPROVED, PROPOSED, PENDING_CONFIRMATION]
+    beneficiary_scope: ALL_VISIBLE_BENEFICIARIES
+    upload_policy: {require_photo: false, require_single: false}
+    quality: {affects_decision: true}
+    publication: {affects_decision: true}
+    guidance:
+      - "Photographs must be taken from the FRONT or SIDE of the people. A volunteer or a beneficiary shown mainly from behind (back towards the camera) is a violation. There is NO exception for a logo on the back."
+      - "A volunteer looking straight into the camera is NOT a violation. A beneficiary looking straight into the camera IS a violation, with no exception for now."
+      - "Banners are not expected in every photograph. When a banner IS present it must be clearly visible and clearly distinguishable from its surroundings."
+      - "An animal receiving care counts as a relevant subject of the photograph."
+    gate_overrides:
+      G001:
+        components: [G001_ACTIVITY_VISIBLE, G001_BENEFICIARIES_VISIBLE, G001_INTERACTION_VISIBLE, G001_NOTHING_HIDDEN]
+        policy_change: {kind: SPLIT_INTO_COMPONENTS, affects_mandatory: false, status: PROPOSED, reason: "G1 asks four things at once; the parent gate passes only when every applicable component passes."}
+    overrides:
+      R006_COVERAGE:
+        decision_effect: SOFT_SCORE
+        policy_change: {kind: GATE_TO_SOFT, affects_mandatory: true, status: PROPOSED, reason: "G10 moved to Layer 3 soft grading; the legacy profile keeps the hard gate."}
+      R006_ZOOMED_OUT:
+        decision_effect: SOFT_SCORE
+        policy_change: {kind: GATE_TO_SOFT, affects_mandatory: true, status: PROPOSED, reason: "G11 moved to Layer 3 soft grading; the legacy profile keeps the hard gate."}
+      R015_BEN_RECEIVING:
+        applicability: beneficiary_receiving_expected_proposed
+        policy_change: {kind: APPLICABILITY_NARROWED, affects_mandatory: true, status: PROPOSED, reason: "G12: a handover is required only in distribution activities, not in education, healthcare, animal care or community service."}
+      R015_PERSON_PRESENT:
+        description_operational: "Is at least one relevant subject visible: a beneficiary, a volunteer, or an animal receiving care?"
+        policy_change: {kind: SCOPE_WIDENED, affects_mandatory: true, status: TEAM_APPROVED, reason: "G14: an animal receiving care counts as a subject (NGO decision 2026-11-02, item 3)."}
+
+  # ------------------------------------------------------------------------------------------------------------------------------------
+  # layered_proposed_v2: the evaluator V2 proposal after the 50-photo pilot (pilot 3). It inherits layered_proposed_v1 and changes ONLY what is
+  # listed under overrides / gate_overrides below, each with a change_id (V2-01 ...), so any one of them can be switched off for an ablation
+  # (Rulebook.resolve(profile, without=["V2-03"])). Every change touches a mandatory requirement or the NGO's decisions of 2026-11-02, so every
+  # one is PROPOSED_PENDING_NGO_APPROVAL. None of this is NGO policy until the NGO approves it. The pilot evidence is a diagnostic sample of
+  # 25 + 25 photographs: it motivated these changes, it does not prove them.
+  # ------------------------------------------------------------------------------------------------------------------------------------
+  layered_proposed_v2:
+    description: "Evaluator V2 (proposed, pending NGO approval): primary/featured subject scope, soft gaze, conditional banner folds, soft banner visibility, volunteer-only back-view gate, handover-based G012."
+    inherits: layered_proposed_v1
+    rulebook_version: "2.0.0-proposed"
+    prompt_version: photo_evaluation_prompt_v2
+    require_change_records: true
+    unknown_is_fail: true
+    enabled_approval_statuses: [CLIENT_APPROVED, TEAM_APPROVED, PROPOSED, PROPOSED_PENDING_NGO_APPROVAL, PENDING_CONFIRMATION]
+    beneficiary_scope: PRIMARY_AND_FEATURED
+    beneficiary_visibility: {subject_scope: PRIMARY_AND_FEATURED, legacy_subject_scope: ALL_VISIBLE_BENEFICIARIES, change_id: V2-02}
+    upload_policy: {require_photo: false, require_single: false}
+    quality: {affects_decision: true}
+    publication: {affects_decision: true}
+    guidance:
+      - "PRIMARY / FEATURED beneficiaries are the people the photograph is about: the person receiving food or a gift, the child being taught or treated, the person in a portrait. SECONDARY beneficiaries support the activity (waiting in a queue, other recipients). INCIDENTAL people are in the background. List them in `subjects` with these roles first, and decide who is primary before you answer the face criteria."
+      - "The face criteria (visibility, obstruction, sharpness, size, lighting) judge PRIMARY and FEATURED beneficiaries only. A secondary or incidental person with a hidden, small or shadowed face does NOT make a face criterion NO. Never use this to excuse a primary beneficiary: if the person the photograph is about cannot be seen, answer NO."
+      - "Volunteer positioning (R008_BACK) is about VOLUNTEERS only. A volunteer shown mainly from behind is a violation, with NO exception for a logo on the back. A beneficiary shown from behind is judged by the face criteria for primary beneficiaries, not by the volunteer positioning criterion."
+      - "Direct gaze: a beneficiary looking into the camera is not automatically a defect. Portraits, testimonials and campaign photographs may legitimately involve direct eye contact. Record how the gaze reads in `f_gaze_tag`, and answer the gaze criterion about candid photographs only."
+      - "Banners are not expected in every photograph; a missing banner is never a failure. Judge folds and creases only when the banner is a prominent branding element. Judge visibility and distinctness as quality, honestly: a hidden or cropped banner lowers brand presentation, it does not by itself fail the photograph."
+      - "A handover (G012) is expected wherever an item or help is visibly being given, and in food and donation distributions; it is not expected in teaching, medical consultation, animal care, cleaning or awareness activities."
+      - "An animal receiving care counts as a relevant subject of the photograph."
+    overrides:
+      R004_BEN_GAZE:
+        decision_effect: SOFT_SCORE
+        description_operational: "For a candid documentary photograph: are the beneficiaries naturally engaged with the activity or each other, rather than deliberately posing for the camera? Direct camera gaze is not automatically a defect. Answer NO only when the beneficiaries are clearly posing for a photograph that is meant to be candid; YES for natural engagement, and YES for an intentional portrait, testimonial or campaign photograph."
+        policy_change:
+          change_id: V2-01
+          kind: GATE_TO_SOFT
+          affects_mandatory: true
+          status: PROPOSED_PENDING_NGO_APPROVAL
+          reason: "Direct gaze was a hard gate (G015). In pilot 3 it failed more approved than disapproved photographs, and the client's own wording allows it 'unless a specific photograph requires it'."
+          original_rule: "R004 (client): Beneficiaries and volunteers should not look straight into the camera unless a specific photograph requires it. G015 (NGO decision 2026-11-02, item 4): every direct gaze by a beneficiary is disapproved, no exception."
+          proposed_rule: "Gaze is a soft editorial assessment plus a tag (DIRECT_CAMERA_GAZE / NATURAL_CANDID_GAZE / INTENTIONAL_PORTRAIT / UNCERTAIN_GAZE). Never a rejection by itself."
+          previous_effect: "hard gate: NO -> REJECT"
+          new_effect: "soft: tag + naturalness score; no rejection"
+          evidence: "Pilot 3 (n=25+25): failed on 9 of 25 approved and 5 of 25 disapproved photographs (36% vs 20%), the opposite of the intended direction; the difference is within sampling noise."
+      R007_FACES_SEEN:
+        description_operational: "From this camera position, can the faces of the PRIMARY or FEATURED beneficiaries (the people the photograph is about) be seen? A secondary or background person whose face is hidden does not make this NO."
+        policy_change: &pc_scope
+          change_id: V2-02
+          kind: SCOPE_NARROWED
+          affects_mandatory: true
+          status: PROPOSED_PENDING_NGO_APPROVAL
+          reason: "The face requirements applied to every visible beneficiary. They are applied to primary and featured beneficiaries only, so a hidden background face no longer fails the photograph. Privacy and safeguarding still cover everyone (Layer 4)."
+          original_rule: "R003 (client): Ensure the beneficiary's face and expressions are clearly visible, wherever appropriate. Avoid obstructed faces and awkward cropping. G004-G008, G002: every visible beneficiary (NGO decision 2026-11-02, item 1: strict scope until a computer-vision layer exists)."
+          proposed_rule: "The face gates judge primary or featured beneficiaries. beneficiary_visibility.subject_scope = PRIMARY_AND_FEATURED (legacy value ALL_VISIBLE_BENEFICIARIES is kept)."
+          previous_effect: "hard gates over every visible beneficiary"
+          new_effect: "the same hard gates over primary / featured beneficiaries only"
+          evidence: "Pilot 3: face gates G004/G005 failed on 11 of 25 approved photographs; the evidence text of several of those failures names secondary or background children (photos 12, 13, 19, 24, 25)."
+      R003_FACE:
+        description_operational: "Is the face of every PRIMARY or FEATURED beneficiary clearly visible with the expression readable (not turned away, hidden, in shadow or too small)? Judge only the people the photograph is about: a secondary person, or someone incidental in the background, with a hidden face does NOT make this NO. If you cannot tell who is featured, answer CANNOT_TELL."
+        policy_change: *pc_scope
+      R003_CLEAR:
+        description_operational: "Is the face of every PRIMARY or FEATURED beneficiary free from obstruction that stops the face being seen (hands, objects, hair, other people)? Necessary medical protective equipment, an approved face covering or deliberate privacy concealment is not accidental obstruction: if that is what covers the face, answer CANNOT_TELL and say which. Secondary and background people are not judged here."
+        policy_change: *pc_scope
+      R003_FACE_SHARP:
+        description_operational: "Is the face of every PRIMARY or FEATURED beneficiary sharp enough that the expression can be read (not unusably blurred by motion or poor focus)? Ordinary photographic softness, or blur on a secondary or background person, does not make this NO."
+        policy_change: *pc_scope
+      R003_FACE_SIZE:
+        description_operational: "Is the face of every PRIMARY or FEATURED beneficiary large enough in the frame for the expression to be read? There is no pixel size; the small face of a background person does not make this NO."
+        policy_change: *pc_scope
+      R009_FACE_LIT:
+        description_operational: "Are the faces of the PRIMARY or FEATURED beneficiaries usable as lit? Answer NO only for severe shadow or backlighting that hides the face or its expression; minor shadows and ordinary natural lighting variation are fine."
+        policy_change: *pc_scope
+      G001_BENEFICIARIES_VISIBLE:
+        description_operational: "From the camera position, are the PRIMARY or FEATURED beneficiaries visible sufficiently clearly for the intended photograph? (Secondary and background people are not judged here.)"
+        policy_change: *pc_scope
+      G001_ACTIVITY_VISIBLE:
+        description_operational: "From the camera position, can you understand what activity is being performed (what is being done, and for whom)?"
+        policy_change: &pc_g001
+          change_id: V2-06
+          kind: COMPONENT_WORDING
+          affects_mandatory: true
+          status: PROPOSED_PENDING_NGO_APPROVAL
+          reason: "G001 asked four things at once and its 'nothing hidden' component re-counted hidden faces that the face gates already judge. The four components are kept; their questions no longer overlap."
+          original_rule: "R007 (client): Choose an appropriate angle that captures the activity, beneficiary and volunteer interaction clearly. Avoid awkward perspectives, tilted frames and angles that obstruct the subject."
+          proposed_rule: "G001 = A activity understandable, B primary subjects visible, C interaction visible where there is one, D viewpoint does not hide essential parts of the ACTIVITY. Faces are judged by the face gates, not again by D."
+          previous_effect: "hard gate; component D failed on hidden faces and background people"
+          new_effect: "hard gate; component D is limited to the activity itself"
+          evidence: "Pilot 3: G001 failed on 13 of 25 approved and 14 of 25 disapproved photographs; the component evidence texts mostly describe hidden faces or people (the face gates' job)."
+      G001_INTERACTION_VISIBLE:
+        description_operational: "Where the activity involves direct volunteer-beneficiary interaction (handing, serving, teaching, treating), can that interaction be seen from the camera position?"
+        policy_change: *pc_g001
+      G001_NOTHING_HIDDEN:
+        description_operational: "Does the camera position avoid hiding the essential parts of the ACTIVITY itself (the action, the item, the handover)? Faces and background people are judged by the face criteria, so do not answer NO here for something they already cover."
+        policy_change: *pc_g001
+      R001_FLAT:
+        applicability: banner_prominent
+        policy_change:
+          change_id: V2-03
+          kind: APPLICABILITY_NARROWED
+          affects_mandatory: true
+          status: PROPOSED_PENDING_NGO_APPROVAL
+          reason: "Folds and creases fail the photograph only when the banner is a prominent or required branding element."
+          original_rule: "R001 (client): If a banner is present, ensure it is clearly visible, properly positioned, straight and free from folds, crumpling or creases."
+          proposed_rule: "G009 applies when a banner is present AND is a prominent or required branding element. Slight waviness never fails."
+          previous_effect: "hard gate whenever a banner is present"
+          new_effect: "hard gate only for a prominent banner"
+          evidence: "Pilot 3: G009 fired once on an approved and once on a disapproved photograph: no evidence either way. Included on the specification's reasoning, not on the pilot."
+      R015_BEN_RECEIVING:
+        applicability: beneficiary_receiving_expected_v2
+        description_operational: "Is each PRIMARY or FEATURED beneficiary receiving the help (food, a plate, a packet, medicine, a book or other help) from a volunteer who is handing or serving it?"
+        policy_change:
+          change_id: V2-07
+          kind: APPLICABILITY_RESCOPED
+          affects_mandatory: true
+          status: PROPOSED_PENDING_NGO_APPROVAL
+          reason: "G012 is judged where a handover is expected (distribution activities, and any photograph where an item is visibly being handed over) and only for primary beneficiaries. v1 already skipped non-distribution activities; this also covers a book or medicine handover filed under education or healthcare."
+          original_rule: "G012 (team, derived from R015 Final QC): every visible beneficiary is receiving something from a volunteer."
+          proposed_rule: "G012 applies to distribution activities and visible handovers; judged for primary or featured beneficiaries."
+          previous_effect: "v1: hard gate in food and donation distributions, every visible beneficiary"
+          new_effect: "hard gate in distributions and visible handovers, primary beneficiaries"
+          evidence: "Pilot 3 (v1 already conditional): failed on 2 of 25 approved and 5 of 25 disapproved photographs."
+    gate_overrides:
+      G016:
+        components: [R008_BACK]
+        policy_change:
+          change_id: V2-05
+          kind: GATE_NARROWED
+          affects_mandatory: true
+          status: PROPOSED_PENDING_NGO_APPROVAL
+          reason: "G016 mixed volunteer positioning with beneficiary orientation. It is now the volunteer back-view requirement only (R008). A beneficiary seen from behind is caught by the face gates when they are a primary beneficiary. The T2 logo exception stays withdrawn (NGO decision 2026-11-02, item 5)."
+          original_rule: "R008 (client): Avoid photographs in which the volunteer's back is prominently visible. Prefer front or side angles. NGO decision 2026-11-02, item 5: back views are disallowed."
+          proposed_rule: "G016 = volunteer back view only. T_FRONT (T1) and R015_BEN_FRONT become diagnostics that feed the composition and activity scores."
+          previous_effect: "hard gate over R008_BACK, T_FRONT, R015_BEN_FRONT"
+          new_effect: "hard gate over R008_BACK only; the other two are graded"
+          evidence: "Pilot 3: G016 failed on 3 of 25 approved and 7 of 25 disapproved photographs; the failures came from T_FRONT / R015_BEN_FRONT (main people or beneficiaries from behind), none from the volunteer component."
+      G017:
+        forced_hard: false
+        policy_change: &pc_banner
+          change_id: V2-04
+          kind: GATE_TO_SOFT
+          affects_mandatory: true
+          status: PROPOSED_PENDING_NGO_APPROVAL
+          reason: "Banner visibility and distinctness become soft branding grading (brand presentation is capped once). A missing banner is never a failure."
+          original_rule: "R001 (client): If a banner is present, ensure it is clearly visible, properly positioned, straight. NGO decision 2026-11-02, item 2: when present it must be clearly visible and distinguishable."
+          proposed_rule: "G017 / G018 are soft: a hidden, cropped or blending banner lowers the brand-presentation score once."
+          previous_effect: "hard gates whenever a banner is present"
+          new_effect: "soft: brand_presentation capped at 2"
+          evidence: "Pilot 3: G017 failed on 6 of 25 approved and 5 of 25 disapproved photographs (24% vs 20%); G018 never fired."
+      G018:
+        forced_hard: false
+        policy_change: *pc_banner
+
+  # ------------------------------------------------------------------------------------------------------------------------------------
+  # layered_tuned_v1: layered_proposed_v1 with the banner rules tuned by the project owner (2026-11-05). layered_proposed_v1 itself is untouched
+  # (its prompt and hash are unchanged). The banner group R001 now has three rules, checked in this order:
+  #   1. R001_POSITION  (gate G019): the whole banner, judged by its assumed boundary, is inside the frame. Fails the photograph.
+  #   2. R001_VISIBLE   (gate G017, as before): at least 30% of the banner is visible and readable; blocking by people and minor creases are fine.
+  #   3. R001_FLAT      (gate G009): not crumpled so badly that its words cannot be read; ordinary folds and creases are fine.
+  # Removed from this profile: R001_DISTINCT (and its gate G018) and R001_STRAIGHT. Everything else is inherited unchanged from layered_proposed_v1.
+  # ------------------------------------------------------------------------------------------------------------------------------------
+  layered_tuned_v1:
+    description: "layered_proposed_v1 with the banner rules tuned by the project owner on 2026-11-05 (in-frame gate, 30% visible and readable gate, crumpling only when the words cannot be read; distinct and straight removed)."
+    inherits: layered_proposed_v1
+    rulebook_version: "1.1.0-tuned-banner"
+    unknown_is_fail: true
+    enabled_approval_statuses: [CLIENT_APPROVED, TEAM_APPROVED, PROPOSED, PENDING_CONFIRMATION]
+    beneficiary_scope: ALL_VISIBLE_BENEFICIARIES
+    upload_policy: {require_photo: false, require_single: false}
+    quality: {affects_decision: true}
+    publication: {affects_decision: true}
+    guidance:
+      - "Photographs must be taken from the FRONT or SIDE of the people. A volunteer or a beneficiary shown mainly from behind (back towards the camera) is a violation. There is NO exception for a logo on the back."
+      - "A volunteer looking straight into the camera is NOT a violation. A beneficiary looking straight into the camera IS a violation, with no exception for now."
+      - "Banners are not expected in every photograph; a missing banner is never a failure. When a banner IS present, its whole boundary must be inside the frame of the photograph and at least 30% of it must be visible and readable. Blocking by people and minor creases are fine."
+      - "An animal receiving care counts as a relevant subject of the photograph."
+    overrides:
+      R001_POSITION:
+        description_operational: "Is the entire banner, judged by its assumed boundary even where people or objects hide part of it, within the frame of the photo?"
+        priority: 10
+        evidence_required: true
+        policy_change: &pc_banner_tuned
+          change_id: T-01
+          kind: BANNER_TUNED
+          affects_mandatory: true
+          status: TEAM_APPROVED
+          reason: "Owner decision 2026-11-05: the banner group is reduced to three checks (in frame, 30% visible and readable, not crumpled to unreadable)."
+      R001_VISIBLE:
+        description_operational: "If a banner is present, is at least 30% of it visible and readable? Blocking by people and minor creases are fine."
+        priority: 20
+        evidence_required: true
+        policy_change: *pc_banner_tuned
+      R001_FLAT:
+        description_operational: "Is the banner free from crumpling so severe that its words cannot be read? Ordinary folds, creases and soft ripples are fine."
+        policy_change: *pc_banner_tuned
+      R001_STRAIGHT:
+        active_in: []
+        policy_change: *pc_banner_tuned
+      R001_DISTINCT:
+        active_in: []
+        policy_change: *pc_banner_tuned
+
+  # ------------------------------------------------------------------------------------------------------------------------------------
+  # layered_final_v1: the owner's rule-by-rule review of 2026-11-05 applied on top of layered_tuned_v1 (which is itself untouched, as are the other profiles).
+  # The decisions are recorded in working-notes/agreed_drafts.json. In short: one client line and one question per topic and no redundancy; a beneficiary is anyone not
+  # in a white top (or receiving something, or an animal) and a giver is always a volunteer; the face gates cover every person; a back gate (beneficiaries from the front,
+  # volunteers need part of the face); a very high or very low angle rejects; ONE soft technical-quality gate and ONE soft size gate (the degree decides: a score of 0 is the stop);
+  # no gaze rule and no neatness rule; guidance lines and seven scene facts removed; and the AI always gives a verdict (no_human_review): where the engine used to say HUMAN_REVIEW
+  # it now says REJECT (could not confirm) or RESELECT (quality below the cutoff). A person still decides every photograph.
+  # ------------------------------------------------------------------------------------------------------------------------------------
+  layered_final_v1:
+    description: "The owner's rule review of 2026-11-05 applied on layered_tuned_v1: non-redundant rules, new face/back/angle/size/technical gates, no gaze or neatness rule, the AI always gives a verdict."
+    inherits: layered_tuned_v1
+    rulebook_version: "1.2.0-final-rules"
+    unknown_is_fail: true
+    no_human_review: true
+    enabled_approval_statuses: [CLIENT_APPROVED, TEAM_APPROVED, PROPOSED, PENDING_CONFIRMATION]
+    beneficiary_scope: ALL_VISIBLE_BENEFICIARIES
+    upload_policy: {require_photo: false, require_single: false}
+    quality: {affects_decision: true}
+    publication: {affects_decision: true}
+    guidance: []
+    exceptions_off: [EXC_MEDICAL_PPE]
+    # the fixed introduction says who is a volunteer or a beneficiary is decided "from their ROLE in the activity only"; the owner's definitions use a white top, so that sentence is replaced
+    prompt_text_replace:
+      - find: "Decide who is a volunteer or a beneficiary from their ROLE in the activity only."
+        replace: "Decide who is a volunteer or a beneficiary only by the definitions given in section B (a white top, giving something, receiving something)."
+    client_rules_hidden: [R005, R012, R013, R014, R015, R016]
+    client_rule_text:
+      R001: "If a banner is present, is at least 30% of it visible and readable? Blocking by people and minor creases are fine."
+      R002: "Volunteers giving something to a beneficiary should wear white tops."
+      R004: "Capture genuine expressions and interactions."
+      R007: "Choose an angle that captures the activity from the same level. Avoid awkward perspectives, tilted frames and angles that obstruct the subject. A very high or very low angle is not allowed; a slightly higher or lower angle is fine."
+      R008: "Show people from the front or the side. Nobody should be shown fully from behind: some part of the face should be visible."
+    quality_rubric:
+      technical_quality: "0 = unusable (almost black, blown out or too blurred to make out the activity); 1 = poor (a serious problem with focus, exposure or lighting); 2 = acceptable with visible flaws; 3 = good; 4 = excellent. Judge focus, blur, grain, exposure and lighting together here, and count each defect only once."
+      activity_communication: "0 = the main people and the activity cannot be made out at all; 1 = barely visible (tiny, far away or hidden); 2 = visible but small or partly blocked; 3 = clear; 4 = excellent."
+    gate_overrides:
+      G001:
+        components: []
+        policy_change: {change_id: F-02, kind: GATE_REWORDED, affects_mandatory: true, status: TEAM_APPROVED, reason: "Owner 2026-11-05: the angle gate is one question (same level as the people; a very high or very low angle rejects) and no longer re-asks what the face, size and cut-off rules cover."}
+      G016:
+        components: [R008_BACK]
+        policy_change: {change_id: F-02, kind: GATE_REWORDED, affects_mandatory: true, status: TEAM_APPROVED, reason: "Owner 2026-11-05: the back gate is R008_BACK alone (beneficiaries from the front, volunteers need part of the face visible); T_FRONT and R015_BEN_FRONT are removed."}
+    overrides:
+      # ---- removed rules that were gates (they can no longer reject) ----
+      R003_CLEAR:
+        active_in: []
+        policy_change: &pc_final_removed_gate {change_id: F-01, kind: RULE_REMOVED, affects_mandatory: true, status: TEAM_APPROVED, reason: "Owner 2026-11-05: redundant or dropped; a gate that could reject is removed (see working-notes/agreed_drafts.json)."}
+      R003_FACE_SIZE:
+        active_in: []
+        policy_change: *pc_final_removed_gate
+      R004_BEN_GAZE:
+        active_in: []
+        policy_change: *pc_final_removed_gate
+      R006_COVERAGE:
+        active_in: []
+        policy_change: *pc_final_removed_gate
+      R006_ZOOMED_OUT:
+        active_in: []
+        policy_change: *pc_final_removed_gate
+      R007_FACES_SEEN:
+        active_in: []
+        policy_change: *pc_final_removed_gate
+      R009_FACE_LIT:
+        active_in: []
+        policy_change: *pc_final_removed_gate
+      # ---- removed rules that only informed ----
+      R002_NEAT:
+        active_in: []
+        policy_change: &pc_final_removed {change_id: F-01, kind: RULE_REMOVED, affects_mandatory: false, status: TEAM_APPROVED, reason: "Owner 2026-11-05: redundant (see working-notes/agreed_drafts.json)."}
+      R002_WHITE:
+        active_in: []
+        policy_change: *pc_final_removed
+      R005_CANDID:
+        active_in: []
+        policy_change: *pc_final_removed
+      R005_INTERACT:
+        active_in: []
+        policy_change: *pc_final_removed
+      R006_HANDOVER:
+        active_in: []
+        policy_change: *pc_final_removed
+      R006_IDENTIFY:
+        active_in: []
+        policy_change: *pc_final_removed
+      R006_VOLUNTEER_DOING:
+        active_in: []
+        policy_change: *pc_final_removed
+      G001_ACTIVITY_VISIBLE:
+        active_in: []
+        policy_change: *pc_final_removed
+      G001_BENEFICIARIES_VISIBLE:
+        active_in: []
+        policy_change: *pc_final_removed
+      G001_INTERACTION_VISIBLE:
+        active_in: []
+        policy_change: *pc_final_removed
+      G001_NOTHING_HIDDEN:
+        active_in: []
+        policy_change: *pc_final_removed
+      R007_FOREGROUND:
+        active_in: []
+        policy_change: *pc_final_removed
+      R007_HEIGHT:
+        active_in: []
+        policy_change: *pc_final_removed
+      R007_INTERACTION_VIEW:
+        active_in: []
+        policy_change: *pc_final_removed
+      R007_LEVEL:
+        active_in: []
+        policy_change: *pc_final_removed
+      R007_ORIENTATION:
+        active_in: []
+        policy_change: *pc_final_removed
+      R007_PERSPECTIVE:
+        active_in: []
+        policy_change: *pc_final_removed
+      R007_UNOBSTRUCTED:
+        active_in: []
+        policy_change: *pc_final_removed
+      R007_VERTICALS:
+        active_in: []
+        policy_change: *pc_final_removed
+      T_FRONT:
+        active_in: []
+        policy_change: *pc_final_removed
+      R009_DIRECTION:
+        active_in: []
+        policy_change: *pc_final_removed
+      R009_LIT:
+        active_in: []
+        policy_change: *pc_final_removed
+      R009_OVEREXPOSED:
+        active_in: []
+        policy_change: *pc_final_removed
+      R009_PEOPLE_LIT:
+        active_in: []
+        policy_change: *pc_final_removed
+      R009_UNDEREXPOSED:
+        active_in: []
+        policy_change: *pc_final_removed
+      R010_GRAIN:
+        active_in: []
+        policy_change: *pc_final_removed
+      R010_SHAKE:
+        active_in: []
+        policy_change: *pc_final_removed
+      R010_SHARP:
+        active_in: []
+        policy_change: *pc_final_removed
+      R011_CLUTTER:
+        active_in: []
+        policy_change: *pc_final_removed
+      R011_UNRELATED:
+        active_in: []
+        policy_change: *pc_final_removed
+      R015_BEN_FRONT:
+        active_in: []
+        policy_change: *pc_final_removed
+      R015_BEN_INTERACT:
+        active_in: []
+        policy_change: *pc_final_removed
+      R015_BEN_POSE:
+        active_in: []
+        policy_change: *pc_final_removed
+      R015_BEN_PRESENT:
+        active_in: []
+        policy_change: *pc_final_removed
+      R015_BEN_PROMINENT:
+        active_in: []
+        policy_change: *pc_final_removed
+      # ---- removed proposed extras (NEW-014 stays) ----
+      NEW-008:
+        active_in: []
+        policy_change: *pc_final_removed
+      NEW-009:
+        active_in: []
+        policy_change: *pc_final_removed
+      NEW-010:
+        active_in: []
+        policy_change: *pc_final_removed
+      NEW-011:
+        active_in: []
+        policy_change: *pc_final_removed
+      NEW-012:
+        active_in: []
+        policy_change: *pc_final_removed
+      NEW-013:
+        active_in: []
+        policy_change: *pc_final_removed
+      NEW-015:
+        active_in: []
+        policy_change: *pc_final_removed
+      NEW-016:
+        active_in: []
+        policy_change: *pc_final_removed
+      NEW-017:
+        active_in: []
+        policy_change: *pc_final_removed
+      NEW-018:
+        active_in: []
+        policy_change: *pc_final_removed
+      NEW-019:
+        active_in: []
+        policy_change: *pc_final_removed
+      NEW-020:
+        active_in: []
+        policy_change: *pc_final_removed
+      NEW-021:
+        active_in: []
+        policy_change: *pc_final_removed
+      NEW-022:
+        active_in: []
+        policy_change: *pc_final_removed
+      P004:
+        active_in: []
+        policy_change: *pc_final_removed
+      # ---- removed scene facts (nothing reads them; F_VOLUNTEER_GIVER is merged into F_ITEM_GIVEN) ----
+      F_ANIMALS:
+        active_in: []
+        policy_change: *pc_final_removed
+      F_BANNER_PROMINENT:
+        active_in: []
+        policy_change: *pc_final_removed
+      F_GROUP:
+        active_in: []
+        policy_change: *pc_final_removed
+      F_HANDOVER:
+        active_in: []
+        policy_change: *pc_final_removed
+      F_LOGO:
+        active_in: []
+        policy_change: *pc_final_removed
+      F_ORIENTATION:
+        active_in: []
+        policy_change: *pc_final_removed
+      F_VOLUNTEER_GIVER:
+        active_in: []
+        policy_change: *pc_final_removed
+      # ---- reworded rules, facts and gates (the owner's wording) ----
+      R002_GIVER_WHITE:
+        description_operational: "Is every person who is giving something to a beneficiary wearing a white top?"
+        applicability: item_given
+        na_condition_text: no item is being given to a beneficiary
+        policy_change: {change_id: F-04, kind: RULE_REWORDED, affects_mandatory: true, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
+      R003_FACE:
+        description_operational: "Is some part of every person's face visible, even if turned partly away: not covered, hidden or in shadow, and, for the main people, not too small to read?"
+        applicability: people_visible
+        na_condition_text: no person is visible
+        policy_change: {change_id: F-04, kind: RULE_REWORDED, affects_mandatory: true, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
+      R003_FACE_SHARP:
+        description_operational: "Is every person's face sharp and in focus (not blurred by motion or poor focus)?"
+        applicability: people_visible
+        na_condition_text: no person is visible
+        policy_change: {change_id: F-04, kind: RULE_REWORDED, affects_mandatory: true, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
+      R004_GENUINE:
+        description_operational: "Do the expressions and interactions look genuine, in a candid moment rather than staged or posed?"
+        policy_change: {change_id: F-04, kind: RULE_REWORDED, affects_mandatory: false, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
+      R006_ACTION:
+        description_operational: "Is a seva activity actually taking place (for example giving food, teaching, treating, caring for an animal), not just people standing or waiting?"
+        policy_change: {change_id: F-04, kind: RULE_REWORDED, affects_mandatory: false, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
+      R007_ANGLE:
+        description_operational: "Is the activity captured from roughly the same level as the people (a slightly higher or lower angle is fine, a very high or very low angle is not), with a level frame, so that the activity is clearly visible and not obstructed?"
+        policy_change: {change_id: F-04, kind: RULE_REWORDED, affects_mandatory: true, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
+      R007_CUTOFF:
+        description_operational: "Is everything important fully inside the frame: no key person, hands or objects cut off at the edges or hidden by the camera angle?"
+        policy_change: {change_id: F-04, kind: RULE_REWORDED, affects_mandatory: false, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
+      R007_PLACEMENT:
+        description_operational: "Is the main subject sensibly placed in the frame (not squeezed into a corner or edge) and free from obstruction by people or objects in front of it?"
+        policy_change: {change_id: F-04, kind: RULE_REWORDED, affects_mandatory: false, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
+      R008_BACK:
+        description_operational: "Is every person seen from the front or the side, with some part of the face visible (nobody shown fully from behind)?"
+        applicability: people_visible
+        na_condition_text: no person is visible
+        policy_change: {change_id: F-04, kind: RULE_REWORDED, affects_mandatory: true, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
+      R011_BACKGROUND:
+        description_operational: "Is the background free from clutter, scattered materials and unrelated objects that draw attention away from the seva?"
+        policy_change: {change_id: F-04, kind: RULE_REWORDED, affects_mandatory: false, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
+      R015_BEN_RECEIVING:
+        description_operational: "If an item is being given, is at least one beneficiary receiving it (or already holding it)?"
+        applicability: item_given
+        na_condition_text: no item is being given
+        policy_change: {change_id: F-04, kind: RULE_REWORDED, affects_mandatory: true, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
+      F_VOLUNTEERS:
+        description_operational: "Is at least one volunteer visible in this photo? A volunteer is a person wearing a white top, or a person giving something to a beneficiary."
+        policy_change: {change_id: F-03, kind: FACT_REWORDED, affects_mandatory: false, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
+      F_BENEFICIARIES:
+        description_operational: "Is at least one beneficiary visible in this photo? A beneficiary is any person not wearing a white top, whether or not they are receiving anything (they may already have received something, be next in line, or just be standing there). A person receiving something from a volunteer is also a beneficiary. A person giving something to a beneficiary is a volunteer, whatever they wear. An animal can also be a beneficiary."
+        policy_change: {change_id: F-03, kind: FACT_REWORDED, affects_mandatory: false, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
+      F_ITEM_GIVEN:
+        description_operational: "Is an item being handed over in this photo? An item is any substance, such as food, a packet, a sack or similar packed goods, medicine or a book, that is being given by a person's hands and received by a beneficiary's hands, whatever the giver is wearing. Only a visible hand-to-hand handover counts: people who are only interacting, standing together or talking, paperwork, forms, pamphlets or brochures, registration or checking of documents, and things lying on a table are not an item being handed over."
+        policy_change: {change_id: F-03, kind: FACT_REWORDED, affects_mandatory: false, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
+      R006_SIZE:
+        description_operational: "Are the main people and the seva activity clearly visible: large enough in the frame and not blocked from view?"
+        decision_effect: SOFT_SCORE
+        gate_id: G020
+        policy_change: {change_id: F-02, kind: GATE_TO_SOFT, affects_mandatory: true, status: TEAM_APPROVED, reason: "Owner 2026-11-05: the size rule becomes a SOFT gate (it caps activity_communication once; a score of 0 means stop). It starts soft because the old zoomed-out gate fired on 4 of 11 approved photos."}
+      R006_ITEM_SHARP:
+        description_operational: "If an item is being handed over, is the item sharp and in focus and clear enough to recognise? A sack or similar packed goods count as items, and their contents need not be visible."
+        policy_change: {change_id: F-04, kind: RULE_REWORDED, affects_mandatory: true, status: TEAM_APPROVED, reason: "Owner 2026-11-06: a sack or similar packed goods are items and need not show their contents; an item is something handed from a volunteer's hands to a beneficiary's hands."}

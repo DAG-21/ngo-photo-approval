@@ -1,0 +1,292 @@
+# Machine-readable form of the client's rules document: rules/photo-approval-requirement-rules.txt
+#
+# THE TEXT DOCUMENT IS THE SINGLE SOURCE OF TRUTH. This file only adds structure to it.
+#   * `original_text` is copied verbatim; `source_ref` ties each rule to its item in the document.
+#   * A rule is `mandatory` ONLY if the document itself says so (marker words in configs/project.yaml).
+#     The document currently says so for NO rule, so every rule is `scored`: each is evaluated against the
+#     exact wording on every photo, but none rejects a photo on its own.
+#   * If the document changes, the loader refuses to start until this file is re-synced:
+#         python scripts/sync_rules.py            # report differences
+#         python scripts/sync_rules.py --write    # apply them (new rules, changed wording, removed rules)
+#   * descriptions / visual_evidence / applies_when are plain-language restatements of the wording, added for the
+#     model; they must never add requirements the text does not contain.
+rule_set_version: 1.2-sop
+rule_set_confirmed: false
+rules:
+- rule_id: R001
+  name: banner_visibility_presentation
+  original_text: If a banner is present, ensure it is clearly visible, properly positioned, straight and free from folds, crumpling or creases.
+  source_ref: Banner Visibility & Presentation
+  description: If a banner is present, it is clearly visible, properly positioned, straight and free from folds, crumpling or creases.
+  visual_evidence: Banner is clearly visible, properly positioned and straight, with no folds, crumpling or creases.
+  applies_when: a banner is present in the photo
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: Conditional rule - a photo without a banner is not applicable (PASS, N/A).
+  notes: ''
+- rule_id: R002
+  name: volunteer_dress_code
+  original_text: Volunteers should wear white-on-white or a white top with jeans. Ensure clothing is neat, clean and presentable.
+  source_ref: Volunteer Dress Code
+  description: Volunteers wear white-on-white or a white top with jeans, and their clothing is neat, clean and presentable.
+  visual_evidence: Volunteers wear white-on-white or a white top with jeans; clothing looks neat, clean and presentable.
+  applies_when: volunteers are visible in the photo
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: The document does not define how to tell a volunteer from a beneficiary; use activity context only, never personal attributes.
+  notes: ''
+- rule_id: R003
+  name: beneficiary_visibility
+  original_text: Ensure the beneficiary’s face and expressions are clearly visible, wherever appropriate. Avoid obstructed faces and awkward cropping.
+  source_ref: Beneficiary Visibility
+  description: Wherever appropriate, the beneficiary's face and expressions are clearly visible, with no obstructed faces or awkward cropping.
+  visual_evidence: The beneficiary's face and expression are clearly visible, not obstructed and not awkwardly cropped.
+  additional_guidance: The photo must be taken from the front of the people, not from behind them. If the main people in the frame are seen mainly from behind (their backs towards the camera), this rule is not met (FAIL).
+  applies_when: a beneficiary is visible and showing their face is appropriate
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: 'Evaluates visibility only: no facial recognition, identification, or inference of beneficiary status. "Wherever appropriate" is not defined in the document.'
+  notes: ''
+- rule_id: R004
+  name: natural_expressions
+  original_text: Capture genuine expressions and interactions. Beneficiaries and volunteers should not look straight into the camera unless a specific photograph requires it.
+  source_ref: Natural Expressions
+  description: Expressions and interactions look genuine; beneficiaries and volunteers do not look straight into the camera unless a specific photograph requires it.
+  visual_evidence: Genuine expressions and interactions; people are not looking straight into the camera (unless the photograph specifically requires it).
+  applies_when: people are visible in the photo
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: '"Unless a specific photograph requires it" is not defined in the document.'
+  notes: ''
+- rule_id: R005
+  name: natural_candid_shots
+  original_text: Prioritise candid moments that capture compassion, kindness, shots that show genuine interaction with beneficiaries rather than staged or overly posed photographs.
+  source_ref: Natural & Candid Shots
+  description: The photograph is a candid moment capturing compassion and kindness, showing genuine interaction with beneficiaries rather than a staged or overly posed shot.
+  visual_evidence: Candid moment showing genuine interaction with beneficiaries; not staged or overly posed.
+  applies_when: ''
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: ''
+  notes: ''
+- rule_id: R006
+  name: capture_the_actual_seva
+  original_text: Clearly showcase the activity being performed, whether food distribution, education support, healthcare assistance, animal care or another seva initiative.
+  source_ref: Capture the Actual Seva
+  description: The photograph clearly showcases the activity being performed, whether food distribution, education support, healthcare assistance, animal care or another seva initiative.
+  visual_evidence: The seva activity being performed is clearly shown.
+  applies_when: ''
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: ''
+  notes: ''
+- rule_id: R007
+  name: proper_camera_angle
+  original_text: Choose an appropriate angle that captures the activity, beneficiary and volunteer interaction clearly. Avoid awkward perspectives, tilted frames and angles that obstruct the subject.
+  source_ref: Proper Camera Angle
+  description: The angle captures the activity and the beneficiary-volunteer interaction clearly, without awkward perspectives, tilted frames or angles that obstruct the subject.
+  visual_evidence: Appropriate angle capturing the activity and interaction clearly; no awkward perspective, tilted frame or obstructed subject.
+  additional_guidance: The photo must be taken from the front of the people, not from behind them. If the main people in the frame are seen mainly from behind (their backs towards the camera), this rule is not met (FAIL).
+  applies_when: ''
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: ''
+  notes: ''
+- rule_id: R008
+  name: volunteer_positioning
+  original_text: Avoid photographs in which the volunteer’s back is prominently visible. Prefer front or side angles that highlight the volunteer’s involvement in the activity.
+  source_ref: Volunteer Positioning
+  description: The volunteer's back is not prominently visible; front or side angles highlight the volunteer's involvement in the activity.
+  visual_evidence: Volunteer is seen from the front or side, not with their back prominently visible.
+  additional_guidance: The photo must be taken from the front of the people, not from behind them. If the main people in the frame are seen mainly from behind (their backs towards the camera), this rule is not met (FAIL).
+  applies_when: volunteers are visible in the photo
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: Same volunteer-identification limitation as R002.
+  notes: ''
+- rule_id: R009
+  name: proper_lighting
+  original_text: Ensure subjects are well-lit and clearly visible. Avoid dark, overexposed, harshly backlit or shadow-heavy photographs.
+  source_ref: Proper Lighting
+  description: Subjects are well-lit and clearly visible; the photograph is not dark, overexposed, harshly backlit or shadow-heavy.
+  visual_evidence: Subjects well-lit and clearly visible; not dark, overexposed, harshly backlit or shadow-heavy.
+  applies_when: ''
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: Brightness and contrast are also measured with OpenCV as probability features; the document gives no numeric thresholds.
+  notes: ''
+- rule_id: R010
+  name: focus_image_clarity
+  original_text: Ensure photographs are sharp and in focus. Avoid blurry, grainy or shaky images.
+  source_ref: Focus & Image Clarity
+  description: The photograph is sharp and in focus; it is not blurry, grainy or shaky.
+  visual_evidence: Sharp and in focus; not blurry, grainy or shaky.
+  applies_when: ''
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: 'Blur is also measured with OpenCV as a feature; the document gives no numeric threshold. Note: in this dataset sharpness correlates with image resolution/provenance (see docs/DATASET_AUDIT.md).'
+  notes: ''
+- rule_id: R011
+  name: clean_background
+  original_text: Avoid distracting backgrounds, clutter, scattered materials and unrelated objects that take attention away from the seva.
+  source_ref: Clean Background
+  description: The background is free of distractions, clutter, scattered materials and unrelated objects that take attention away from the seva.
+  visual_evidence: No distracting background, clutter, scattered materials or unrelated objects taking attention from the seva.
+  applies_when: ''
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: ''
+  notes: ''
+- rule_id: R012
+  name: final_qc_dignity
+  original_text: Does it maintain the dignity of everyone involved?
+  source_ref: Final QC Test Q4
+  description: 'Final QC test question - PASS means the answer is yes: the photograph maintains the dignity of everyone involved.'
+  visual_evidence: The photograph maintains the dignity of everyone involved.
+  applies_when: ''
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: Highly subjective and ethically sensitive; a human should own this judgement.
+  notes: ''
+- rule_id: R013
+  name: final_qc_humanity_compassion
+  original_text: Does it reflect the spirit of humanity and compassion?
+  source_ref: Final QC Test Q5
+  description: 'Final QC test question - PASS means the answer is yes: the photograph reflects the spirit of humanity and compassion.'
+  visual_evidence: The photograph reflects the spirit of humanity and compassion.
+  applies_when: ''
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: Highly subjective.
+  notes: ''
+- rule_id: R014
+  name: final_qc_seva_visible
+  original_text: Is the seva activity clearly visible?
+  source_ref: Final QC Test Q1
+  description: 'Final QC test question - PASS means the answer is yes: the seva activity is clearly visible.'
+  visual_evidence: The seva activity is clearly visible.
+  applies_when: ''
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: Restates R006 as a question.
+  notes: ''
+- rule_id: R015
+  name: final_qc_volunteer_beneficiary_captured
+  original_text: Are the volunteer and beneficiary captured appropriately?
+  source_ref: Final QC Test Q2
+  description: 'Final QC test question - PASS means the answer is yes: the volunteer and beneficiary are captured appropriately.'
+  visual_evidence: The volunteer and beneficiary are captured appropriately.
+  additional_guidance: The photo must be taken from the front of the people, not from behind them. If the main people in the frame are seen mainly from behind (their backs towards the camera), this rule is not met (FAIL).
+  applies_when: ''
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: '"Appropriately" is not defined beyond the other rules in the document.'
+  notes: ''
+- rule_id: R016
+  name: final_qc_natural_framed_lit
+  original_text: Is the photograph natural, well-framed and properly lit?
+  source_ref: Final QC Test Q3
+  description: 'Final QC test question - PASS means the answer is yes: the photograph is natural, well-framed and properly lit.'
+  visual_evidence: The photograph is natural, well-framed and properly lit.
+  additional_guidance: The photo must be taken from the front of the people, not from behind them. If the main people in the frame are seen mainly from behind (their backs towards the camera), this rule is not met (FAIL).
+  applies_when: ''
+  requirement_type: scored
+  mandatory_status_confirmed: true
+  check_method: vlm
+  enabled: true
+  uncertain_policy: score_only
+  applies_to_programs: []
+  confirmed: true
+  needs_manual_annotation: true
+  limitations: Compound question; overlaps R004, R007, R009, R010.
+  notes: ''

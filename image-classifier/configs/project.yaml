@@ -1,0 +1,71 @@
+# Project settings. Environment variables (see .env.example) override the values marked [env].
+project:
+  name: ngo-photo-approval
+
+paths:
+  data_dir: data/raw               # [env NGO_DATA_DIR] read-only raw client dataset
+  rules_document: rules/photo-approval-requirement-rules.txt   # client SOP; source of configs/rules.yaml
+  output_dir: data                 # derived outputs (manifests, splits, tuning, results)
+  artifacts_dir: artifacts
+  docs_dir: docs
+
+rules:
+  # The text document (paths.rules_document) is the single source of truth for the rules.
+  # A rule is mandatory ONLY if the document itself says so, using one of these words.
+  mandatory_markers: [mandatory, compulsory, must, non-negotiable, without fail]
+  # Refuse to start if configs/rules.yaml no longer matches the document (run scripts/sync_rules.py).
+  enforce_source_sync: true
+
+dataset:
+  # Folder name (under data_dir) -> normalized label. Folder names are the client's.
+  # "pending" is NEVER treated as "not_approved".
+  folder_label_map:
+    approved: approved
+    disapproved: not_approved
+    pending-approval: pending
+  # Labels used for supervised training / calibration / evaluation.
+  trainable_labels: [approved, not_approved]
+  supported_image_extensions: [.jpg, .jpeg, .png, .webp]
+  known_non_image_extensions: [.mp4, .mov, .avi]   # recorded as unsupported_media, not decoded
+  inventory_pending: true          # pending items are inventoried (metadata only) but excluded from all training
+  near_duplicate_hamming_threshold: 4   # 64-bit dHash; <= threshold bits => same near-duplicate group
+  # Duplicate clusters whose members carry BOTH final labels have contradictory ground truth.
+  # exact = drop only byte-identical conflicts; near = also drop near-duplicate conflicts; none.
+  label_conflict_exclusion: exact
+  quality:
+    blur_laplacian_var_low: 60.0    # below => flagged "blurry" (diagnostic only)
+    brightness_low: 40.0
+    brightness_high: 220.0
+    contrast_low: 25.0
+    min_side_px_warn: 480
+
+splits:
+  seed: 42
+  train: 0.70
+  validation: 0.15
+  test: 0.15
+  # Group key = connected components over (label, program, submission index) and
+  # near-duplicate / exact-duplicate links. See docs/DATASET_AUDIT.md for the caveat.
+  use_filename_groups: true
+
+cloud:
+  provider: google_vertex          # Gemini Enterprise Agent Platform
+  auth_mode: vertex                # [env NGO_AUTH_MODE] vertex = project + ADC (inference+tuning); api_key = GEMINI_API_KEY (inference only)
+  project_id: null                # [env GOOGLE_CLOUD_PROJECT]
+  location: us                     # [env GOOGLE_CLOUD_LOCATION]  Gemini 3.x tuning: "us" or "eu" multi-region
+  gcs_bucket: null                 # [env NGO_GCS_BUCKET]
+  gcs_prefix: ngo-photo-approval   # [env NGO_GCS_PREFIX]
+  # Authorization gates. ALL default to false. Env vars may only enable them explicitly.
+  allow_cloud_inference: false     # [env NGO_ALLOW_CLOUD_INFERENCE]
+  allow_cloud_upload: false        # [env NGO_ALLOW_CLOUD_UPLOAD]
+  allow_paid_tuning: false         # [env NGO_ALLOW_PAID_TUNING]
+
+review:
+  enabled: false                   # whether a REVIEW outcome may be produced (see thresholds.yaml)
+
+api:
+  max_upload_mb: 15                # [env NGO_MAX_UPLOAD_MB]
+  allowed_content_types: [image/jpeg, image/png, image/webp]
+
+logging:
+  level: INFO                      # [env NGO_LOG_LEVEL]
