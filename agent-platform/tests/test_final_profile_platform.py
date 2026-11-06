@@ -50,7 +50,7 @@ def short_answer(rb, **checks):
 def test_the_catalogue_of_the_final_profile_hides_what_it_hides_and_shows_the_owners_wording(rb):
     cat = rule_catalogue(rb, FINAL)
     assert not any(k in cat for k in ("R005", "R012", "R013", "R014", "R015", "R016")) and not any(v.kind == "GUIDANCE" for v in cat.values())
-    assert cat["R004"].base == "Capture genuine expressions and interactions." and cat["R004"].client_wording.startswith("Capture genuine expressions and interactions. Beneficiaries")
+    assert cat["R004"].base == "Capture natural expressions and interactions. A posed photograph, such as a group photograph of volunteers, is fine." and cat["R004"].client_wording.startswith("Capture genuine expressions and interactions. Beneficiaries")
     assert {k for k, v in cat.items() if v.kind == "CLIENT_RULE"} == {"R001", "R002", "R003", "R004", "R006", "R007", "R008", "R009", "R010", "R011"}
     assert "R004_BEN_GAZE" not in cat and "R010_TECHNICAL" in cat and "F_BENEFICIARIES" in cat and "F_LOGO" not in cat
     older = rule_catalogue(rb, TUNED)
@@ -62,8 +62,8 @@ def test_the_short_answer_without_the_dropped_facts_is_accepted_and_decided(rb):
     out = LayeredEngineEvaluator(fake, config("compact"), rb).evaluate(b"img", "image/jpeg", {"profile": FINAL}, {"width": 1000, "height": 800})
     assert out.decision["recommendation"] in APPROVED and out.profile == FINAL
     assert "f_logo" not in fake.calls[0]["schema"]["properties"]["scene_facts"]["properties"] and "f_logo" not in fake.calls[0]["system"]
-    tuned_text = short_answer(rb)                                                       # the same answer is NOT enough for an earlier profile: it asks all fifteen facts
-    with pytest.raises(EvaluationFailure, match="scene fact|schema"):
+    tuned_text = short_answer(rb)                                                       # the same answer is NOT enough for an earlier profile: it asks all fifteen facts and the brand presentation grade
+    with pytest.raises(EvaluationFailure, match="scene fact|schema|quality dimension"):
         LayeredEngineEvaluator(FakeProvider(tuned_text), config("compact"), rb).evaluate(b"img", "image/jpeg", {"profile": TUNED}, {"width": 1000, "height": 800})
 
 

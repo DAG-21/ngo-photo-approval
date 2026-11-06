@@ -244,8 +244,30 @@ class Rulebook:
         if bv and bv.get("change_id") in skip:  # the scope refinement is switched off: back to the legacy subject scope
             bv["subject_scope"] = bv["legacy_subject_scope"]
         quality = self.quality
+        qt = p.get("quality_thresholds")   # a profile may set its own cut-offs (layered_final_v1: review 65); the shared file and every other profile keep theirs
+        if qt:
+            if set(qt) - {"review", "reselection"}:
+                raise ValueError(f"profile {profile!r}: quality_thresholds may set only 'review' and 'reselection'")
+            quality = copy.deepcopy(self.quality)
+            th = quality["thresholds"]
+            if "review" in qt:
+                th["review"] = th["acceptable"] = _number(qt["review"], 0, 100, f"profile {profile!r}: review")   # the shipped file keeps "acceptable" equal to "review"
+            if "reselection" in qt:
+                th["reselection"] = _number(qt["reselection"], 0, 100, f"profile {profile!r}: reselection")
+            if not 0 <= th["reselection"] <= th["review"] <= th["strong_candidate"]:
+                raise ValueError(f"profile {profile!r}: thresholds must satisfy 0 <= reselection <= review <= {th['strong_candidate']}")
+        off_dims = list(p.get("quality_dimensions_off") or [])   # a profile may leave a quality area out altogether (layered_final_v1: brand_presentation, owner 2026-11-06, "too subjective"):
+        if off_dims:                                              # it is not asked, not graded, not counted (the other weights are rescaled to 100) and can never be a poor area
+            unknown = [d for d in off_dims if d not in quality["dimensions"]]
+            if unknown:
+                raise ValueError(f"profile {profile!r}: quality_dimensions_off names unknown quality areas {unknown}")
+            quality = copy.deepcopy(quality)
+            quality["dimensions"] = {k: v for k, v in quality["dimensions"].items() if k not in off_dims}
+            quality["soft_caps"] = [c for c in quality.get("soft_caps", []) if c["dimension"] not in off_dims]
+            if not quality["dimensions"]:
+                raise ValueError(f"profile {profile!r}: quality_dimensions_off leaves no quality area")
         if records:
-            quality = copy.deepcopy(self.quality)   # the shared configuration is never edited: only this resolved profile sees the overlay
+            quality = copy.deepcopy(quality)   # the shared configuration is never edited: only this resolved profile sees the overlay
             self._apply_overlay(records, profile, criteria, gates, quality)
         return ResolvedProfile(name=profile, settings=settings, criteria=criteria, gates=gates, conditions=self.conditions, exceptions=exceptions,
                                quality=quality, publication=self.publication, taxonomy=taxonomy, policy_changes=changes,

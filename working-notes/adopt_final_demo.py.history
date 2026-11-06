@@ -1,0 +1,48 @@
+"""One-off (2026-11-06): move the local demo organisation to layered_final_v1 (the owner's reviewed rules) and withdraw, on purpose, every rewrite made earlier by the learning loop
+or an administrator, so that nothing overrides the agreed wording. The demo server must be OFF. Backs the database up first. Kept as a record."""
+import shutil
+import socket
+import sys
+from pathlib import Path
+
+ROOT = Path(r"C:/Dhiren/Jio Institute/Internship/NGO-Photo-Approval")
+AP = ROOT / "agent-platform"
+sys.path[:0] = [str(AP / "src"), str(ROOT / "layered-engine" / "src")]
+from layered_engine.prompt_builder import build_prompt  # noqa: E402
+from layered_engine.rulebook import Rulebook  # noqa: E402
+from sqlalchemy import select  # noqa: E402
+
+from ngo_agent import profile_switch as ps  # noqa: E402
+from ngo_agent import rule_service as rs  # noqa: E402
+from ngo_agent.db import make_engine, make_session_factory  # noqa: E402
+from ngo_agent.models import Organisation, PromptVersion, RulebookVersion, User  # noqa: E402
+
+FINAL = "layered_final_v1"
+with socket.socket() as sk:
+    sk.settimeout(1)
+    assert sk.connect_ex(("127.0.0.1", 8100)) != 0, "the demo server is still running: stop it first"
+db = AP / "demo_data" / "fresh" / "fresh.db"
+backup = db.with_name("fresh.db.before-final-profile")
+assert not backup.exists(), "a backup with this name already exists"
+shutil.copy2(db, backup)
+print("backup:", backup.name)
+
+rb = Rulebook()
+factory = make_session_factory(make_engine(f"sqlite:///{db.as_posix()}"))
+with factory() as s:
+    org = s.scalar(select(Organisation))
+    admin = s.scalar(select(User).where(User.email == "admin.fresh@demo.local"))
+    before = s.get(RulebookVersion, org.active_rulebook_version_id)
+    print("from:", before.configuration.get("profile"), "version", before.version_number)
+    rv, pv, dropped = ps.adopt_profile(s, org, FINAL, rb, admin, "owner decision 2026-11-06: the reviewed rule set (layered_final_v1), to be tested on the demo")
+    print("rulebook version ->", rv.version_number, "| rewrites withdrawn because their rule no longer exists:", sorted(dropped))
+    live = rs.active_edits(s, org.organisation_id)
+    for target, d in sorted(live.items()):
+        rs.withdraw(s, org, d, "withdrawn on purpose: superseded by the owner's reviewed rules in layered_final_v1 (the profile carries the agreed wording itself)", rb, admin, {"by": "a profile change"})
+        print("  withdrew the rewrite of", target)
+    s.commit()
+    pv = s.get(PromptVersion, org.active_prompt_version_id)
+    built = build_prompt(rb, rb.resolve(FINAL), notes=pv.configuration.get("notes"), rule_text=pv.configuration.get("rule_text"))
+    print("active prompt:", pv.version_number, "| matches what the engine builds:", built.hash == pv.configuration["prompt_hash"], "| questions asked:", len(built.criterion_ids))
+    print("rewrites left in force:", sorted(pv.configuration.get("rule_text", {})) or "none", "| notes:", pv.configuration.get("notes") or "none")
+    print("profile now:", s.get(RulebookVersion, org.active_rulebook_version_id).configuration.get("profile"))

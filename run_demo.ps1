@@ -6,13 +6,13 @@
 #   (image-classifier\.venv\Scripts\python.exe -m pip install anthropic). Without them the start stops with a message saying what is missing; nothing is sent.
 # A Claude Pro subscription does not include API calls: the API is billed separately from the Anthropic Console.
 # Stop it with Ctrl+C. Logging in again is needed after every start. Logins: agent-platform\demo_data\fresh\credentials.txt
-param([switch]$Live, [ValidateSet('haiku', 'gemini')][string]$Vision = 'haiku', [string]$RulesProfile = 'layered_tuned_v1')
+param([switch]$Live, [ValidateSet('haiku', 'gemini')][string]$Vision = 'haiku', [string]$RulesProfile = 'layered_final_v1')
 $root = $PSScriptRoot
 $env:HF_HUB_CACHE = Join-Path $root 'models\huggingface\hub'   # the embedding models for "similar photographs" live in this folder
 $env:HF_HUB_OFFLINE = '1'                                       # nothing is ever downloaded
 $py = Join-Path $root 'image-classifier\.venv\Scripts\python.exe'
 Set-Location (Join-Path $root 'agent-platform')
-# the demo organisation still uses layered_tuned_v1; layered_final_v1 (the owner's reviewed rules) is not adopted by the demo yet
+# the demo organisation uses layered_final_v1 (the owner's reviewed rules) since 2026-11-06 (database backup: fresh.db.before-final-profile)
 $args_ = @('scripts/serve_fresh.py', '--profile', $RulesProfile)
 if ($Live) { $args_ += @('--live', '--vision', $Vision, '--llm-gaps', '--gap-llm', 'groq', '--llm-rules', '--llm-summary') }
 & $py @args_

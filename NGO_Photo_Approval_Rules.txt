@@ -1,0 +1,316 @@
+﻿NGO PHOTO APPROVAL: THE RULES THE AI IS USING
+Prepared for stakeholder review, 6 November 2026
+Rule set: layered_final_v1 (demo/test version, not yet approved by the NGO)
+Prepared by: Dhiren Ganwani (Roll no 27PGAI0007)
+
+1. HOW A PHOTO IS JUDGED
+========================
+
+A vision AI (Claude Haiku 5.5) looks at one photograph and answers a fixed list of yes/no questions
+about it, with a short reason for each answer. It also grades six quality areas from 0 to 4. The AI
+does NOT decide. Fixed program rules (not the AI) turn its answers into the verdict, so the same
+answers always give the same verdict.
+
+The verdict is always Approve or Disapprove, with the reasons. A person still reviews every
+photograph. Nothing is published automatically. Reviewer feedback is used to improve the rules (see
+section 8).
+
+A photograph is APPROVED only when ALL of these hold:
+  -  every mandatory check in section 3 is answered YES (or NOT APPLICABLE where the photo does not
+     contain the thing asked about);
+  -  the overall quality score is at least 65 out of 100 (section 5);
+  -  no quality area is graded 0 (unusable) or 1 (poor);
+  -  no publication blocker is found (section 6): a blocked consent or rights status, or a visual
+     flag that blocks publication. Checks that are only still waiting to be confirmed do not stop
+     approval; they must be confirmed by people before publishing.
+
+Anything else is DISAPPROVED. If the AI cannot tell (for example a face is too small to judge), the
+answer counts as not confirmed, so the photo is not approved. The aim is to avoid false approvals
+first.
+
+2. THE NGO'S OWN RULES, AND HOW THEY ARE GIVEN TO THE AI
+========================================================
+
+The NGO's document has 16 rules and marks none of them as mandatory. The wording below is the NGO's
+original. Where the AI is given different wording (the rule was reworded after the owner's review of
+5-6 November 2026), the AI's wording is shown beneath it.
+
+R001  Banner Visibility & Presentation
+    NGO's wording: If a banner is present, ensure it is clearly visible, properly positioned,
+    straight and free from folds, crumpling or creases.
+    Given to the AI as: If a banner is present, is at least 30% of it visible and readable? Blocking
+    by people and minor creases are fine.
+
+R002  Volunteer Dress Code
+    NGO's wording: Volunteers should wear white-on-white or a white top with jeans. Ensure clothing
+    is neat, clean and presentable.
+    Given to the AI as: Volunteers giving something to a beneficiary should wear white tops.
+
+R003  Beneficiary Visibility
+    NGO's wording: Ensure the beneficiary’s face and expressions are clearly visible, wherever
+    appropriate. Avoid obstructed faces and awkward cropping.
+    Given to the AI as written.
+
+R004  Natural Expressions
+    NGO's wording: Capture genuine expressions and interactions. Beneficiaries and volunteers should
+    not look straight into the camera unless a specific photograph requires it.
+    Given to the AI as: Capture genuine expressions and interactions.
+
+R005  Natural & Candid Shots
+    NGO's wording: Prioritise candid moments that capture compassion, kindness, shots that show
+    genuine interaction with beneficiaries rather than staged or overly posed photographs.
+    Not given to the AI as a separate rule.
+
+R006  Capture the Actual Seva
+    NGO's wording: Clearly showcase the activity being performed, whether food distribution,
+    education support, healthcare assistance, animal care or another seva initiative.
+    Given to the AI as written.
+
+R007  Proper Camera Angle
+    NGO's wording: Choose an appropriate angle that captures the activity, beneficiary and volunteer
+    interaction clearly. Avoid awkward perspectives, tilted frames and angles that obstruct the
+    subject.
+    Given to the AI as: Choose an angle that captures the activity from the same level. Avoid
+    awkward perspectives, tilted frames and angles that obstruct the subject. A very high or very
+    low angle is not allowed; a slightly higher or lower angle is fine.
+
+R008  Volunteer Positioning
+    NGO's wording: Avoid photographs in which the volunteer’s back is prominently visible. Prefer
+    front or side angles that highlight the volunteer’s involvement in the activity.
+    Given to the AI as: Show people from the front or the side. Nobody should be shown fully from
+    behind: some part of the face should be visible.
+
+R009  Proper Lighting
+    NGO's wording: Ensure subjects are well-lit and clearly visible. Avoid dark, overexposed,
+    harshly backlit or shadow-heavy photographs.
+    Given to the AI as written.
+
+R010  Focus & Image Clarity
+    NGO's wording: Ensure photographs are sharp and in focus. Avoid blurry, grainy or shaky images.
+    Given to the AI as written.
+
+R011  Clean Background
+    NGO's wording: Avoid distracting backgrounds, clutter, scattered materials and unrelated objects
+    that take attention away from the seva.
+    Given to the AI as written.
+
+R012  Final QC Test Q4
+    NGO's wording: Does it maintain the dignity of everyone involved?
+    Not given to the AI as a separate rule. It is still checked through: R012_DIGNITY.
+
+R013  Final QC Test Q5
+    NGO's wording: Does it reflect the spirit of humanity and compassion?
+    Not given to the AI as a separate rule. It is still checked through: R013_HUMANITY.
+
+R014  Final QC Test Q1
+    NGO's wording: Is the seva activity clearly visible?
+    Not given to the AI as a separate rule.
+
+R015  Final QC Test Q2
+    NGO's wording: Are the volunteer and beneficiary captured appropriately?
+    Not given to the AI as a separate rule. It is still checked through: R015_PERSON_PRESENT,
+    R015_BEN_RECEIVING.
+
+R016  Final QC Test Q3
+    NGO's wording: Is the photograph natural, well-framed and properly lit?
+    Not given to the AI as a separate rule.
+
+
+3. MANDATORY CHECKS (a NO or 'cannot tell' means Disapprove)
+============================================================
+
+These are the NGO team's policy, applied on top of the NGO's document. Each is a question the AI
+answers about the photo.
+
+Gate G001  [R007_ANGLE]  (broken down from NGO rule R007; policy reference 1)
+    Is the activity captured from roughly the same level as the people (a slightly higher or lower
+    angle is fine, a very high or very low angle is not), with a level frame, so that the activity
+    is clearly visible and not obstructed?
+
+Gate G003  [R006_ITEM_SHARP]  (NGO team rule; policy reference 2)
+    If an item is being handed over, is the item sharp and in focus and clear enough to recognise? A
+    sack or similar packed goods count as items, and their contents need not be visible.
+
+Gate G004  [R003_FACE]  (broken down from NGO rule R003; policy reference 3)
+    Is some part of every person's face visible, even if turned partly away: not covered, hidden or
+    in shadow, and, for the main people, not too small to read?
+
+Gate G006  [R003_FACE_SHARP]  (NGO team rule; policy reference 5)
+    Is every person's face sharp and in focus (not blurred by motion or poor focus)?
+
+Gate G009  [R001_FLAT]  (broken down from NGO rule R001; policy reference 4)
+    Is the banner free from crumpling so severe that its words cannot be read? Ordinary folds,
+    creases and soft ripples are fine.
+
+Gate G012  [R015_BEN_RECEIVING]  (NGO team rule; policy reference 7)
+    If an item is being given, is at least one beneficiary receiving it (or already holding it)?
+
+Gate G013  [R002_GIVER_WHITE]  (NGO team rule; policy reference 7)
+    Is every person who is giving something to a beneficiary wearing a white top?
+
+Gate G014  [R015_PERSON_PRESENT]  (NGO team rule; policy reference 8)
+    Is at least one relevant subject visible: a beneficiary, a volunteer, or an animal receiving
+    care?
+
+Gate G016  [R008_BACK]  (broken down from NGO rule R008; policy reference NGO-2026-11-02-5)
+    Is every person seen from the front or the side, with some part of the face visible (nobody
+    shown fully from behind)?
+
+Gate G017  [R001_VISIBLE]  (broken down from NGO rule R001; policy reference NGO-2026-11-02-2)
+    If a banner is present, is at least 30% of it visible and readable? Blocking by people and minor
+    creases are fine.
+
+Gate G019  [R001_POSITION]  (broken down from NGO rule R001; policy reference OWNER-2026-11-05-1)
+    Is the entire banner, judged by its assumed boundary even where people or objects hide part of
+    it, within the frame of the photo?
+
+
+4. OTHER CHECKS (they feed the quality score; they do not reject by themselves)
+===============================================================================
+
+[R003_CROP]  (broken down from NGO rule R003; counts towards: Activity and subject communication)
+    Is every beneficiary fully inside the frame, with no face or body cut off by the frame edge?
+
+[R003_OBSTRUCTION_PPE_ONLY]  (NGO team rule; counts towards: Activity and subject communication)
+    If any beneficiary's face is obstructed, is the ONLY obstruction necessary medical protective
+    equipment (mask, face shield)?
+
+[R004_GENUINE]  (broken down from NGO rule R004; counts towards: Naturalness and storytelling)
+    Do the expressions and interactions look genuine, in a candid moment rather than staged or
+    posed?
+
+[R006_ACTION]  (broken down from NGO rule R006; counts towards: Activity and subject communication)
+    Does the photograph clearly show a seva activity being performed, such as giving food, teaching,
+    treating, caring for an animal, or a beneficiary receiving assistance, rather than only people
+    standing or waiting?
+
+[R007_CUTOFF]  (NGO team rule; counts towards: Composition and framing)
+    Is everything important fully inside the frame: no key person, hands or objects cut off at the
+    edges or hidden by the camera angle?
+
+[R007_DISTORTION]  (broken down from NGO rule R007; counts towards: Composition and framing)
+    Is the photo free from obvious wide-angle distortion (stretched or bent faces, bowed edges)?
+
+[R007_PLACEMENT]  (NGO team rule; counts towards: Composition and framing)
+    Is the main subject sensibly placed in the frame (not squeezed into a corner or edge) and free
+    from obstruction by people or objects in front of it?
+
+[R011_BACKGROUND]  (broken down from NGO rule R011; counts towards: Visual polish)
+    Is the background free from clutter, scattered materials and unrelated objects that draw
+    attention away from the seva?
+
+[R012_DIGNITY]  (broken down from NGO rule R012; counts towards: Naturalness and storytelling)
+    Does the photograph maintain the dignity of everyone involved?
+
+[R013_HUMANITY]  (broken down from NGO rule R013; counts towards: Naturalness and storytelling)
+    Does the photograph reflect the spirit of humanity and compassion?
+
+[NEW-014]  (proposed, awaiting NGO approval; counts towards: Visual polish)
+    Is the photograph free from unintended watermark, editing marks or camera overlays?
+
+Two more checks (R006_SIZE and R010_TECHNICAL) are 'soft mandatory': they do not reject by
+themselves, but if the AI answers NO to them the related quality area is capped at grade 2
+(acceptable with visible flaws), which pulls the score down:
+  -  R006_SIZE NO -> Activity and subject communication is at most 2 (main people or the activity
+     are small, far or blocked).
+  -  R010_TECHNICAL NO -> Technical quality is at most 2 (focus, blur, exposure or lighting
+     problem).
+
+R003_OBSTRUCTION_PPE_ONLY is only used together with the medical exception in section 7.
+
+5. QUALITY SCORE
+================
+
+The AI grades six areas from 0 (unusable) to 4 (excellent). The program combines them using these
+weights into a score out of 100. Areas that do not apply (for example brand presentation when there
+is no banner) are left out of the calculation.
+
+   25%  Activity and subject communication
+   20%  Technical quality
+   20%  Composition and framing
+   15%  Naturalness and storytelling
+   10%  Brand presentation
+   10%  Visual polish
+
+Grades: 0 = Unusable, 1 = Poor, 2 = Acceptable, 3 = Good, 4 = Excellent.
+
+Cutoff: a score below 65 out of 100 means Disapprove (re-select). The cutoff was lowered from 70 to
+65 on 6 November 2026 at the owner's request. A grade of 0 or 1 in any area also means Disapprove,
+whatever the total. For every area graded 2 or lower the AI must give a short reason, which is shown
+on the review screen.
+
+Extra guidance the AI is given for two areas:
+  -  Technical quality: 0 = unusable (almost black, blown out or too blurred to make out the
+     activity); 1 = poor (a serious problem with focus, exposure or lighting); 2 = acceptable with
+     visible flaws; 3 = good; 4 = excellent. Judge focus, blur, grain, exposure and lighting
+     together here, and count each defect only once.
+  -  Activity and subject communication: 0 = the main people and the activity cannot be made out at
+     all; 1 = barely visible (tiny, far away or hidden); 2 = visible but small or partly blocked; 3
+     = clear; 4 = excellent.
+
+6. PUBLICATION CHECKS (things that cannot be seen in a photograph)
+==================================================================
+
+These cannot be seen in a photograph, so the AI never claims they are verified. People confirm them
+before publishing. While they are outstanding the photo can still be approved, marked as waiting for
+these checks; a status of blocked disapproves it:
+  -  Consent and publication permission
+  -  Copyright and image usage rights
+  -  Child safeguarding verification
+  -  Caption accurately describes the photograph
+  -  Event details and claims verified
+  -  Credits and usage rights documented
+
+The AI also reports visual flags if it sees them: confidential information, suspected manipulation,
+unsafe activity, degrading representation, a possible minor (needs verification, not a statement
+about age), third-party branding, sensitive location or situation. The first four block publication.
+
+7. EXCEPTIONS
+=============
+
+    In a medical scene, a face covered only by necessary protective equipment (mask, face shield) is
+    not automatically a violation. It is not waved through either: the rule engine treats it as
+    undecided.
+
+
+8. HOW REVIEWER FEEDBACK CHANGES THE RULES
+==========================================
+
+When a reviewer disagrees with the AI, a second AI analyses the reasons. It may propose a rewording
+of the specific rule the reviewer contradicted. A proposal is applied automatically only if safety
+checks pass (for example, a YES answer must still mean the requirement is met). Changes to rules
+from the NGO's own document are flagged for the developers. Every proposal and its outcome is
+recorded.
+
+Changes currently live in the demo from reviewer feedback:
+  -  R006_ACTION (applied 2026-11-06 08:17):
+        Now reads: Does the photograph clearly show a seva activity being performed, such as giving
+        food, teaching, treating, caring for an animal, or a beneficiary receiving assistance,
+        rather than only people standing or waiting?
+
+Feedback on 6 November 2026 also asked that staged poses be accepted in volunteer-only photos. The
+proposed rewording of R004_GENUINE was REJECTED by the safety check, so that part of the feedback is
+not yet reflected in the rules.
+
+9. POINTS FOR THE STAKEHOLDER TO DECIDE
+=======================================
+
+  -  Approve or change the 11 mandatory checks in section 3. They are the NGO team's policy, not the
+     NGO document's.
+  -  Approve check NEW-014 (no watermark, editing marks or camera overlays). It is proposed and not
+     yet approved by the NGO.
+  -  Decide whether staged poses are acceptable (always, or only in volunteer-only photos). This
+     changes R004_GENUINE.
+  -  Confirm the quality cutoff of 65. It has not yet been calibrated on a large set of photos.
+  -  Confirm that photographs may be sent to the AI providers (Anthropic, Google, Groq) for
+     assessment.
+
+10. WHERE THE RULES ARE STORED (for the technical team)
+=======================================================
+
+  layered-engine/config/rulebook/rulebook_v1.yaml        every check, gate and its question
+  layered-engine/config/rulebook/policy_profiles.yaml    this rule set (layered_final_v1): what was removed or reworded, the cutoff
+  layered-engine/config/rulebook/quality_scoring.yaml    quality areas, weights, default cutoff
+  layered-engine/config/rulebook/exceptions.yaml         exceptions
+  layered-engine/config/rulebook/rule_sources.yaml       the NGO's 16 rules, verbatim
+  Live edits from reviewer feedback are kept in the demo database, not in these files.

@@ -34,6 +34,8 @@ MAX_EVIDENCE = 300
 
 def split_ids(profile: ResolvedProfile, criterion_ids: list[str]) -> tuple[list[str], list[str]]:
     """(criteria that need an explicit answer, criteria that are YES unless listed), both in the order asked."""
+    if profile.settings.get("check_reasons"):   # a profile that wants a reason for every answer: nothing is "YES unless listed", every criterion is answered explicitly
+        return list(criterion_ids), []
     decisive: set[str] = set()
     for g in profile.gates:
         decisive.add(g.criterion_id)
@@ -65,6 +67,9 @@ def build_compact_schema(profile: ResolvedProfile, criterion_ids: list[str]) -> 
         "visual_flags": full["layer_4_visual_flags"],
     }
     required = ["activity_description", "scene_facts", "checks", "evidence", "quality", "visual_flags"]
+    if profile.settings.get("quality_notes"):   # a short reason for every dimension graded 2 or lower (layered_final_v1): so a re-select for poor quality comes with the reasons behind it
+        props["quality_notes"] = {"type": "object", "properties": {d: {"type": "string"} for d in dims}}
+        required.insert(required.index("quality") + 1, "quality_notes")
     if others:
         props["other_criteria_not_yes"] = {"type": "array", "items": {"type": "object", "properties": {"criterion_id": {"type": "string", "enum": list(others)},
                                                                                                     "status": {"type": "string", "enum": list(NOT_YES)}},
@@ -101,12 +106,14 @@ def expand_compact(text: str, image_id: str, profile: ResolvedProfile, criterion
             evidence.setdefault(e["criterion_id"], " ".join(str(e["text"]).split())[:MAX_EVIDENCE])
     answers = [CriterionAnswer(criterion_id=c, status=Status(statuses[c]), evidence=evidence.get(c, ""), confidence=Confidence.MEDIUM) for c in criterion_ids]
     q = obj.get("quality") if isinstance(obj.get("quality"), dict) else {}
+    notes = obj.get("quality_notes") if isinstance(obj.get("quality_notes"), dict) else {}   # optional: only a profile with `quality_notes` asks for them
     dims: dict[str, DimensionAssessment] = {}
     for d in profile.quality["dimensions"]:
         v = q.get(d)
         if isinstance(v, bool) or not isinstance(v, int) or not -1 <= v <= 4:
             raise ValueError(f"quality dimension {d!r} needs a whole number from -1 to 4, got {v!r}")
-        dims[d] = DimensionAssessment(applicable=False) if v == -1 else DimensionAssessment(applicable=True, score=v)
+        note = " ".join(str(notes.get(d) or "").split())[:MAX_EVIDENCE] if isinstance(notes.get(d), str) else ""
+        dims[d] = DimensionAssessment(applicable=False) if v == -1 else DimensionAssessment(applicable=True, score=v, explanation=note)
     known_flags = set(profile.publication["visual_flags"])
     flags = []
     for f in obj.get("visual_flags") or []:

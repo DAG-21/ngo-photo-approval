@@ -127,7 +127,8 @@ def build_prompt(rb: Rulebook, profile: ResolvedProfile, notes: dict[str, str] |
         by_parent.setdefault(c.parent_rule_id or "OTHER", []).append(c)
     d = ["## D. Layer 2 and 3 criteria: answer EVERY one of these (see the response rules)", "",
          "Each line: `criterion_id` [what it is]: the question. YES = the requirement is met. "
-         + ("Give evidence for every NO and CANNOT_TELL." if compact else "Mandatory gates must carry evidence."), ""]
+         + (("Give a short reason for every answer, passes included." if profile.settings.get("check_reasons") else "Give evidence for every NO and CANNOT_TELL.") if compact
+            else "Mandatory gates must carry evidence."), ""]
     for parent in sorted(by_parent, key=lambda p: (p == "OTHER", p)):
         d.append(f"### {parent}")
         for c in sorted(by_parent[parent], key=lambda c: (c.priority, c.criterion_id)):
@@ -165,7 +166,8 @@ def build_prompt(rb: Rulebook, profile: ResolvedProfile, notes: dict[str, str] |
     f = ["## F. Layer 3: grade each quality dimension 0-4", "",
          "Scale: " + ", ".join(f"{k} = {v}" for k, v in q["scale"].items()) + ".",
          "Mark a dimension `applicable: false` only when it genuinely does not apply (for example brand presentation when no banner, logo or uniform is visible).",
-         ("Give only the score, a whole number (-1 when the dimension does not apply). " if compact else
+         (("Give the score, a whole number (-1 when the dimension does not apply), and for every score of 2 or lower one short reason in `quality_notes`. "
+           if profile.settings.get("quality_notes") else "Give only the score, a whole number (-1 when the dimension does not apply). ") if compact else
           "Give a score, a short explanation, positive and negative observations, and the evidence you saw. ")
          + "Do not compensate a weak dimension with a strong one, and do not count one defect in two dimensions. You grade; you do not compute any total.", ""]
     rubric = profile.settings.get("quality_rubric") or {}   # optional per-dimension guidance on what the low scores mean (layered_final_v1 uses it for the soft gates' degree)
@@ -185,7 +187,15 @@ def build_prompt(rb: Rulebook, profile: ResolvedProfile, notes: dict[str, str] |
     if not compact:   # the short format has no observation lists
         parts.append("## H. Additional observations\n\nUse `positive_attributes`, `potential_rejection_factors` (only issues you can point to in the photograph, "
                      "never a guessed historical reason) and `new_factor_proposals` (a concern that none of the listed criteria covers) sparingly.")
-    parts.append(_read("response_rules_compact" if compact else "response_rules"))
+    rules = _read("response_rules_compact" if compact else "response_rules")
+    if compact and profile.settings.get("quality_notes"):   # the short answer normally has no prose for quality; this profile asks for a reason for every low grade (shown to the reviewer)
+        rules = rules.replace("No explanations.", "Do not write explanations here.") + ("\n- `quality_notes`: for every dimension you graded 2 or lower, one short sentence (at most 20 words) saying what you saw that "
+                                                                                         "lowered it, for example \"faces are in shadow\" or \"the main subject is cut off at the edge\". Leave out the dimensions you graded 3 or 4.")
+    if compact and profile.settings.get("check_reasons"):   # every question is answered explicitly and each answer, a pass too, carries its reason (layered_final_v1)
+        kept = [ln for ln in rules.split("\n") if not ln.startswith("- `other_criteria_not_yes`")]
+        rules = "\n".join(("- `evidence`: one entry for EVERY id in `checks`, YES answers too: at most 12 words saying what you saw, and for a YES why it passes. "
+                           "Never leave one out.") if ln.startswith("- `evidence`") else ln for ln in kept)
+    parts.append(rules)
 
     system = "\n\n".join(parts)
     user = "Assess this photograph following the instructions. Return only the JSON object."

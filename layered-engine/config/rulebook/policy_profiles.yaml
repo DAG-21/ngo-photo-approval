@@ -274,6 +274,10 @@ profiles:
     quality: {affects_decision: true}
     publication: {affects_decision: true}
     guidance: []
+    quality_notes: true   # the short answer carries a one-sentence reason for every quality dimension graded 2 or lower (what lowered it), shown to the reviewer
+    quality_thresholds: {review: 65}   # owner, 2026-11-06: below 65 the AI disapproves (re-select) for quality; the shared default is 70 (70 was too strict on the first live photographs)
+    check_reasons: true   # owner, 2026-11-06: every check is answered explicitly with a short reason (a pass too), so the reviewer sees why for each; about +400 output tokens a photograph
+    quality_dimensions_off: [brand_presentation]   # owner, 2026-11-06: "too subjective": brand presentation is not asked, not graded, not counted (the other weights are rescaled to 100) and can never disapprove a photo
     exceptions_off: [EXC_MEDICAL_PPE]
     # the fixed introduction says who is a volunteer or a beneficiary is decided "from their ROLE in the activity only"; the owner's definitions use a white top, so that sentence is replaced
     prompt_text_replace:
@@ -283,12 +287,13 @@ profiles:
     client_rule_text:
       R001: "If a banner is present, is at least 30% of it visible and readable? Blocking by people and minor creases are fine."
       R002: "Volunteers giving something to a beneficiary should wear white tops."
-      R004: "Capture genuine expressions and interactions."
+      R004: "Capture natural expressions and interactions. A posed photograph, such as a group photograph of volunteers, is fine."
       R007: "Choose an angle that captures the activity from the same level. Avoid awkward perspectives, tilted frames and angles that obstruct the subject. A very high or very low angle is not allowed; a slightly higher or lower angle is fine."
       R008: "Show people from the front or the side. Nobody should be shown fully from behind: some part of the face should be visible."
     quality_rubric:
       technical_quality: "0 = unusable (almost black, blown out or too blurred to make out the activity); 1 = poor (a serious problem with focus, exposure or lighting); 2 = acceptable with visible flaws; 3 = good; 4 = excellent. Judge focus, blur, grain, exposure and lighting together here, and count each defect only once."
-      activity_communication: "0 = the main people and the activity cannot be made out at all; 1 = barely visible (tiny, far away or hidden); 2 = visible but small or partly blocked; 3 = clear; 4 = excellent."
+      activity_communication: "0 = the main people and the activity cannot be made out at all; 1 = barely visible (tiny, far away or hidden); 2 = visible but small or partly blocked; 3 = clear; 4 = excellent. A posed group photograph of volunteers, with the banner or the items they give, is clear: do not lower this grade because no seva action is under way or no beneficiary is shown."
+      naturalness_storytelling: "A posed photograph is fine, including a posed group photograph of volunteers: never lower this grade because the photo is posed or shows only volunteers. Grade 1 or lower only for a scene that looks forced, uncomfortable or undignified; 2 = ordinary but flat; 3 = natural; 4 = excellent."
     gate_overrides:
       G001:
         components: []
@@ -510,7 +515,7 @@ profiles:
         na_condition_text: no person is visible
         policy_change: {change_id: F-04, kind: RULE_REWORDED, affects_mandatory: true, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
       R004_GENUINE:
-        description_operational: "Do the expressions and interactions look genuine, in a candid moment rather than staged or posed?"
+        description_operational: "Do the expressions and interactions look natural, with nothing forced or uncomfortable? A posed photograph is fine, including a posed group photograph of volunteers, and answers YES."
         policy_change: {change_id: F-04, kind: RULE_REWORDED, affects_mandatory: false, status: TEAM_APPROVED, reason: "Owner 2026-11-05 (see working-notes/agreed_drafts.json)."}
       R006_ACTION:
         description_operational: "Is a seva activity actually taking place (for example giving food, teaching, treating, caring for an animal), not just people standing or waiting?"
@@ -552,5 +557,5 @@ profiles:
         gate_id: G020
         policy_change: {change_id: F-02, kind: GATE_TO_SOFT, affects_mandatory: true, status: TEAM_APPROVED, reason: "Owner 2026-11-05: the size rule becomes a SOFT gate (it caps activity_communication once; a score of 0 means stop). It starts soft because the old zoomed-out gate fired on 4 of 11 approved photos."}
       R006_ITEM_SHARP:
-        description_operational: "If an item is being handed over, is the item sharp and in focus and clear enough to recognise? A sack or similar packed goods count as items, and their contents need not be visible."
+        description_operational: "If an item is being handed over, is the item sharp and in focus and clear enough to recognise? A sack or similar packed goods count as items, and their contents need not be visible. Text, labels or print on the item (for example the words on newspapers) do not need to be readable: answer YES when you can tell what kind of item it is."
         policy_change: {change_id: F-04, kind: RULE_REWORDED, affects_mandatory: true, status: TEAM_APPROVED, reason: "Owner 2026-11-06: a sack or similar packed goods are items and need not show their contents; an item is something handed from a volunteer's hands to a beneficiary's hands."}

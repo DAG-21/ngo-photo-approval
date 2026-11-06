@@ -40,10 +40,11 @@ WORDING = {
     "R002_GIVER_WHITE": "Is every person who is giving something to a beneficiary wearing a white top?",
     "R003_FACE": "Is some part of every person's face visible, even if turned partly away: not covered, hidden or in shadow, and, for the main people, not too small to read?",
     "R003_FACE_SHARP": "Is every person's face sharp and in focus (not blurred by motion or poor focus)?",
-    "R004_GENUINE": "Do the expressions and interactions look genuine, in a candid moment rather than staged or posed?",
+    "R004_GENUINE": "Do the expressions and interactions look natural, with nothing forced or uncomfortable? A posed photograph is fine, including a posed group photograph of volunteers, and answers YES.",
     "R006_SIZE": "Are the main people and the seva activity clearly visible: large enough in the frame and not blocked from view?",
     "R006_ITEM_SHARP": ("If an item is being handed over, is the item sharp and in focus and clear enough to recognise? A sack or similar packed goods count as items, "
-                        "and their contents need not be visible."),
+                        "and their contents need not be visible."
+                        " Text, labels or print on the item (for example the words on newspapers) do not need to be readable: answer YES when you can tell what kind of item it is."),
     "R006_ACTION": "Is a seva activity actually taking place (for example giving food, teaching, treating, caring for an animal), not just people standing or waiting?",
     "R007_ANGLE": "Is the activity captured from roughly the same level as the people (a slightly higher or lower angle is fine, a very high or very low angle is not), with a level frame, so that the activity is clearly visible and not obstructed?",
     "R007_CUTOFF": "Is everything important fully inside the frame: no key person, hands or objects cut off at the edges or hidden by the camera angle?",
@@ -121,7 +122,7 @@ def test_the_prompt_carries_the_agreed_client_lines_and_no_contradiction(rb, fin
     client = [ln for ln in text.splitlines() if re.match(r"- R\d{3} - ", ln)]
     assert [ln.split(" - ")[0][2:] for ln in client] == ["R001", "R002", "R003", "R004", "R006", "R007", "R008", "R009", "R010", "R011"]
     assert "R002 - Volunteer Dress Code: Volunteers giving something to a beneficiary should wear white tops." in text
-    assert "R004 - Natural Expressions: Capture genuine expressions and interactions." in text
+    assert "R004 - Natural Expressions: Capture natural expressions and interactions. A posed photograph, such as a group photograph of volunteers, is fine." in text
     assert "Show people from the front or the side. Nobody should be shown fully from behind: some part of the face should be visible." in text
     assert "R003 - Beneficiary Visibility: Ensure the beneficiary" in text and "R009 - Proper Lighting: Ensure subjects are well-lit" in text    # the unchanged ones are verbatim
     for gone in ("ROLE in the activity only", "GUIDE", "looking straight into the camera", "NOT a violation", "IS a violation", "FRONT or SIDE of the people", "neat, clean", "white-on-white", "jeans",
@@ -218,3 +219,131 @@ def test_the_dropped_facts_play_no_part_in_the_decision(rb):
     a = decide(rb, FINAL)
     b = decide(rb, FINAL, facts={"f_orientation": "BACK", "f_group": "CROWD", "f_logo": "NO", "f_animals": "YES", "f_handover": "NO", "f_banner_prominent": "NO", "f_volunteer_giver": "NO"})
     assert a.recommendation is b.recommendation is Recommendation.APPROVE and a.failed_gates == b.failed_gates == []
+
+
+def test_the_final_profile_asks_for_a_reason_for_every_low_quality_grade_and_no_other_profile_does(rb, final):
+    import json as _json
+
+    from conftest import FOOD
+    from layered_engine.compact import build_compact_schema, expand_compact, split_ids
+
+    ids = build_prompt(rb, final, response_format="compact").criterion_ids
+    schema = build_compact_schema(final, ids)
+    assert "quality_notes" in schema["properties"] and "quality_notes" in schema["required"] and set(schema["properties"]["quality_notes"]["properties"]) == set(final.quality["dimensions"])
+    text = build_prompt(rb, final, response_format="compact").system_text
+    assert "`quality_notes`: for every dimension you graded 2 or lower" in text and "and for every score of 2 or lower one short reason in `quality_notes`" in text and "Give only the score" not in text
+    for other in ("layered_proposed_v1", TUNED):
+        o = rb.resolve(other)
+        assert "quality_notes" not in build_compact_schema(o, build_prompt(rb, o, response_format="compact").criterion_ids)["properties"]
+        assert "quality_notes" not in build_prompt(rb, o, response_format="compact").system_text and "Give only the score" in build_prompt(rb, o, response_format="compact").system_text
+    explicit, _ = split_ids(final, ids)
+    facts = {k: v for k, v in FOOD.items() if k.upper() in {c for c in final.criteria} or k == "f_activity_type"}
+    answer = {"activity_description": "x", "scene_facts": facts, "checks": {i: "YES" for i in explicit}, "other_criteria_not_yes": [], "evidence": [],
+              "quality": {d: 2 if d == "composition" else 3 for d in final.quality["dimensions"]}, "quality_notes": {"composition": "the main subject is cut off at the edge", "technical_quality": 7}, "visual_flags": []}
+    a = expand_compact(_json.dumps(answer), "x", final, ids)
+    dims = a.layer_3_quality_dimensions
+    assert dims["composition"].explanation == "the main subject is cut off at the edge" and dims["technical_quality"].explanation == "" and dims["composition"].score == 2
+
+
+def test_the_final_profile_asks_for_a_reason_for_every_check_and_no_other_profile_does(rb, final):
+    import json as _json
+
+    from conftest import FOOD
+    from layered_engine.compact import build_compact_schema, expand_compact, split_ids
+
+    p = build_prompt(rb, final, response_format="compact")
+    ids = p.criterion_ids
+    schema = build_compact_schema(final, ids)
+    assert final.settings.get("check_reasons") is True
+    assert list(schema["properties"]["checks"]["required"]) == list(ids) and set(ids) == set(ASKED) and len(ids) == 24                      # every one of the 24 is answered explicitly
+    assert "other_criteria_not_yes" not in schema["properties"] and "other_criteria_not_yes" not in schema["required"]
+    assert split_ids(final, ids) == (list(ids), [])
+    assert "Give a short reason for every answer, passes included." in p.system_text
+    assert "one entry for EVERY id in `checks`, YES answers too" in p.system_text and "`other_criteria_not_yes`" not in p.system_text
+    for other in ("layered_proposed_v1", TUNED):
+        o = rb.resolve(other)
+        op = build_prompt(rb, o, response_format="compact")
+        assert not o.settings.get("check_reasons") and "other_criteria_not_yes" in build_compact_schema(o, op.criterion_ids)["properties"]
+        assert "Give a short reason for every answer, passes included." not in op.system_text and "`other_criteria_not_yes`" in op.system_text
+    facts = {k: v for k, v in FOOD.items() if k.upper() in {c for c in final.criteria} or k == "f_activity_type"}
+    answer = {"activity_description": "x", "scene_facts": facts, "checks": {i: "YES" for i in ids}, "evidence": [{"criterion_id": "R003_FACE", "text": "every face is visible"}],
+              "quality": {d: 3 for d in final.quality["dimensions"]}, "quality_notes": {}, "visual_flags": []}
+    a = expand_compact(_json.dumps(answer), "x", final, ids)
+    by = {c.criterion_id: c for c in a.layer_2_criteria}
+    assert by["R003_FACE"].evidence == "every face is visible" and by["R003_FACE"].status.value == "YES" and len(by) == 24   # a pass keeps its reason
+
+
+def test_the_final_profile_disapproves_for_quality_below_65_and_every_other_profile_keeps_70(rb):
+    f, t, p = (rb.resolve(x).quality["thresholds"] for x in (FINAL, TUNED, PROPOSED))
+    assert (f["review"], f["acceptable"], f["reselection"]) == (65, 65, 55) and (t["review"], t["reselection"]) == (70, 55) == (p["review"], p["reselection"])
+    assert rb.quality["thresholds"]["review"] == 70                                  # the shared file was not edited
+    first = {"activity_communication": 3, "technical_quality": 3, "composition": 2, "naturalness_storytelling": 3, "brand_presentation": None, "visual_polish": 2}      # 66.67, the first live photograph
+    second = {"activity_communication": 3, "technical_quality": 3, "composition": 2, "naturalness_storytelling": 2, "brand_presentation": 4, "visual_polish": 3}      # 68.75, the second
+    low = {"activity_communication": 3, "technical_quality": 3, "composition": 2, "naturalness_storytelling": 2, "brand_presentation": 2, "visual_polish": 2}         # 61.25
+    for dims in (first, second):
+        assert decide(rb, FINAL, dims=dims).recommendation is Recommendation.APPROVE
+        assert decide(rb, TUNED, dims=dims).recommendation is Recommendation.HUMAN_REVIEW      # the earlier profiles are unchanged
+    out = decide(rb, FINAL, dims=low)
+    assert out.recommendation is Recommendation.RESELECT and any("cutoff of 65" in r for r in out.decision_reasons)
+
+
+def test_a_profile_cannot_set_an_impossible_cutoff(tmp_path):
+    import shutil
+
+    import yaml
+
+    from layered_engine.rulebook import RULEBOOK_DIR
+
+    shutil.copytree(RULEBOOK_DIR, tmp_path / "rb")
+    f = tmp_path / "rb" / "policy_profiles.yaml"
+    book = yaml.safe_load(f.read_text(encoding="utf-8"))
+    for bad in ({"review": 40}, {"review": 150}, {"nonsense": 1}):         # 40 < the reselection threshold of 55; 150 > 100; unknown key
+        book["profiles"][FINAL]["quality_thresholds"] = bad
+        f.write_text(yaml.safe_dump(book, sort_keys=False, allow_unicode=True), encoding="utf-8")
+        with pytest.raises(ValueError):
+            Rulebook(tmp_path / "rb").resolve(FINAL)
+
+
+def test_a_posed_photograph_is_not_penalised_anywhere_in_the_final_profile(rb, final):
+    text = build_prompt(rb, final, response_format="compact").system_text
+    assert "rather than staged or posed" not in text and "genuine expressions" not in text           # no line asks for a candid, un-posed photograph any more
+    assert "A posed photograph is fine, including a posed group photograph of volunteers, and answers YES." in text
+    assert "never lower this grade because the photo is posed or shows only volunteers" in text      # naturalness_storytelling
+    assert "A posed group photograph of volunteers, with the banner or the items they give, is clear" in text   # activity_communication
+    older = build_prompt(rb, rb.resolve(TUNED)).system_text
+    assert "Do the expressions and interactions look genuine? (NOT_APPLICABLE" in older and "posed group photograph" not in older                                                    # the earlier profiles are untouched
+
+
+def test_brand_presentation_is_left_out_of_the_final_profile_only(rb, final):
+    from layered_engine.compact import build_compact_schema
+    from layered_engine.rulebook import Rulebook as RB
+
+    areas = list(final.quality["dimensions"])
+    assert areas == ["activity_communication", "technical_quality", "composition", "naturalness_storytelling", "visual_polish"]
+    assert "brand_presentation" in rb.resolve(TUNED).quality["dimensions"] and "brand_presentation" in rb.quality["dimensions"]      # every other profile and the shared file keep it
+    p = build_prompt(rb, final, response_format="compact")
+    schema = build_compact_schema(final, p.criterion_ids)
+    assert set(schema["properties"]["quality"]["properties"]) == set(areas) and set(schema["properties"]["quality_notes"]["properties"]) == set(areas)
+    assert "- `brand_presentation`" not in p.system_text
+    # the grades of the five areas decide alone: 3 everywhere is still 75, and nothing can be poor because of brand presentation
+    from layered_engine.quality_scorer import score_quality
+
+    a = make_assessment(final, default_dim=3, dims={"brand_presentation": 1})      # even if a model still sent a poor brand grade, it is not read
+    q = score_quality(a, {}, final)
+    assert q.overall_score == 75.0 and q.severe_weakness is None and "brand_presentation" not in q.dimension_scores
+    assert not [c for c in final.quality["soft_caps"] if c["dimension"] == "brand_presentation"]
+
+
+def test_a_profile_cannot_leave_out_a_quality_area_that_does_not_exist(tmp_path):
+    import shutil
+    from pathlib import Path
+
+    from layered_engine.rulebook import Rulebook as RB
+
+    src = Path(__file__).resolve().parents[1] / "config" / "rulebook"
+    dst = tmp_path / "rb"
+    shutil.copytree(src, dst)
+    f = dst / "policy_profiles.yaml"
+    f.write_bytes(f.read_bytes().replace(b"quality_dimensions_off: [brand_presentation]", b"quality_dimensions_off: [colour_mood]"))
+    with pytest.raises(ValueError, match="unknown quality areas"):
+        RB(dst).resolve(FINAL)

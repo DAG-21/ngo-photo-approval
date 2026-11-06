@@ -179,7 +179,7 @@ def ser_run(r: EvaluationRun, s: Session) -> dict[str, Any]:
     rbv, pmv = s.get(RulebookVersion, r.rulebook_version_id), s.get(PromptVersion, r.prompt_version_id)
     dec = r.decision_output or {}
     d.update({"rulebook_version": rbv.version_number if rbv else None, "prompt_version": pmv.version_number if pmv else None, "layer_1": r.layer_1_output, "layer_2": r.layer_2_output,
-              "layer_3": r.layer_3_output, "layer_4": r.layer_4_output, "decision": {k: dec.get(k) for k in ("recommendation", "decision_reasons", "human_review_questions", "failed_gates",
+              "layer_3": r.layer_3_output, "layer_4": r.layer_4_output, "decision": {k: dec.get(k) for k in ("recommendation", "decision_reasons", "human_review_questions", "failed_gates", "quality",
                                                                                                          "uncertain_gates", "not_applicable_gates", "warnings", "policy_validation_required")},
               "warnings": r.warnings, "input_tokens": r.input_tokens, "output_tokens": r.output_tokens, "estimated_cost": r.estimated_cost, "latency": r.latency,
               "content_hash": r.content_hash, "publication_blockers": publication_blockers(r), "few_shot": r.few_shot,

@@ -13,7 +13,7 @@ function el(tag, attrs, ...kids) {
   return n;
 }
 const pill = (text, kind) => el("span", { class: "pill " + (kind || "") }, String(text).replaceAll("_", " "));
-const kindOf = (s) => ({ YES: "ok", NO: "bad", CANNOT_TELL: "warn", APPROVE: "ok", APPROVED: "ok", APPROVED_PENDING_PUBLICATION_CHECKS: "ok", REJECT: "bad", REJECTED: "bad", HUMAN_REVIEW: "warn", RESELECT: "warn", FAILED: "bad" }[s] || "");
+const kindOf = (s) => ({ YES: "ok", NO: "bad", CANNOT_TELL: "warn", APPROVE: "ok", APPROVED: "ok", APPROVED_PENDING_PUBLICATION_CHECKS: "ok", REJECT: "bad", REJECTED: "bad", HUMAN_REVIEW: "bad", RESELECT: "bad", FAILED: "bad" }[s] || "");
 // small line icons, built as DOM nodes (never from markup); sized and stroked in style.css
 const ICONS = { check: "M5 12.5l4.5 4.5L19 7", cross: "M6 6l12 12M18 6L6 18", upload: "M12 16V4M7 9l5-5 5 5M4 20h16", image: "M3 4h18v16H3zM3 17l5-4.5 4 3.5 3-2.5 6 5" };
 function icon(name) {
@@ -57,6 +57,9 @@ function loginView() {
 
 // ------------------------------------------------------------------------------------------------------------------------ photo list
 const aiApproves = (rec) => rec === "APPROVE" || rec === "APPROVED_PENDING_PUBLICATION_CHECKS";
+// The AI always gives a verdict: Approve, or Disapprove. Whatever else the engine may record (re-select for poor quality, or the undecided outcome of an older profile) is shown as Disapprove with its
+// reasons; the AI never hands its decision over to a person (a person reviews every photograph anyway).
+const aiRejects = (rec) => !!rec && !aiApproves(rec);
 const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 // where a photograph stands for the person: waiting for them, decided by them, or not screened
 const standing = (p) => ({ APPROVED: "approved", REJECTED: "rejected", FAILED: "failed" }[p.photo_status] || "pending");
@@ -101,11 +104,11 @@ function listView(flash) {   // also used directly as a click handler, so only a
     const ev = p.latest_evaluation, rec = ev && ev.ai_recommendation, st = standing(p), img = el("img", { alt: "" });
     imageUrl(p.photo_id).then((u) => { img.src = u; }).catch(() => {});
     const badge = !rec ? null : aiApproves(rec) ? el("span", { class: "badge" }, icon("check"), "AI: Approve")
-      : rec === "REJECT" ? el("span", { class: "badge out" }, icon("cross"), "AI: Disapprove") : el("span", { class: "badge out" }, "AI: Needs a person");
+      : el("span", { class: "badge out" }, icon("cross"), "AI: Disapprove");
     const working = ["UPLOADED", "PROCESSING"].includes(p.photo_status);
     const line = st === "approved" ? el("span", {}, icon("check"), " ", el("strong", {}, "Approved")) : st === "rejected" ? el("span", {}, icon("cross"), " ", el("strong", {}, "Rejected"))
       : st === "failed" ? el("strong", {}, "Could not be screened") : el("span", { class: "mute" }, working ? "Screening..." : "Awaiting your review");
-    const differs = (st === "approved" || st === "rejected") && rec && (rec === "REJECT" || aiApproves(rec)) && aiApproves(rec) !== (st === "approved");
+    const differs = (st === "approved" || st === "rejected") && rec && aiApproves(rec) !== (st === "approved");
     const open = () => { if (ev && ev.processing_status === "AI_EVALUATED") reviewView(ev.evaluation_id); else load(); };
     const body = [el("span", { class: "tile" }, icon("image"), img, badge),
       el("span", {}, el("span", { class: "pname" }, p.original_filename),
@@ -169,10 +172,46 @@ const plainText = (s) => String(s || "").replace(/\b[GR]\d{3}(?:_[A-Z0-9]+)+\s*:
 function verdictPoints(run) {
   const gates = (run.layer_2 || {}).gates || [], text = plainText, points = [];
   gates.filter((g) => g.status === "NO" && g.hard).forEach((g) => points.push(text(g.evidence) || "A mandatory check failed."));
-  gates.filter((g) => g.status === "CANNOT_TELL").forEach((g) => points.push("Could not tell: " + (text(g.evidence) || "a mandatory check was unclear.")));
+  gates.filter((g) => g.status === "CANNOT_TELL").forEach((g) => points.push("Could not confirm, so it is not approved: " + (text(g.evidence).replace(/\s*-?\s*could not confirm, so the photo is not approved\.?$/i, "") || "a mandatory check was unclear.")));
+  if (!aiApproves(run.ai_recommendation)) {   // a low quality score decides without any failed gate: say why, in plain words, from the model's own notes on the soft checks and the quality reason
+    gates.filter((g) => g.status === "NO" && !g.hard && g.evidence).forEach((g) => points.push("Photo quality: " + text(g.evidence)));
+    const qr = ((run.decision || {}).decision_reasons || []).filter((r) => /^QUALITY:/.test(r));
+    if (qr.length) {
+      const m = /score ([0-9.]+)/.exec(qr[0]), cut = /(?:cutoff of|threshold) ([0-9.]+)/.exec(qr[0]), dims = (run.layer_3 || {}).dimensions || {};
+      const label = { activity_communication: "Showing the activity and the people", technical_quality: "Technical quality (focus, exposure, light)", composition: "Composition and framing",
+        naturalness_storytelling: "Naturalness and storytelling", brand_presentation: "Brand presentation (banner, uniform)", visual_polish: "Visual polish and background" };
+      const word = ["unusable", "poor", "acceptable", "good", "excellent"];
+      const poor = /POOR:([a-z_]+)/.exec(qr[0]), cutNum = cut ? Number(cut[1]) : 70, aboveCutoff = !!m && Number(m[1]) >= cutNum;   // the score can be fine while one area is graded 0 or 1: that disapproves on its own
+      points.push(/unusable/i.test(qr[0]) ? "The photo is unusable: a part of its quality is far too low (for example almost black, blown out or too blurred)."
+        : aboveCutoff && poor ? `One part of the photo quality is poor: ${label[poor[1]] || poor[1]}. The total, ${Math.round(Number(m[1]))} out of 100, is above the cutoff of ${cutNum}, but a poor part disapproves the photo on its own.`
+        : m ? `The overall photo quality is too low: ${Math.round(Number(m[1]))} out of 100, and the cutoff is ${cut ? cut[1] : "70"}.` : "The photo quality is too low.");
+      Object.keys(dims).filter((k) => dims[k] && dims[k].applicable !== false && dims[k].score != null && dims[k].score <= 2).sort((a, b) => dims[a].score - dims[b].score).forEach((k) => {
+        const why = text(dims[k].explanation);
+        points.push(`${label[k] || k}: graded ${dims[k].score} of 4 (${word[dims[k].score]})` + (why ? `. ${why}` : "."));   // the AI's one-sentence reason (the model is asked for one for every grade of 2 or lower)
+      });
+    }
+  }
   if (!points.length && aiApproves(run.ai_recommendation)) points.push("Every mandatory check passed.");
   (run.publication_blockers || []).forEach((b) => points.push("Before publishing: " + String(b).replace(/^[A-Z]+-?\d+\s+/, "")));
   return points.length ? points : ((run.decision || {}).decision_reasons || []);
+}
+
+// Every check the AI answered, with its own short reason (a pass too), in one collapsed list under the verdict, so the reviewer can see why for each check without the screen getting crowded.
+const CHECK_NAMES = { R001_POSITION: "Banner is fully in the frame", R001_VISIBLE: "Banner is visible and readable", R001_FLAT: "Banner is flat, not crumpled", R002_GIVER_WHITE: "Giver wears a white top",
+  R003_FACE: "Faces are visible", R003_FACE_SHARP: "Faces are sharp", R003_CROP: "Beneficiaries are inside the frame", R003_OBSTRUCTION_PPE_ONLY: "A covered face is only protective equipment",
+  R004_GENUINE: "Natural, nothing forced (posed is fine)", R006_ITEM_SHARP: "The item being given is sharp", R006_ACTION: "A seva activity is taking place", R006_SIZE: "The main people and the activity are clearly visible",
+  R007_ANGLE: "Camera angle is level and at the people's height", R007_CUTOFF: "Nothing important is cut off", R007_DISTORTION: "No wide-angle distortion", R007_PLACEMENT: "Subject is well placed and not blocked",
+  R008_BACK: "Nobody is shown fully from behind", R010_TECHNICAL: "Focus, exposure and lighting", R011_BACKGROUND: "Background is not distracting", R012_DIGNITY: "Everyone's dignity is kept",
+  R013_HUMANITY: "Humanity and compassion come through", R015_PERSON_PRESENT: "A relevant person is visible", R015_BEN_RECEIVING: "A beneficiary is receiving the item", "NEW-014": "No watermark or overlay" };
+function allChecks(run) {
+  const answers = ((run.layer_2 || {}).criteria || []).filter((a) => a && a.criterion_id);
+  if (!answers.length) return null;
+  const mark = { YES: ["✓", "ok"], NO: ["✗", "bad"], CANNOT_TELL: ["?", "warn"], NOT_APPLICABLE: ["–", ""] };
+  const rows = answers.map((a) => {
+    const m = mark[a.status] || ["", ""], why = plainText(a.evidence);
+    return el("li", {}, el("span", { class: "mark " + m[1], "aria-hidden": "true" }, m[0]), " ", el("strong", {}, CHECK_NAMES[a.criterion_id] || a.criterion_id), why ? ": " + why : (a.status === "NOT_APPLICABLE" ? ": not applicable here." : "."));
+  });
+  return el("details", { class: "allchecks" }, el("summary", {}, `All ${answers.length} checks and the AI's reason for each`), el("ul", { class: "reasonlist" }, rows));
 }
 
 // The AI writes one piece of evidence per failed check, so one problem (a toddler whose face is turned away) can come out as four sentences. The server joins the findings that make the same
@@ -193,13 +232,13 @@ async function reviewView(evaluationId) {
   let review = run.my_review;
   const msg = el("div"), imgEl = el("img", { class: "photo", alt: "The photograph under review" }), blockers = run.publication_blockers || [];
   imageUrl(run.photo_id).then((u) => { imgEl.src = u; });
-  const rec = run.ai_recommendation, recApproves = aiApproves(rec), recRejects = rec === "REJECT";
+  const rec = run.ai_recommendation, recApproves = aiApproves(rec), recRejects = aiRejects(rec);
   const points = verdictPoints(run);
   const list = points.length ? el("ul", { class: "reasonlist" }, points.map((r) => el("li", {}, r))) : null;
   const verdictSection = el("div", { class: "section" }, el("div", { class: "eyebrow" }, "AI verdict"),
     el("h2", { class: "verdict" }, recApproves || recRejects ? el("span", { class: "dot" + (recApproves ? "" : " out") }, icon(recApproves ? "check" : "cross")) : null,
-      recApproves ? "Approve" : recRejects ? "Disapprove" : "Needs a person's decision"),
-    list);
+      recApproves ? "Approve" : "Disapprove"),
+    list, allChecks(run));
   clubReasons(run, evaluationId, list, verdictSection);   // when several findings say the same thing, they are joined into one (in the background; the list above is complete without it)
 
   let decisionSection;

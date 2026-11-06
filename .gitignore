@@ -66,3 +66,7 @@ models/
 *.pt
 *.onnx
 *.log
+
+# --- review desk prototype: the NGO photographs and the verdicts made from them are never committed
+review-desk/photos/
+review-desk/data/

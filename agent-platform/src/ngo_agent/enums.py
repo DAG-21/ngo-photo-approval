@@ -42,7 +42,7 @@ class AiRecommendation(_S):
 
 
 AI_APPROVING = {AiRecommendation.APPROVE.value, AiRecommendation.APPROVED_PENDING_PUBLICATION_CHECKS.value}
-AI_DEFERRING = {AiRecommendation.HUMAN_REVIEW.value, AiRecommendation.RESELECT.value}
+AI_DEFERRING = {AiRecommendation.HUMAN_REVIEW.value}   # only the older profiles still produce this; a re-select (poor quality) is a disapproval, so a reviewer who approves it DISAGREES with the AI and the loop can learn from it
 
 
 class HumanDecision(_S):
